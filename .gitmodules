@@ -1,3 +1,6 @@
 [submodule "PFC_C"]
 	path = PFC_C
 	url = https://github.com/pinam45/PFC_C
+[submodule "PFC_Cpp"]
+	path = PFC_Cpp
+	url = https://github.com/pinam45/PFC_Cpp
