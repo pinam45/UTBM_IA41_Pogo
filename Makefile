@@ -25,59 +25,60 @@
 
 #=============================================================================
 # Project related variables
-EXENAME        = UTBM_IA41_Pogo
-FILEIDENTIFIER1 = .cpp
-FILEIDENTIFIER2 = .c
-COMPILER1       = g++
-COMPILER2       = gcc
-COMPFLAGS1      = -pedantic -pedantic-errors -Wall -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Wdouble-promotion -Wextra -Wformat -Winit-self -Winvalid-pch -Wlogical-op -Wmain -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings
-COMPFLAGS2      = -pedantic -Wall -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Wdouble-promotion -Wextra -Wfloat-equal -Wformat -Winit-self -Winvalid-pch -Wlogical-op -Wmain -Wmissing-declarations -Wmissing-include-dirs -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings -DDEBUG
-COMPSTANDARD1   = -std=c++14
-COMPSTANDARD2   = -std=c99
-LINKS           = -lm
-DBARGS          = -g -DDEBUG
+EXENAME           = UTBM_IA41_Pogo
+LIBNAME           = PFC_C
+LIB_MAKE_ROOT     = PFC_C
+LIB_OUTPUT_DIR    = PFC_C/build/lib
+FILEIDENTIFIER    = .cpp
+COMPILER          = g++
+COMPFLAGS         = -pedantic -pedantic-errors -Wall -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Wdouble-promotion -Wextra -Wformat -Winit-self -Winvalid-pch -Wlogical-op -Wmain -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings -Weffc++
+COMPSTANDARD      = -std=c++14
+LINKS             = -lPFC_C
+DBARGS            = -g -DDEBUG
 
-BUILDDIR        = build/
-OBJDIR          = $(BUILDDIR)obj/
-SOURCEDIRS      = PFC_C/ConsoleControl/src/ Pogo/src/
-INCLUDEDIRS     = /usr/include/ PFC_C/ConsoleControl/include/ PFC_Cpp/Dispatcher/include/ PFC_Cpp/Logger/include/ PFC_C/Logger/include/ Pogo/include/
-LIBSDIRS        = /usr/lib/
+BUILDDIR          = build/
+BINARY_OUTPUT_DIR = $(BUILDDIR)bin/
+OBJDIR            = $(BUILDDIR)obj/
+SOURCEDIRS        = Pogo/src/
+INCLUDEDIRS       = /usr/include/ PFC_C/ConsoleControl/include/ PFC_Cpp/Dispatcher/include/ PFC_Cpp/Logger/include/ PFC_C/Logger/include/ Pogo/include/
+LIBSDIRS          = /usr/lib/ $(LIB_OUTPUT_DIR)
 
 
 #=============================================================================
 # Commands variables
-DISPLAY         = printf
-MKDIR           = mkdir -p
-RMDIR           = rmdir
-RM              = rm -f
-LD              = ld -r
+DISPLAY           = printf
+MKDIR             = mkdir -p
+RMDIR             = rmdir
+RM                = rm -f
+LD                = ld -r
+AR                = ar rcs
 
 
 #=============================================================================
 # Other
-VOIDECHO        = > /dev/null 2>&1
+VOIDECHO          = > /dev/null 2>&1
 
 
 #=============================================================================
 # Semi-automatic variables
-EXEFINALOBJ     = $(OBJDIR)$(EXENAME).o
-EXEFINAL        = $(BUILDDIR)$(EXENAME).elf
-INCLUDEARGS     = $(addprefix -I,$(INCLUDEDIRS))
-LIBARGS         = $(addprefix -L,$(LIBSDIRS))
+FINALOBJ          = $(OBJDIR)$(EXENAME).o
+EXEFINAL          = $(BINARY_OUTPUT_DIR)$(EXENAME).elf
+LIBFILE           = lib$(LIBNAME).a
+INCLUDEARGS       = $(addprefix -I,$(INCLUDEDIRS))
+LIBARGS           = $(addprefix -L,$(LIBSDIRS))
 
 
 #=============================================================================
 # Automatic variables
-SOURCES1        = $(foreach sourcedir,$(SOURCEDIRS),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER1)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER1)))
-SOURCES2        = $(foreach sourcedir,$(SOURCEDIRS),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER2)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER2)))
-OBJECTS1        = $(patsubst %$(FILEIDENTIFIER1),%.o,$(foreach sourcedir,$(SOURCEDIRS),$(subst $(sourcedir),$(OBJDIR),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER1)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER1)))))
-OBJECTS2        = $(patsubst %$(FILEIDENTIFIER2),%.o,$(foreach sourcedir,$(SOURCEDIRS),$(subst $(sourcedir),$(OBJDIR),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER2)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER2)))))
-OBJSUBDIRS      = $(sort $(OBJDIR) $(dir $(OBJECTS1)) $(dir $(OBJECTS2)))
+SOURCES        = $(foreach sourcedir,$(SOURCEDIRS),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER)))
+OBJECTS        = $(patsubst %$(FILEIDENTIFIER),%.o,$(foreach sourcedir,$(SOURCEDIRS),$(subst $(sourcedir),$(OBJDIR),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER)))))
+GENERATED_FILES   = $(OBJECTS) $(FINALOBJ) $(EXEFINAL)
+GENERATED_FOLDERS = $(OBJDIR) $(BINARY_OUTPUT_DIR) $(BUILDDIR)
 
 
 #=============================================================================
 # Special GNU make variables
-VPATH           = $(SOURCEDIRS)
+VPATH             = $(SOURCEDIRS)
 
 
 #=============================================================================
@@ -90,58 +91,54 @@ silent:
 all: $(EXEFINAL)
 
 .PHONY: debug
-debug: COMPFLAGS1 += $(DBARGS)
-debug: COMPFLAGS2 += $(DBARGS)
-debug: $(EXEFINAL)
+debug: COMPFLAGS += $(DBARGS)
+debug: all
 
 .PHONY: $(EXENAME)
 $(EXENAME): $(EXEFINAL)
 
 .PHONY: clean
 clean:
-	@$(DISPLAY) "\n\033[1;32m->\033[0m Cleaning files and folders...\n"
-	@$(DISPLAY) " $(foreach file,$(OBJECTS1) $(OBJECTS2),\033[1;32m-\033[0m Removing file \033[0;33m$(file)\033[0m\n)"
-	@$(RM) $(OBJECTS1) $(OBJECTS2)
-	@$(DISPLAY) " \033[1;32m-\033[0m Removing file \033[0;33m$(EXEFINALOBJ)\033[0m\n"
-	@$(RM) $(EXEFINALOBJ)
-	@$(DISPLAY) " $(foreach folder,$(OBJSUBDIRS),\033[1;32m-\033[0m Removing folder \033[0;33m$(folder)\033[0m\n)"
-	@$(RMDIR) $(OBJSUBDIRS) $(VOIDECHO) || true
-	@$(RMDIR) $(OBJDIR) $(VOIDECHO) || true
-	@$(DISPLAY) " \033[1;32m-\033[0m Removing file \033[0;33m$(EXEFINAL)\033[0m"
-	@$(RM) $(EXEFINAL)
-	@$(DISPLAY) "\n\n"
+	@$(DISPLAY) "\n\033[1;32m->\033[0m Cleaning files...\n"
+	@$(DISPLAY) " $(foreach file,$(GENERATED_FILES),$(if $(wildcard $(file)),\033[1;32m-\033[0m Removing file \033[0;33m$(file)\033[0m\n,\b))"
+	@$(RM) $(GENERATED_FILES)
+	@$(DISPLAY) "\n\033[1;32m->\033[0m Cleaning folders...\n"
+	@$(DISPLAY) " $(foreach folder,$(GENERATED_FOLDERS),$(if $(wildcard $(folder)),\033[1;32m-\033[0m Removing folder \033[0;33m$(folder)\033[0m\n,\b))"
+	@$(RMDIR) $(GENERATED_FOLDERS) $(VOIDECHO) || true
+	@$(DISPLAY) "\n"
+	@$(MAKE) -C $(LIB_MAKE_ROOT) clean
 
 .PHONY : help
 help:
-	@$(DISPLAY) "\n\033[1;32m->\033[0m Valid targets for this Makefile:\n"
-	@$(DISPLAY) " \033[1;32m-\033[1;34m silent\033[0m (the default if no target is provided)\n"
-	@$(DISPLAY) " \033[1;32m-\033[1;34m all\033[0m\n"
-	@$(DISPLAY) " \033[1;32m-\033[1;34m debug\033[0m\n"
-	@$(DISPLAY) " \033[1;32m-\033[1;34m clean\033[0m\n"
+	@$(DISPLAY) "\n\033[1;32m->\033[0m Valid targets:\n"
+	@$(DISPLAY) " \033[1;32m-\033[1;34m silent                    \033[0m Default if no target is provided, equivalent to: make --silent all\n"
+	@$(DISPLAY) " \033[1;32m-\033[1;34m all                       \033[0m Build $(EXENAME)\n"
+	@$(DISPLAY) " \033[1;32m-\033[1;34m debug                     \033[0m All with debug symbols\n"
+	@$(DISPLAY) " \033[1;32m-\033[1;34m clean                     \033[0m Remove files and folders generated by the makefile\n"
 	@$(DISPLAY) "\n"
+
 
 #=============================================================================
 # Rules: File Targets
-$(EXEFINAL): $(EXEFINALOBJ)
-	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Building \033[0;33m$(EXEFINAL)\033[0m from \033[0;33m$(OBJDIR)$(EXENAME).o\033[0m...   "
-	@$(MKDIR) $(BUILDDIR)
-	$(COMPILER1) $(LIBARGS) $(LINKS) $(EXEFINALOBJ) -o $(EXEFINAL)
+$(EXEFINAL): $(FINALOBJ) $(LIBFILE)
+	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Building \033[0;33m$@\033[0m from \033[0;33m$^\033[0m...   "
+	@$(MKDIR) $(BINARY_OUTPUT_DIR)
+	$(COMPILER) $(FINALOBJ) -o $@ $(LIBARGS) $(LINKS)
 	@$(DISPLAY) "\r\033[1C\033[1;32mOK\033[0m"
 	@$(DISPLAY) "\n\n"
 
-$(EXEFINALOBJ): $(OBJECTS1) $(OBJECTS2)
-	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Merging objects files into \033[0;33m$(EXEFINALOBJ)\033[0m...   "
-	$(LD) $(OBJECTS1) $(OBJECTS2) -o $(EXEFINALOBJ)
+$(LIBFILE):
+	@$(DISPLAY) "\n\n\033[1;32m->\033[0m Building library \033[0;33m$@\033[0m:   "
+	$(MAKE) -C $(LIB_MAKE_ROOT) lib
+	@$(DISPLAY) "\n"
+
+$(FINALOBJ): $(OBJECTS)
+	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Merging objects files into \033[0;33m$@\033[0m...   "
+	$(LD) $(OBJECTS) -o $@
 	@$(DISPLAY) "\r\033[1C\033[1;32mOK\033[0m"
 
-$(OBJDIR)%.o: %$(FILEIDENTIFIER1)
+$(OBJDIR)%.o: %$(FILEIDENTIFIER)
 	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Building \033[0;33m$@\033[0m from \033[0;33m$^\033[0m...   "
-	@$(MKDIR) $(OBJDIR) $(OBJSUBDIRS)
-	$(COMPILER1) $(COMPFLAGS1) $(COMPSTANDARD1) $(INCLUDEARGS) -c $^ -o $@
-	@$(DISPLAY) "\r\033[1C\033[1;32mOK\033[0m"
-
-$(OBJDIR)%.o: %$(FILEIDENTIFIER2)
-	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Building \033[0;33m$@\033[0m from \033[0;33m$^\033[0m...   "
-	@$(MKDIR) $(OBJDIR) $(OBJSUBDIRS)
-	$(COMPILER2) $(COMPFLAGS2) $(COMPSTANDARD2) $(INCLUDEARGS) -c $^ -o $@
+	@$(MKDIR) $(OBJDIR)
+	$(COMPILER) $(COMPFLAGS) $(COMPSTANDARD) $(INCLUDEARGS) -c $^ -o $@
 	@$(DISPLAY) "\r\033[1C\033[1;32mOK\033[0m"
