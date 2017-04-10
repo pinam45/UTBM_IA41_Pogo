@@ -24,13 +24,19 @@
  *                                                                                       *
  *****************************************************************************************/
 
-#ifndef UTBM_IA41_POGO_GUI_HPP
-#define UTBM_IA41_POGO_GUI_HPP
+#ifndef UTBM_IA41_POGO_UI_HPP
+#define UTBM_IA41_POGO_UI_HPP
 
+//TODO
+class UI {
 
-class GUI {
-	//TODO
+public:
+
+	UI();
+
+	virtual ~UI();
+
 };
 
 
-#endif //UTBM_IA41_POGO_GUI_HPP
+#endif //UTBM_IA41_POGO_UI_HPP
