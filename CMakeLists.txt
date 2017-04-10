@@ -61,6 +61,6 @@ message(" -> Sources prepared")
 add_executable(
   UTBM_IA41_Pogo
   ${SOURCE_FILES}
-  Pogo/src/Board.cpp Pogo/include/Board.hpp Pogo/src/AI.cpp Pogo/include/AI.hpp Pogo/src/Node.cpp Pogo/include/Node.hpp)
+)
 add_dependencies(UTBM_IA41_Pogo PFC_C)
 target_link_libraries(UTBM_IA41_Pogo PFC_C)
