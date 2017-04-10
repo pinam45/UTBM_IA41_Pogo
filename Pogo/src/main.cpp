@@ -2,15 +2,16 @@
 #include <ConsoleControl.h>
 #include <ConsoleControlMenu.h>
 #include <ConsoleControlUtility.h>
+#include <Logic/PawnStack.hpp>
 
 int main() {
 	cc_clean();
 	const char* choices[] = {
-	  "Human vs Human",
-	  "Human vs AI",
-	  "AI vs AI",
-	  "Options",
-	  "Exit"
+		"Human vs Human",
+		"Human vs A.I.",
+		"A.I. vs A.I.",
+		"Options",
+		"Exit"
 	};
 	cc_Menu menu;
 	menu.choices = choices;
@@ -19,18 +20,18 @@ int main() {
 	menu.choiceOnEscape = 4;
 	menu.title = "Magic Pogo";
 	const cc_MenuColors colors = {
-	  CYAN,
-	  BLACK,
-	  WHITE,
-	  BLACK,
-	  CYAN,
-	  BLACK
+		CYAN,
+		BLACK,
+		WHITE,
+		BLACK,
+		CYAN,
+		BLACK
 	};
 	bool loop = true;
-	while(loop){
+	while(loop) {
 		cc_displayColorMenu(&menu, &colors);
 		cc_setColors(BLACK, WHITE);
-		switch(menu.currentChoice){
+		switch(menu.currentChoice) {
 			case 0:
 				//TODO
 				break;
@@ -46,8 +47,31 @@ int main() {
 			case 4:
 				loop = false;
 				break;
-			default:break;
+			default:
+				break;
 		}
 	}
 	return 0;
+}
+
+void PawnStackUseExemple();
+
+void PawnStackUseExemple() {
+	PawnStack player1Default{PLAYER1_DEFAULT_STACK};
+	PawnStack player2Default{PLAYER2_DEFAULT_STACK};
+	std::cout << "player1Default = " << player1Default << std::endl;
+	std::cout << "player2Default = " << player2Default << std::endl;
+	PawnStack a{0b00110101};
+	std::cout << "a = " << a << std::endl;
+	PawnStack b = a.pick(1);
+	std::cout << "b = " << b << std::endl;
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a.size() = " << a.size() << std::endl;
+	std::cout << "b.size() = " << b.size() << std::endl;
+	for(unsigned int i = 0; i < a.size(); ++i) {
+		std::cout << "a[" << i << "] = " << a.get(i) << std::endl;
+	}
+	a.add(b);
+	a.add(b);
+	std::cout << "a = " << a << std::endl;
 }
