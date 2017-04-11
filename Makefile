@@ -70,8 +70,9 @@ LIBARGS           = $(addprefix -L,$(LIBSDIRS))
 
 #=============================================================================
 # Automatic variables
-SOURCES        = $(foreach sourcedir,$(SOURCEDIRS),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER)))
-OBJECTS        = $(patsubst %$(FILEIDENTIFIER),%.o,$(foreach sourcedir,$(SOURCEDIRS),$(subst $(sourcedir),$(OBJDIR),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER)))))
+SOURCES           = $(foreach sourcedir,$(SOURCEDIRS),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER)))
+OBJECTS           = $(patsubst %$(FILEIDENTIFIER),%.o,$(foreach sourcedir,$(SOURCEDIRS),$(subst $(sourcedir),$(OBJDIR),$(wildcard $(sourcedir)**/*$(FILEIDENTIFIER)) $(wildcard $(sourcedir)*$(FILEIDENTIFIER)))))
+OBJSUBDIRS        = $(sort $(OBJDIR) $(dir $(OBJECTS)))
 GENERATED_FILES   = $(OBJECTS) $(FINALOBJ) $(EXEFINAL)
 GENERATED_FOLDERS = $(OBJDIR) $(BINARY_OUTPUT_DIR) $(BUILDDIR)
 
@@ -139,6 +140,6 @@ $(FINALOBJ): $(OBJECTS)
 
 $(OBJDIR)%.o: %$(FILEIDENTIFIER)
 	@$(DISPLAY) "\n\033[0m\033[1;34m[··]\033[0m Building \033[0;33m$@\033[0m from \033[0;33m$^\033[0m...   "
-	@$(MKDIR) $(OBJDIR)
+	@$(MKDIR) $(OBJDIR) $(OBJSUBDIRS)
 	$(COMPILER) $(COMPFLAGS) $(COMPSTANDARD) $(INCLUDEARGS) -c $^ -o $@
 	@$(DISPLAY) "\r\033[1C\033[1;32mOK\033[0m"
