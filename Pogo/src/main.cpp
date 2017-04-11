@@ -4,6 +4,8 @@
 #include <ConsoleControlUtility.h>
 #include <Logic/PawnStack.hpp>
 
+void PawnStackUseExemple();
+
 int main() {
 	cc_clean();
 	const char* choices[] = {
@@ -54,16 +56,14 @@ int main() {
 	return 0;
 }
 
-void PawnStackUseExemple();
-
 void PawnStackUseExemple() {
-	PawnStack player1Default{PLAYER1_DEFAULT_STACK};
-	PawnStack player2Default{PLAYER2_DEFAULT_STACK};
+	PawnStack16 player1Default{PLAYER1_DEFAULT_STACK};
+	PawnStack16 player2Default{PLAYER2_DEFAULT_STACK};
 	std::cout << "player1Default = " << player1Default << std::endl;
 	std::cout << "player2Default = " << player2Default << std::endl;
-	PawnStack a{0b00110101};
+	PawnStack16 a{0b00110101};
 	std::cout << "a = " << a << std::endl;
-	PawnStack b = a.pick(1);
+	PawnStack16 b = a.pick(1);
 	std::cout << "b = " << b << std::endl;
 	std::cout << "a = " << a << std::endl;
 	std::cout << "a.size() = " << a.size() << std::endl;
