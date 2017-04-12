@@ -3,8 +3,11 @@
 #include <ConsoleControlMenu.h>
 #include <ConsoleControlUtility.h>
 #include <Logic/PawnStack.hpp>
+#include <Logic/Board.hpp>
 
-void PawnStackUseExemple();
+void PawnStackUseExample();
+
+void BoardUseExample();
 
 int main() {
 	cc_clean();
@@ -56,7 +59,7 @@ int main() {
 	return 0;
 }
 
-void PawnStackUseExemple() {
+void PawnStackUseExample() {
 	PawnStack16 player1Default{PLAYER1_DEFAULT_STACK};
 	PawnStack16 player2Default{PLAYER2_DEFAULT_STACK};
 	std::cout << "player1Default = " << player1Default << std::endl;
@@ -74,4 +77,27 @@ void PawnStackUseExemple() {
 	a.add(b);
 	a.add(b);
 	std::cout << "a = " << a << std::endl;
+}
+
+void BoardUseExample() {
+	Board<PawnStack16> board;
+	std::cout << "---" << std::endl;
+	std::cout << "board[1][1]= " << board[1][1] << std::endl;
+	std::cout << "board[1][2]= " << board[1][2] << std::endl;
+	board[0][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
+	board[1][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
+	board[2][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
+	board[0][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
+	board[1][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
+	board[2][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
+	//board is default pogo board with player 1 at the top and player 2 at the bottom
+	std::cout << "---" << std::endl;
+	std::cout << "board[1][1]= " << board[1][1] << std::endl;
+	std::cout << "board[1][2]= " << board[1][2] << std::endl;
+	PawnsMove move{1,2,1,1,1};
+	board.apply(move);
+	std::cout << "---" << std::endl;
+	std::cout << "board[1][1]= " << board[1][1] << std::endl;
+	std::cout << "board[1][2]= " << board[1][2] << std::endl;
+	std::cout << "board[1][2][1]= " << board[1][2][1] << std::endl;
 }
