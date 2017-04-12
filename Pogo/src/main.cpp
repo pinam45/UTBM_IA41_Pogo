@@ -69,7 +69,7 @@ void PawnStackUseExemple() {
 	std::cout << "a.size() = " << a.size() << std::endl;
 	std::cout << "b.size() = " << b.size() << std::endl;
 	for(unsigned int i = 0; i < a.size(); ++i) {
-		std::cout << "a[" << i << "] = " << a.get(i) << std::endl;
+		std::cout << "a[" << i << "] = " << a[i] << std::endl;
 	}
 	a.add(b);
 	a.add(b);
