@@ -4,10 +4,13 @@
 #include <ConsoleControlUtility.h>
 #include <Logic/PawnStack.hpp>
 #include <Logic/Board.hpp>
+#include <Logic/AIPlayer.hpp>
 
 void PawnStackUseExample();
 
 void BoardUseExample();
+
+void AIPlayerUseExample ();
 
 int main() {
 	cc_clean();
@@ -100,4 +103,18 @@ void BoardUseExample() {
 	std::cout << "board[1][1]= " << board[1][1] << std::endl;
 	std::cout << "board[1][2]= " << board[1][2] << std::endl;
 	std::cout << "board[1][2][1]= " << board[1][2][1] << std::endl;
+}
+
+void AIPlayerUseExample () {
+	unsigned int depth = 5;
+	AIPlayer AI (PLAYER1_PAWN,depth);
+	Board<PawnStack16> board;
+	board[0][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
+	board[1][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
+	board[2][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
+	board[0][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
+	board[1][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
+	board[2][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
+	PawnsMove choice = AI.chooseMove(board);
+	std::cout  << "Chosen Move : " << choice.fromX << "," << choice.fromY <<" -> " << choice.toX << "," << choice.toY << " number : " << choice.pawnNumber << std::endl;
 }
