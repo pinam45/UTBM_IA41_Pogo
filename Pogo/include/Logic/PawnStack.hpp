@@ -45,6 +45,14 @@
 template<typename container, typename = typename std::enable_if_t<std::is_integral<container>::value>>
 class PawnStack;
 
+template<class T>
+struct is_pawn_stack : std::false_type {
+};
+
+template<class T>
+struct is_pawn_stack<PawnStack<T>> : std::true_type {
+};
+
 using PawnStack8 = PawnStack<uint8_t>;
 using PawnStack16 = PawnStack<uint16_t>;
 using PawnStack32 = PawnStack<uint32_t>;
@@ -151,7 +159,7 @@ PawnStack<T, check>::PawnStack(const T stack) : m_stack(stack) {
 
 template<typename T, typename check>
 unsigned int PawnStack<T, check>::size() const {
-	for(unsigned int i = max_size(); --i;) {
+	for(unsigned int i = max_size() + 1; --i;) {
 		if(m_stack >> i == 1) {
 			return i;
 		}
@@ -161,14 +169,14 @@ unsigned int PawnStack<T, check>::size() const {
 
 template<typename T, typename check>
 constexpr unsigned int PawnStack<T, check>::max_size() {
-	return sizeof(m_stack) * CHAR_BIT;
+	return sizeof(m_stack) * CHAR_BIT - 1;
 }
 
 template<typename T, typename check>
 PawnStack<T, check> PawnStack<T, check>::pick(const unsigned int number) {
 	unsigned int currentSize = size();
 	T stack = static_cast<T>(m_stack >> (size() - number));
-	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (max_size() - currentSize + number)));
+	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (max_size() - 1 - currentSize + number)));
 	m_stack = static_cast<T>(m_stack | (1 << (currentSize - number)));
 	return PawnStack(stack);
 }
@@ -177,10 +185,10 @@ template<typename T, typename check>
 void PawnStack<T, check>::add(const PawnStack pawnStack) {
 	unsigned int currentSize = size();
 	unsigned int addedSize = pawnStack.size();
-	if(currentSize + addedSize > PawnStack<T, check>::max_size() - 1) {
+	if(currentSize + addedSize > PawnStack<T, check>::max_size()) {
 		SLOG_ERR("new size bigger than max size");
 	}
-	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (PawnStack<T, check>::max_size() - currentSize)));
+	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (PawnStack<T, check>::max_size() - 1 - currentSize)));
 	m_stack = static_cast<T>(m_stack | (pawnStack.m_stack << currentSize));
 }
 
