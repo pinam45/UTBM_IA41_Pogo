@@ -35,10 +35,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	include(cmake/gcc-settings.cmake)
 endif()
 
-# Define DEBUG macro if in debug mode
+# Define LOGGER_ENABLED macro if in debug mode
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D\"DEBUG\"")
-	message(STATUS "Debug mode: DEBUG macro defined")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLOGGER_ENABLED")
+	message(STATUS "Debug mode: Logger enabled (LOGGER_ENABLED macro defined)")
 endif()
 
 # Add dependencies subdirectories
