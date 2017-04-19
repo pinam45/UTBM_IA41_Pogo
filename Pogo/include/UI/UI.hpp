@@ -24,17 +24,61 @@
  *                                                                                       *
  *****************************************************************************************/
 
+/**
+ * @file UI.hpp
+ * @brief      Definition of the UI class.
+ * @author     Maxime Pinard
+ * @date       13/04/17
+ * @version    0.0
+ */
+
 #ifndef UTBM_IA41_POGO_UI_HPP
 #define UTBM_IA41_POGO_UI_HPP
 
-//TODO
+
+#include <Logic/Board.hpp>
+
+/*-------------------------------------------------------------------------*//**
+ * @brief      User Interface, interface with the user for playing the Pogo
+ *             game.
+ *
+ * @tparam     PawnStackType  Type of stack to use, determine the size of the
+ *                            displayed stack
+ * @tparam     width          Width of the board (number of stacks in one line)
+ * @tparam     height         Height of the board (number of stacks in one line)
+ * @tparam     check          Check that @c PawnStackType is a pawn stack type
+ */
+template<
+	typename PawnStackType,
+	unsigned int width = 3,
+	unsigned int height = 3,
+	typename check = typename std::enable_if_t<is_pawn_stack<PawnStackType>::value>
+>
 class UI {
 
 public:
 
-	UI();
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Draws the board.
+	 *
+	 * @param[in]  board  The board
+	 */
+	virtual void drawBoard(const Board<PawnStackType, width, height>& board) = 0;
 
-	virtual ~UI();
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Allow the user to choose a move.
+	 *
+	 * @param[in]  board   The board
+	 * @param[in]  player  The player
+	 *
+	 * @return     A valid Pogo move for the board.
+	 */
+	virtual PawnsMove chooseMove(const Board<PawnStackType, width, height>& board, bool player) = 0;
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Default destructor.
+	 */
+	virtual ~UI() = default;
 
 };
 
