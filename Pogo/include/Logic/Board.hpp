@@ -41,14 +41,6 @@
 #include <Logic/PawnStack.hpp>
 #include <Logic/PawnsMove.hpp>
 
-template<class T>
-struct is_pawn_stack : std::false_type {
-};
-
-template<class T>
-struct is_pawn_stack<PawnStack<T>> : std::true_type {
-};
-
 /*-------------------------------------------------------------------------*//**
  * @brief      Pogo board containing pawns stacks.
  *
@@ -75,6 +67,8 @@ private:
 
 		PawnStackType& operator[](unsigned int index);
 
+		const PawnStackType& operator[](unsigned int index) const;
+
 	private:
 
 		BoardLine();
@@ -99,6 +93,8 @@ public:
 
 	BoardLine& operator[](unsigned int index);
 
+	const BoardLine& operator[](unsigned int index) const;
+
 private:
 
 	BoardLine m_board[width];
@@ -111,14 +107,20 @@ Board<PawnStackType, width, height, check>::Board() {
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
+void Board<PawnStackType, width, height, check>::apply(const PawnsMove& move) {
+	m_board[move.toX][move.toY].add(m_board[move.fromX][move.fromY].pick(move.pawnNumber));
+}
+
+template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
 typename Board<PawnStackType, width, height, check>::BoardLine&
 Board<PawnStackType, width, height, check>::operator[](unsigned int index) {
 	return m_board[index];
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void Board<PawnStackType, width, height, check>::apply(const PawnsMove& move) {
-	m_board[move.toX][move.toY].add(m_board[move.fromX][move.fromY].pick(move.pawnNumber));
+typename Board<PawnStackType, width, height, check>::BoardLine const&
+Board<PawnStackType, width, height, check>::operator[](unsigned int index) const {
+	return m_board[index];
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
@@ -128,6 +130,11 @@ Board<PawnStackType, width, height, check>::BoardLine::BoardLine() {
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
 PawnStackType& Board<PawnStackType, width, height, check>::BoardLine::operator[](unsigned int index) {
+	return m_line[index];
+}
+
+template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
+const PawnStackType& Board<PawnStackType, width, height, check>::BoardLine::operator[](unsigned int index) const {
 	return m_line[index];
 }
 
