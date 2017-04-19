@@ -138,7 +138,7 @@ private:
 template<typename T, typename check>
 std::ostream& operator<<(std::ostream& os, const PawnStack<T, check>& pawnStack) {
 	os << "[";
-	for(unsigned int i = PawnStack<T, check>::max_size(); --i;) {
+	for(unsigned int i = PawnStack<T, check>::max_size() + 1; --i;) {
 		os << ((pawnStack.m_stack >> i) & 1);
 	}
 	os << (pawnStack.m_stack & 1) << "]";
@@ -176,9 +176,9 @@ template<typename T, typename check>
 PawnStack<T, check> PawnStack<T, check>::pick(const unsigned int number) {
 	unsigned int currentSize = size();
 	T stack = static_cast<T>(m_stack >> (size() - number));
-	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (max_size() - 1 - currentSize + number)));
+	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (max_size() + 1 - currentSize + number)));
 	m_stack = static_cast<T>(m_stack | (1 << (currentSize - number)));
-	return PawnStack(stack);
+	return PawnStack<T>(stack);
 }
 
 template<typename T, typename check>
@@ -188,7 +188,7 @@ void PawnStack<T, check>::add(const PawnStack pawnStack) {
 	if(currentSize + addedSize > PawnStack<T, check>::max_size()) {
 		SLOG_ERR("new size bigger than max size");
 	}
-	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (PawnStack<T, check>::max_size() - 1 - currentSize)));
+	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (PawnStack<T, check>::max_size() + 1 - currentSize)));
 	m_stack = static_cast<T>(m_stack | (pawnStack.m_stack << currentSize));
 }
 
