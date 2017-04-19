@@ -2,7 +2,7 @@
 #include <chrono>
 #include <cfloat>
 
-PawnsMove AIPlayer::chooseMove(Board<PawnStack16>& board) {
+PawnsMove AIPlayer::chooseMove(Board<PawnStack16>& board)  {
 	AIPlayer::Node root {};
 	std::vector <PawnsMove> moves = firstMoves(board);
 
@@ -26,15 +26,16 @@ PawnsMove AIPlayer::chooseMove(Board<PawnStack16>& board) {
 	return choice;
 }
 
-void AIPlayer::buildChildren(const PawnsMove& move, const PawnsMove& restore, unsigned int depth, Pawn toPlay, Node& root,Board<PawnStack16>& board) {
+void AIPlayer::buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root,Board<PawnStack16>& board) {
 	Node child = Node{};
 	board.apply(move);
 	root.children.push_back(child);
 	buildTree(depth -1,!toPlay,root.children.back(),board);
-	board.apply(restore);
+	// restore the board
+	board.apply(PawnsMove{move.toX, move.toY, move.fromX, move.fromY, move.pawnNumber});
 }
 //TODO optimize buildTree
-void AIPlayer::buildTree(unsigned int depth,Pawn toPlay, Node& root, Board<PawnStack16>& board) {
+void AIPlayer::buildTree(const unsigned int depth, const Pawn toPlay, Node& root, Board<PawnStack16>& board) {
 	if( depth == 0) {
 		root.val = eval(board);
 		return;
@@ -48,11 +49,11 @@ void AIPlayer::buildTree(unsigned int depth,Pawn toPlay, Node& root, Board<PawnS
 						int dist = ManhattanDistance(x, y, i, j);
 
 						if(stackSize >= 3 && (dist == 3 || dist == 1) )
-							buildChildren(PawnsMove{x,y,i,j,3},PawnsMove{i,j,x,y,3},depth,toPlay,root,board);
+							buildChildren(PawnsMove{x,y,i,j,3},depth,toPlay,root,board);
 						else if(stackSize >= 2 && dist == 2)
-							buildChildren(PawnsMove{x,y,i,j,2},PawnsMove{i,j,x,y,2},depth,toPlay,root,board);
+							buildChildren(PawnsMove{x,y,i,j,2},depth,toPlay,root,board);
 						else if(dist == 1)
-							buildChildren(PawnsMove{x,y,i,j,1},PawnsMove{i,j,x,y,1},depth,toPlay,root,board);
+							buildChildren(PawnsMove{x,y,i,j,1},depth,toPlay,root,board);
 					}
 				}
 			}
@@ -60,7 +61,7 @@ void AIPlayer::buildTree(unsigned int depth,Pawn toPlay, Node& root, Board<PawnS
 	}
 }
 
-std::vector<PawnsMove> AIPlayer::firstMoves(Board<PawnStack16>& board) {
+std::vector<PawnsMove> AIPlayer::firstMoves(const Board<PawnStack16>& board) const {
 	std::vector <PawnsMove> firstMoves ;
 	for(unsigned int x = 0 ; x < 3; ++x) {
 		for( unsigned int y = 0 ; y < 3 ; ++y) {
@@ -84,7 +85,7 @@ std::vector<PawnsMove> AIPlayer::firstMoves(Board<PawnStack16>& board) {
 	return  firstMoves;
 }
 
-float AIPlayer::eval(Board<PawnStack16>& board) { //TODO better val
+float AIPlayer::eval(const Board<PawnStack16>& board) const{ //TODO better val
 	float eval = 0;
 	float stackCount = 0 ;
 	for(int x = 0; x < 3; ++x) {
@@ -99,11 +100,11 @@ float AIPlayer::eval(Board<PawnStack16>& board) { //TODO better val
 	return eval/stackCount;
 }
 
-void AIPlayer::alphaBeta(AIPlayer::Node& root, unsigned int depth) {
+void AIPlayer::alphaBeta(AIPlayer::Node& root,const unsigned int depth) {
 	root.val = maxValue(root,depth,FLT_MIN,FLT_MAX);
 }
 
-float AIPlayer::maxValue(AIPlayer::Node & root, unsigned int depth, float alpha, float beta) {
+float AIPlayer::maxValue(AIPlayer::Node & root, const unsigned int depth, float alpha, float beta) {
 	if(depth ==0)
 		return root.val;
 
