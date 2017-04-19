@@ -24,6 +24,14 @@
  *                                                                                       *
  *****************************************************************************************/
 
+/**
+ * @file PawnStack.hpp
+ * @brief      Definition of the PawnStack class.
+ * @author     Maxime Pinard
+ * @date       13/04/17
+ * @version    0.0
+ */
+
 #ifndef UTBM_IA41_POGO_PAWNSTACK_HPP
 #define UTBM_IA41_POGO_PAWNSTACK_HPP
 

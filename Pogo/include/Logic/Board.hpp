@@ -26,7 +26,7 @@
 
 /**
  * @file Board.hpp
- * @brief      Definition of the Board type.
+ * @brief      Definition of the Board class.
  * @author     Maxime Pinard
  * @date       11/04/17
  * @version    0.0
