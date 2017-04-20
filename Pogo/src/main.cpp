@@ -19,6 +19,10 @@ void BoardUseExample();
 
 void AIPlayerUseExample();
 
+unsigned int depthChoice();
+
+bool turnChoice();
+
 int main() {
 	cc_clean();
 	const char* choices[] = {
@@ -56,11 +60,20 @@ int main() {
 				manager.playGame(player1, player2, ui);
 			}
 				break;
-			case 1:
-				//TODO
+			case 1: {
+				HumanPlayer player1{PLAYER1_PAWN, ui};
+				AIPlayer player2(PLAYER2_PAWN, depthChoice());
+				if(turnChoice())
+					manager.playGame(player1, player2, ui);
+				else
+					manager.playGame(player2, player1, ui);
+			}
 				break;
-			case 2:
-				//TODO
+			case 2: {
+				AIPlayer player1{PLAYER1_PAWN, depthChoice()};
+				AIPlayer player2(PLAYER2_PAWN, depthChoice());
+				manager.playGame(player1, player2, ui);
+			}
 				break;
 			case 3:
 				//TODO
@@ -131,4 +144,60 @@ void AIPlayerUseExample() {
 	PawnsMove choice = AI.chooseMove(board);
 	std::cout << "Chosen Move : " << choice.fromX << "," << choice.fromY << " -> " << choice.toX << "," << choice.toY
 	          << " number : " << choice.pawnNumber << std::endl;
+}
+
+unsigned int depthChoice () {
+	const char* difficultyChoices[] = {
+	  "1",
+	  "2",
+	  "3",
+	  "4",
+	  "5"
+	};
+
+	const cc_MenuColors colors = {
+	  CYAN,
+	  BLACK,
+	  WHITE,
+	  BLACK,
+	  CYAN,
+	  BLACK
+	};
+
+	cc_Menu difficulty;
+	difficulty.choices = difficultyChoices;
+	difficulty.choicesNumber = 5;
+	difficulty.currentChoice = 0;
+	difficulty.title = "AI Difficulty";
+	cc_displayColorMenu(&difficulty, &colors);
+	cc_setColors(BLACK, WHITE);
+
+
+	return difficulty.currentChoice +1;
+}
+
+bool turnChoice() {
+	const char* turnChoices[] = {
+	  "Human",
+	  "AI"
+	};
+
+	const cc_MenuColors colors = {
+	  CYAN,
+	  BLACK,
+	  WHITE,
+	  BLACK,
+	  CYAN,
+	  BLACK
+	};
+
+	cc_Menu turn;
+	turn.choices = turnChoices;
+	turn.choicesNumber = 2;
+	turn.currentChoice = 0;
+	turn.title = "Who plays first ?";
+	cc_displayColorMenu(&turn, &colors);
+	cc_setColors(BLACK, WHITE);
+
+	return turn.currentChoice == 1 ;
 }
