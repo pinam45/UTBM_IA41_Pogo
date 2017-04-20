@@ -59,11 +59,11 @@ class UI {
 public:
 
 	/*------------------------------------------------------------------------*//**
-	 * @brief      Draws the board.
+	 * @brief      Display the board.
 	 *
 	 * @param[in]  board  The board
 	 */
-	virtual void drawBoard(const Board<PawnStackType, width, height>& board) = 0;
+	virtual void displayBoard(const Board<PawnStackType, width, height>& board) = 0;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Allow the user to choose a move.
@@ -73,7 +73,14 @@ public:
 	 *
 	 * @return     A valid Pogo move for the board.
 	 */
-	virtual PawnsMove chooseMove(const Board<PawnStackType, width, height>& board, bool player) = 0;
+	virtual PawnsMove chooseMove(const Board<PawnStackType, width, height>& board, Pawn player) = 0;
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Display the victory screen.
+	 *
+	 * @param[in]  player  The player who won the game
+	 */
+	virtual void displayVictory(Pawn player) = 0;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.

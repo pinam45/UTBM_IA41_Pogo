@@ -71,11 +71,11 @@ public:
 
 
 	/*------------------------------------------------------------------------*//**
-	 * @brief      Draws the board.
+	 * @brief      Display the board.
 	 *
 	 * @param[in]  board  The board
 	 */
-	void drawBoard(const Board<PawnStackType, width, height>& board) override;
+	void displayBoard(const Board<PawnStackType, width, height>& board) override;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Allow the user to choose a move.
@@ -85,7 +85,14 @@ public:
 	 *
 	 * @return     A valid Pogo move for the board.
 	 */
-	PawnsMove chooseMove(const Board<PawnStackType, width, height>& board, bool player) override;
+	PawnsMove chooseMove(const Board<PawnStackType, width, height>& board, Pawn player) override;
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Display the victory screen.
+	 *
+	 * @param[in]  player  The player who won the game
+	 */
+	void displayVictory(Pawn player) override;
 
 private:
 
@@ -171,7 +178,7 @@ ConsoleUI<PawnStackType, width, height, check>::ConsoleUI() : m_boardTopLeft() {
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::drawBoard(const Board<PawnStackType, width, height>& board) {
+void ConsoleUI<PawnStackType, width, height, check>::displayBoard(const Board<PawnStackType, width, height>& board) {
 	cc_clean();
 	while(static_cast<unsigned int>(cc_getWidth()) < m_boardWidth
 	      || static_cast<unsigned int>(cc_getHeight()) < m_boardHeight) {
@@ -213,7 +220,7 @@ PawnsMove ConsoleUI<PawnStackType, width, height, check>::chooseMove(const Board
 		}
 	}
 	setValidStacks(board, player);
-	drawBoard(board);
+	displayBoard(board);
 
 	cc_Vector2 selectedFrame = {0, 0};
 	selectedFrame = selectFrame(selectedFrame);
@@ -243,6 +250,16 @@ PawnsMove ConsoleUI<PawnStackType, width, height, check>::chooseMove(const Board
 		}
 	}
 	return move;
+}
+
+template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
+void ConsoleUI<PawnStackType, width, height, check>::displayVictory(Pawn player) {
+	cc_setColors(BLACK,WHITE);
+	cc_clean();
+	cc_Vector2 nullPos = {0, 0};
+	cc_setCursorPosition(nullPos);
+	std::cout << "Player " << player << " win the game." << std::flush; //TODO: better message
+	cc_getInput();
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
