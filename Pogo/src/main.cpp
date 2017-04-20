@@ -5,12 +5,19 @@
 #include <Logic/PawnStack.hpp>
 #include <Logic/Board.hpp>
 #include <Logic/AIPlayer.hpp>
+#include <UI/ConsoleUI.hpp>
+#include <Logic/GameManager.hpp>
+#include <Logic/HumanPlayer.hpp>
+
+#define BOARD_WIDTH 3
+#define BOARD_HEIGHT 3
+using PawnStackType = PawnStack16;
 
 void PawnStackUseExample();
 
 void BoardUseExample();
 
-void AIPlayerUseExample ();
+void AIPlayerUseExample();
 
 int main() {
 	cc_clean();
@@ -24,7 +31,7 @@ int main() {
 	cc_Menu menu;
 	menu.choices = choices;
 	menu.choicesNumber = 5;
-	menu.currentChoice = 1;
+	menu.currentChoice = 0;
 	menu.choiceOnEscape = 4;
 	menu.title = "Magic Pogo";
 	const cc_MenuColors colors = {
@@ -37,11 +44,17 @@ int main() {
 	};
 	bool loop = true;
 	while(loop) {
+		ConsoleUI<PawnStackType, BOARD_WIDTH, BOARD_HEIGHT> ui;
+		GameManager<PawnStackType, BOARD_WIDTH, BOARD_HEIGHT> manager;
+
 		cc_displayColorMenu(&menu, &colors);
 		cc_setColors(BLACK, WHITE);
 		switch(menu.currentChoice) {
-			case 0:
-				//TODO
+			case 0: {
+				HumanPlayer player1{PLAYER1_PAWN, ui};
+				HumanPlayer player2{PLAYER2_PAWN, ui};
+				manager.playGame(player1, player2, ui);
+			}
 				break;
 			case 1:
 				//TODO
@@ -97,7 +110,7 @@ void BoardUseExample() {
 	std::cout << "---" << std::endl;
 	std::cout << "board[1][1]= " << board[1][1] << std::endl;
 	std::cout << "board[1][2]= " << board[1][2] << std::endl;
-	PawnsMove move{1,2,1,1,1};
+	PawnsMove move{1, 2, 1, 1, 1};
 	board.apply(move);
 	std::cout << "---" << std::endl;
 	std::cout << "board[1][1]= " << board[1][1] << std::endl;
@@ -105,9 +118,9 @@ void BoardUseExample() {
 	std::cout << "board[1][2][1]= " << board[1][2][1] << std::endl;
 }
 
-void AIPlayerUseExample () {
+void AIPlayerUseExample() {
 	unsigned int depth = 5;
-	AIPlayer AI (PLAYER1_PAWN,depth);
+	AIPlayer AI(PLAYER1_PAWN, depth);
 	Board<PawnStack16> board;
 	board[0][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
 	board[1][0] = PawnStack16{PLAYER1_DEFAULT_STACK};
@@ -116,5 +129,6 @@ void AIPlayerUseExample () {
 	board[1][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
 	board[2][2] = PawnStack16{PLAYER2_DEFAULT_STACK};
 	PawnsMove choice = AI.chooseMove(board);
-	std::cout  << "Chosen Move : " << choice.fromX << "," << choice.fromY <<" -> " << choice.toX << "," << choice.toY << " number : " << choice.pawnNumber << std::endl;
+	std::cout << "Chosen Move : " << choice.fromX << "," << choice.fromY << " -> " << choice.toX << "," << choice.toY
+	          << " number : " << choice.pawnNumber << std::endl;
 }
