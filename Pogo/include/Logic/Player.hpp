@@ -56,16 +56,16 @@ public:
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Construct a new player.
 	 *
-	 * @param[in]  pawn  The pawn of the player, either PLAYER1_PAWN or PLAYER2_PAWN
-	 *
+	 * @param[in]  pawn  The pawn of the player, either PLAYER1_PAWN or
+	 *                   PLAYER2_PAWN
 	 */
 	explicit Player(Pawn pawn);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Choose a move to play.
 	 *
-	 * @param[in]  board   The board of the game
-	 *s
+	 * @param[in]  board  The board of the game
+	 *
 	 * @return     The move chosen by the player
 	 */
 	virtual PawnsMove chooseMove(const Board<PlayerPawnStackType, PLAYER_BOARD_WIDTH, PLAYER_BOARD_HEIGHT>& board) = 0;
