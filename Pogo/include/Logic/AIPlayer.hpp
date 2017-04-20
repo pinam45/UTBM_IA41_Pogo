@@ -71,7 +71,7 @@ private :
 	 *
 	 * @details    implemented with Depth-first order
 	 */
-	void buildTree (const unsigned int depth, const Pawn toPlay,Node& root, const Board<PawnStack16> & board) ;
+	void buildTree (unsigned int depth, Pawn toPlay,Node& root,Board<PawnStack16> & board) const;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Build a children node
@@ -84,7 +84,7 @@ private :
 	 *
 	 * @details    implemented with Depth-first order
 	 */
-	void buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root, const Board<PawnStack16>& board) ;
+	void buildChildren(const PawnsMove& move, unsigned int depth, Pawn toPlay, Node& root, Board<PawnStack16>& board) const;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Gives the list of the possibles moves for one turn
@@ -101,7 +101,7 @@ private :
 	 * @param[in]  root   The root of the tree
 	 * @param[in]  depth  The depth of the tree
 	 */
-	 static void alphaBeta(Node& root, const unsigned int depth) ;
+	 static void alphaBeta(Node& root, unsigned int depth) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      gives the value for MAX nodes
@@ -113,7 +113,7 @@ private :
 	 *
 	 * @return     the value of the given MAX node
 	 */
-	static float maxValue(Node& root, const unsigned int depth, float alpha, float beta) ;
+	static float maxValue(Node& root, unsigned int depth, float alpha, float beta) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      gives the value for MIN nodes
@@ -125,10 +125,10 @@ private :
 	 *
 	 * @return     the value of the given MIN node
 	 */
-	static float minValue(Node& root, const unsigned int depth, float alpha, float beta) ;
+	static float minValue(Node& root, unsigned int depth, float alpha, float beta) ;
 
 
-	static int ManhattanDistance(const int x1, const int y1, const int x2, const int y2) {
+	static int ManhattanDistance(int x1, int y1, int x2, int y2) {
 		return abs(x1 - x2) + abs (y1 -  y2);
 	}
 
@@ -143,7 +143,7 @@ public:
 	 * @param[in]  pawn     the pawn of the AIPlayer
 	 * @param[in]  depth    the depth of the tree generated
 	 */
-	AIPlayer(Pawn pawn, const unsigned int depth) : Player(pawn), m_depth(depth) {}
+	AIPlayer(Pawn pawn, unsigned int depth) : Player(pawn), m_depth(depth) {}
 };
 
 

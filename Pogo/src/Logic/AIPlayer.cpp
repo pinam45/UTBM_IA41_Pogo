@@ -4,10 +4,11 @@
 
 PawnsMove AIPlayer::chooseMove(const Board<PawnStack16>& board)  {
 	AIPlayer::Node root {};
+	Board <PawnStack16> boardCopy (board);
 	std::vector <PawnsMove> moves = firstMoves(board);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
-	buildTree(m_depth,m_pawn,root,board);
+	buildTree(m_depth,m_pawn,root,boardCopy);
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " ms elapsed buildTree" << std::endl;
 	alphaBeta(root,m_depth);
@@ -26,17 +27,16 @@ PawnsMove AIPlayer::chooseMove(const Board<PawnStack16>& board)  {
 	return choice;
 }
 
-void AIPlayer::buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root, const Board<PawnStack16>& board) {
-	/*Node child = Node{};
+void AIPlayer::buildChildren(const PawnsMove& move, unsigned int depth, Pawn toPlay, Node& root, Board<PawnStack16>& board) const{
+	Node child = Node{};
 	board.apply(move);
 	root.children.push_back(child);
 	buildTree(depth -1,!toPlay,root.children.back(),board);
 	// restore the board
-	board.apply(PawnsMove{move.toX, move.toY, move.fromX, move.fromY, move.pawnNumber});*/
-	//FIXME: player should not modify the board, make a copy
+	board.apply(PawnsMove{move.toX, move.toY, move.fromX, move.fromY, move.pawnNumber});
 }
 //TODO optimize buildTree
-void AIPlayer::buildTree(const unsigned int depth, const Pawn toPlay, Node& root, const Board<PawnStack16>& board) {
+void AIPlayer::buildTree( unsigned int depth, Pawn toPlay, Node& root, Board<PawnStack16>& board) const {
 	if( depth == 0) {
 		root.val = eval(board);
 		return;
@@ -101,11 +101,11 @@ float AIPlayer::eval(const Board<PawnStack16>& board) const{ //TODO better val
 	return eval/stackCount;
 }
 
-void AIPlayer::alphaBeta(AIPlayer::Node& root,const unsigned int depth) {
+void AIPlayer::alphaBeta(AIPlayer::Node& root, unsigned int depth) {
 	root.val = maxValue(root,depth,FLT_MIN,FLT_MAX);
 }
 
-float AIPlayer::maxValue(AIPlayer::Node & root, const unsigned int depth, float alpha, float beta) {
+float AIPlayer::maxValue(AIPlayer::Node & root, unsigned int depth, float alpha, float beta) {
 	if(depth ==0)
 		return root.val;
 
