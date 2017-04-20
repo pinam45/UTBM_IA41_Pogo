@@ -137,8 +137,8 @@ private:
 
 	const cc_Color m_backgroundColor = WHITE;
 
-	const cc_Color m_boardBackgroundColor = CYAN;
-	const cc_Color m_boardForegroundColor = CYAN;
+	const cc_Color m_boardBackgroundColor = BLUE;
+	const cc_Color m_boardForegroundColor = BLUE;
 	const char m_boardChar = ' ';
 
 	const cc_Color m_squaresBackgroundColor = BLACK;
@@ -147,7 +147,7 @@ private:
 
 	const cc_Color m_selectedFrameBackgroundColor = YELLOW;
 	const cc_Color m_validFrameBackgroundColor = GREEN;
-	const cc_Color m_nonvalidFrameBackgroundColor = CYAN;
+	const cc_Color m_nonvalidFrameBackgroundColor = BLUE;
 
 	const cc_Color m_selectedPawnsBackgroundColor = YELLOW;
 	const cc_Color m_selectedPawnsForegroundColor = BLACK;
@@ -156,7 +156,7 @@ private:
 	const cc_Color m_p1PawnsForegroundColor = WHITE;
 	const char m_p1PawnsChar = '_';
 
-	const cc_Color m_p2PawnsBackgroundColor = BLUE;
+	const cc_Color m_p2PawnsBackgroundColor = CYAN;
 	const cc_Color m_p2PawnsForegroundColor = WHITE;
 	const char m_p2PawnsChar = '_';
 
