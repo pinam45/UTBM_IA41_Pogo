@@ -2,7 +2,7 @@
 #include <chrono>
 #include <cfloat>
 
-PawnsMove AIPlayer::chooseMove(Board<PawnStack16>& board)  {
+PawnsMove AIPlayer::chooseMove(const Board<PawnStack16>& board)  {
 	AIPlayer::Node root {};
 	std::vector <PawnsMove> moves = firstMoves(board);
 
@@ -26,16 +26,17 @@ PawnsMove AIPlayer::chooseMove(Board<PawnStack16>& board)  {
 	return choice;
 }
 
-void AIPlayer::buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root,Board<PawnStack16>& board) {
-	Node child = Node{};
+void AIPlayer::buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root, const Board<PawnStack16>& board) {
+	/*Node child = Node{};
 	board.apply(move);
 	root.children.push_back(child);
 	buildTree(depth -1,!toPlay,root.children.back(),board);
 	// restore the board
-	board.apply(PawnsMove{move.toX, move.toY, move.fromX, move.fromY, move.pawnNumber});
+	board.apply(PawnsMove{move.toX, move.toY, move.fromX, move.fromY, move.pawnNumber});*/
+	//FIXME: player should not modify the board, make a copy
 }
 //TODO optimize buildTree
-void AIPlayer::buildTree(const unsigned int depth, const Pawn toPlay, Node& root, Board<PawnStack16>& board) {
+void AIPlayer::buildTree(const unsigned int depth, const Pawn toPlay, Node& root, const Board<PawnStack16>& board) {
 	if( depth == 0) {
 		root.val = eval(board);
 		return;

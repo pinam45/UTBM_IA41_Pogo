@@ -71,7 +71,7 @@ private :
 	 *
 	 * @details    implemented with Depth-first order
 	 */
-	void buildTree (const unsigned int depth, const Pawn toPlay,Node& root, Board<PawnStack16> & board) ;
+	void buildTree (const unsigned int depth, const Pawn toPlay,Node& root, const Board<PawnStack16> & board) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Build a children node
@@ -84,7 +84,7 @@ private :
 	 *
 	 * @details    implemented with Depth-first order
 	 */
-	void buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root, Board<PawnStack16>& board) ;
+	void buildChildren(const PawnsMove& move, const unsigned int depth, const Pawn toPlay, Node& root, const Board<PawnStack16>& board) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Gives the list of the possibles moves for one turn
@@ -135,7 +135,7 @@ private :
 	unsigned int m_depth;
 
 public:
-	PawnsMove chooseMove(Board<PawnStack16>& board) ;
+	PawnsMove chooseMove(const Board<PawnStack16>& board) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Construct an AIPlayer
@@ -143,7 +143,7 @@ public:
 	 * @param[in]  pawn     the pawn of the AIPlayer
 	 * @param[in]  depth    the depth of the tree generated
 	 */
-	AIPlayer(const Pawn pawn, const unsigned int depth) : Player(pawn), m_depth(depth) {}
+	AIPlayer(Pawn pawn, const unsigned int depth) : Player(pawn), m_depth(depth) {}
 };
 
 
