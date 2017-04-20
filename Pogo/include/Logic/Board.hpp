@@ -91,6 +91,15 @@ public:
 	 */
 	void apply(const PawnsMove& move);
 
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Compute the number of stack controlled by a player.
+	 *
+	 * @param[in]  player  The player
+	 *
+	 * @return     The number of stack controlled by the player
+	 */
+	unsigned int controlledStacks(Pawn player);
+
 	BoardLine& operator[](unsigned int index);
 
 	const BoardLine& operator[](unsigned int index) const;
@@ -121,6 +130,19 @@ template<typename PawnStackType, unsigned int width, unsigned int height, typena
 typename Board<PawnStackType, width, height, check>::BoardLine const&
 Board<PawnStackType, width, height, check>::operator[](unsigned int index) const {
 	return m_board[index];
+}
+
+template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
+unsigned int Board<PawnStackType, width, height, check>::controlledStacks(Pawn player) {
+	unsigned int counter = 0;
+	for(unsigned int i = 0; i < width; ++i) {
+		for(unsigned int j = 0; j < height; ++j) {
+			if(m_board[i][j].size()) {
+				counter += (m_board[i][j][m_board[i][j].size() - 1] == player);
+			}
+		}
+	}
+	return counter;
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
