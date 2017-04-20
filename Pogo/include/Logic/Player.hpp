@@ -34,23 +34,32 @@
 #ifndef UTBM_IA41_POGO_PLAYER_HPP
 #define UTBM_IA41_POGO_PLAYER_HPP
 
+
 #include <Logic/Pawn.hpp>
 #include <Logic/Board.hpp>
 #include <Logic/PawnsMove.hpp>
 
+#define PLAYER_BOARD_WIDTH 3
+#define PLAYER_BOARD_HEIGHT 3
+using PlayerPawnStackType = PawnStack16;
 
+/*-------------------------------------------------------------------------*//**
+ * @brief      Pogo player, player classes should extend this class to be used
+ *             with the @c GameManager
+ *
+ * @details    This class if for a 3 by 3 board with PawnStack16 stack type.
+ */
 class Player {
 
-
 public:
-	virtual ~Player() {};
+
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Construct a new player.
 	 *
 	 * @param[in]  pawn  The pawn of the player, either PLAYER1_PAWN or PLAYER2_PAWN
 	 *
 	 */
-	explicit Player(const Pawn pawn) : m_pawn (pawn) {}
+	explicit Player(Pawn pawn);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Choose a move to play.
@@ -59,10 +68,17 @@ public:
 	 *s
 	 * @return     The move chosen by the player
 	 */
-	virtual PawnsMove chooseMove(Board<PawnStack16>& board) = 0;
+	virtual PawnsMove chooseMove(const Board<PlayerPawnStackType, PLAYER_BOARD_WIDTH, PLAYER_BOARD_HEIGHT>& board) = 0;
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Default destructor.
+	 */
+	virtual ~Player() = default;
 
 protected:
+
 	Pawn m_pawn;
+
 };
 
 
