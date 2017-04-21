@@ -170,6 +170,8 @@ private:
 
 	PawnStackInfo m_pawnStackInfo[width][height]; // computed in computePositions()
 
+	bool m_validPositions = false; // set in computePositions()
+
 };
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
@@ -180,8 +182,8 @@ ConsoleUI<PawnStackType, width, height, check>::ConsoleUI() : m_boardTopLeft() {
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
 void ConsoleUI<PawnStackType, width, height, check>::displayBoard(const Board<PawnStackType, width, height>& board) {
 	cc_clean();
-	while(static_cast<unsigned int>(cc_getWidth()) < m_boardWidth
-	      || static_cast<unsigned int>(cc_getHeight()) < m_boardHeight) {
+	computePositions();
+	while(!m_validPositions) {
 		cc_Vector2 nullPos = {0, 0};
 		cc_setCursorPosition(nullPos);
 		std::cout << "Console not big enough to display the board" << std::flush; //TODO: better message
@@ -635,23 +637,31 @@ void ConsoleUI<PawnStackType, width, height, check>::drawFrame(ConsoleUI::PawnSt
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
 void ConsoleUI<PawnStackType, width, height, check>::computePositions() {
 
-	m_boardTopLeft.x = (cc_getWidth() - m_boardWidth) / 2;
-	m_boardTopLeft.y = (cc_getHeight() - m_boardHeight) / 2;
+	if(static_cast<unsigned int>(cc_getWidth()) < m_boardWidth
+	      || static_cast<unsigned int>(cc_getHeight()) < m_boardHeight){
+		m_validPositions = false;
+	}
+	else{
+		m_validPositions = true;
 
-	cc_Vector2 frameTopLeft = {0, 0};
-	cc_Vector2 frameDownRight = {0, 0};
-	cc_Vector2 stackDownLeft = {0, 0};
-	for(unsigned int i = width; i--;) {
-		for(unsigned int j = height; j--;) {
-			frameTopLeft.x = m_boardTopLeft.x + 1 + (m_squareWidth + 2) * i;
-			frameTopLeft.y = m_boardTopLeft.y + 1 + (m_squareHeight + 2) * j;
-			m_pawnStackInfo[i][j].frameTopLeft = frameTopLeft;
-			frameDownRight.x = frameTopLeft.x + m_pawnStackMaxSize * 2 + 1;
-			frameDownRight.y = frameTopLeft.y + m_pawnStackMaxSize + 1;
-			m_pawnStackInfo[i][j].frameDownRight = frameDownRight;
-			stackDownLeft.x = frameTopLeft.x + 1;
-			stackDownLeft.y = frameDownRight.y - 1;
-			m_pawnStackInfo[i][j].stackDownLeft = stackDownLeft;
+		m_boardTopLeft.x = (cc_getWidth() - m_boardWidth) / 2;
+		m_boardTopLeft.y = (cc_getHeight() - m_boardHeight) / 2;
+
+		cc_Vector2 frameTopLeft = {0, 0};
+		cc_Vector2 frameDownRight = {0, 0};
+		cc_Vector2 stackDownLeft = {0, 0};
+		for(unsigned int i = width; i--;) {
+			for(unsigned int j = height; j--;) {
+				frameTopLeft.x = m_boardTopLeft.x + 1 + (m_squareWidth + 2) * i;
+				frameTopLeft.y = m_boardTopLeft.y + 1 + (m_squareHeight + 2) * j;
+				m_pawnStackInfo[i][j].frameTopLeft = frameTopLeft;
+				frameDownRight.x = frameTopLeft.x + m_pawnStackMaxSize * 2 + 1;
+				frameDownRight.y = frameTopLeft.y + m_pawnStackMaxSize + 1;
+				m_pawnStackInfo[i][j].frameDownRight = frameDownRight;
+				stackDownLeft.x = frameTopLeft.x + 1;
+				stackDownLeft.y = frameDownRight.y - 1;
+				m_pawnStackInfo[i][j].stackDownLeft = stackDownLeft;
+			}
 		}
 	}
 }
