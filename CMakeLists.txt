@@ -48,8 +48,6 @@ add_subdirectory(PFC_C)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/PFC_C/ConsoleControl/include/
   ${CMAKE_CURRENT_SOURCE_DIR}/PFC_C/Logger/include/
-  ${CMAKE_CURRENT_SOURCE_DIR}/PFC_Cpp/Dispatcher/include/
-  ${CMAKE_CURRENT_SOURCE_DIR}/PFC_Cpp/Logger/include/
   ${CMAKE_CURRENT_SOURCE_DIR}/Pogo/include/
 )
 

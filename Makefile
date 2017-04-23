@@ -40,7 +40,7 @@ BUILDDIR          = build/
 BINARY_OUTPUT_DIR = $(BUILDDIR)bin/
 OBJDIR            = $(BUILDDIR)obj/
 SOURCEDIRS        = Pogo/src/
-INCLUDEDIRS       = /usr/include/ PFC_C/ConsoleControl/include/ PFC_Cpp/Dispatcher/include/ PFC_Cpp/Logger/include/ PFC_C/Logger/include/ Pogo/include/
+INCLUDEDIRS       = /usr/include/ PFC_C/ConsoleControl/include/ PFC_C/Logger/include/ Pogo/include/
 LIBSDIRS          = /usr/lib/ $(LIB_OUTPUT_DIR)
 
 
