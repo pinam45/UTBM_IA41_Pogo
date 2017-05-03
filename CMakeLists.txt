@@ -42,12 +42,12 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 # Add dependencies subdirectories
-add_subdirectory(PFC_C)
+add_subdirectory(ConsoleControl)
 
 # Set include directories
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/PFC_C/ConsoleControl/include/
-  ${CMAKE_CURRENT_SOURCE_DIR}/PFC_C/Logger/include/
+  ${CMAKE_CURRENT_SOURCE_DIR}/ConsoleControl/ConsoleControl/include/
+  ${CMAKE_CURRENT_SOURCE_DIR}/ConsoleControl/Logger/include/
   ${CMAKE_CURRENT_SOURCE_DIR}/Pogo/include/
 )
 
@@ -72,5 +72,5 @@ add_executable(
   UTBM_IA41_Pogo
   ${SOURCE_FILES}
 )
-add_dependencies(UTBM_IA41_Pogo PFC_C)
-target_link_libraries(UTBM_IA41_Pogo PFC_C)
+add_dependencies(UTBM_IA41_Pogo ConsoleControl)
+target_link_libraries(UTBM_IA41_Pogo ConsoleControl)

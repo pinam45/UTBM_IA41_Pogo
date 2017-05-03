@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ConsoleControl.h>
-#include <ConsoleControlMenu.h>
+#include <ConsoleControlUI.h>
 #include <ConsoleControlUtility.h>
 #include <Logic/PawnStack.hpp>
 #include <Logic/Board.hpp>
@@ -39,6 +39,7 @@ int main() {
 	menu.choiceOnEscape = 4;
 	menu.title = "Magic Pogo";
 	const cc_MenuColors colors = {
+		BLACK,
 		CYAN,
 		BLACK,
 		WHITE,
@@ -146,22 +147,23 @@ void AIPlayerUseExample() {
 	          << " number : " << choice.pawnNumber << std::endl;
 }
 
-unsigned int depthChoice () {
+unsigned int depthChoice() {
 	const char* difficultyChoices[] = {
-	  "1",
-	  "2",
-	  "3",
-	  "4",
-	  "5"
+		"1",
+		"2",
+		"3",
+		"4",
+		"5"
 	};
 
 	const cc_MenuColors colors = {
-	  CYAN,
-	  BLACK,
-	  WHITE,
-	  BLACK,
-	  CYAN,
-	  BLACK
+		BLACK,
+		CYAN,
+		BLACK,
+		WHITE,
+		BLACK,
+		CYAN,
+		BLACK
 	};
 
 	cc_Menu difficulty;
@@ -173,22 +175,23 @@ unsigned int depthChoice () {
 	cc_setColors(BLACK, WHITE);
 
 
-	return difficulty.currentChoice +1;
+	return difficulty.currentChoice + 1;
 }
 
 bool turnChoice() {
 	const char* turnChoices[] = {
-	  "Human",
-	  "AI"
+		"Human",
+		"AI"
 	};
 
 	const cc_MenuColors colors = {
-	  CYAN,
-	  BLACK,
-	  WHITE,
-	  BLACK,
-	  CYAN,
-	  BLACK
+		BLACK,
+		CYAN,
+		BLACK,
+		WHITE,
+		BLACK,
+		CYAN,
+		BLACK
 	};
 
 	cc_Menu turn;
@@ -199,5 +202,5 @@ bool turnChoice() {
 	cc_displayColorMenu(&turn, &colors);
 	cc_setColors(BLACK, WHITE);
 
-	return turn.currentChoice == 1 ;
+	return turn.currentChoice == 1;
 }

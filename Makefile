@@ -26,21 +26,21 @@
 #=============================================================================
 # Project related variables
 EXENAME           = UTBM_IA41_Pogo
-LIBNAME           = PFC_C
-LIB_MAKE_ROOT     = PFC_C
-LIB_OUTPUT_DIR    = PFC_C/build/lib
+LIBNAME           = ConsoleControl
+LIB_MAKE_ROOT     = ConsoleControl
+LIB_OUTPUT_DIR    = ConsoleControl/build/lib
 FILEIDENTIFIER    = .cpp
 COMPILER          = g++
 COMPFLAGS         = -pedantic -pedantic-errors -Wall -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Wdouble-promotion -Wextra -Wformat -Winit-self -Winvalid-pch -Wlogical-op -Wmain -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings -Weffc++
 COMPSTANDARD      = -std=c++14
-LINKS             = -lPFC_C
+LINKS             = -lConsoleControl
 DBARGS            = -g -DDEBUG
 
 BUILDDIR          = build/
 BINARY_OUTPUT_DIR = $(BUILDDIR)bin/
 OBJDIR            = $(BUILDDIR)obj/
 SOURCEDIRS        = Pogo/src/
-INCLUDEDIRS       = /usr/include/ PFC_C/ConsoleControl/include/ PFC_C/Logger/include/ Pogo/include/
+INCLUDEDIRS       = /usr/include/ ConsoleControl/ConsoleControl/include/ ConsoleControl/Logger/include/ Pogo/include/
 LIBSDIRS          = /usr/lib/ $(LIB_OUTPUT_DIR)
 
 
