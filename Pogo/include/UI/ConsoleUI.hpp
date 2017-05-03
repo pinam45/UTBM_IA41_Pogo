@@ -39,6 +39,7 @@
 #include <iostream>
 
 #include <ConsoleControl.h>
+#include <ConsoleControlUI.h>
 #include <ConsoleControlInput.h>
 #include <ConsoleControlUtility.h>
 
@@ -135,6 +136,8 @@ private:
 
 	const unsigned int m_maxTakenPawns = 3;
 
+	const cc_MessageColors messageColors = {BLACK, CYAN, BLACK, WHITE, BLACK, WHITE, BLACK, CYAN, BLACK};
+
 	const cc_Color m_backgroundColor = WHITE;
 
 	const cc_Color m_boardBackgroundColor = BLUE;
@@ -181,13 +184,18 @@ ConsoleUI<PawnStackType, width, height, check>::ConsoleUI() : m_boardTopLeft() {
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
 void ConsoleUI<PawnStackType, width, height, check>::displayBoard(const Board<PawnStackType, width, height>& board) {
-	cc_clean();
 	computePositions();
+	cc_Message message{
+		"Warning",
+		"Console not big enough to display the board\n\nExtend it then press ENTER",
+		NULL,
+		NULL,
+		NULL,
+		NO_CHOICE,
+		true
+	};
 	while(!m_validPositions) {
-		cc_Vector2 nullPos = {0, 0};
-		cc_setCursorPosition(nullPos);
-		std::cout << "Console not big enough to display the board" << std::flush; //TODO: better message
-		cc_getInput();
+		cc_displayColorMessage(&message, &messageColors);
 		computePositions();
 	}
 
@@ -256,12 +264,19 @@ PawnsMove ConsoleUI<PawnStackType, width, height, check>::chooseMove(const Board
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
 void ConsoleUI<PawnStackType, width, height, check>::displayVictory(Pawn player) {
-	cc_setColors(BLACK,WHITE);
-	cc_clean();
-	cc_Vector2 nullPos = {0, 0};
-	cc_setCursorPosition(nullPos);
-	std::cout << "Player " << player << " win the game." << std::flush; //TODO: better message
-	cc_getInput();
+	std::string messageText("Player ");
+	messageText += static_cast<char>('0' + player);
+	messageText += " win the game.";
+	cc_Message message{
+		"Victory !",
+		messageText.c_str(),
+		NULL,
+		NULL,
+		NULL,
+		NO_CHOICE,
+		true
+	};
+	cc_displayColorMessage(&message, &messageColors);
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
@@ -638,10 +653,10 @@ template<typename PawnStackType, unsigned int width, unsigned int height, typena
 void ConsoleUI<PawnStackType, width, height, check>::computePositions() {
 
 	if(static_cast<unsigned int>(cc_getWidth()) < m_boardWidth
-	      || static_cast<unsigned int>(cc_getHeight()) < m_boardHeight){
+	   || static_cast<unsigned int>(cc_getHeight()) < m_boardHeight) {
 		m_validPositions = false;
 	}
-	else{
+	else {
 		m_validPositions = true;
 
 		m_boardTopLeft.x = (cc_getWidth() - m_boardWidth) / 2;
