@@ -102,14 +102,14 @@ float AIPlayer::eval(const Board<PawnStack16>& board) const{ //TODO better val
 }
 
 void AIPlayer::alphaBeta(AIPlayer::Node& root, unsigned int depth) {
-	root.val = maxValue(root,depth,FLT_MIN,FLT_MAX);
+	root.val = maxValue(root,depth,-FLT_MAX,FLT_MAX);
 }
 
 float AIPlayer::maxValue(AIPlayer::Node & root, unsigned int depth, float alpha, float beta) {
 	if(depth ==0)
 		return root.val;
 
-	root.val = FLT_MIN;
+	root.val = -FLT_MAX;
 	for(AIPlayer::Node& n : root.children) {
 		root.val = std::max(root.val,minValue(n,depth-1,alpha,beta));
 		if(root.val >= beta)
