@@ -47,15 +47,15 @@
  * @tparam     PawnStackType  Pawns stacks type
  * @tparam     width          Width of the board (default = 3)
  * @tparam     height         Height of the board (default = 3)
- * @tparam     check          Check that @c PawnStackType is a PawnStack
  */
 template<
 	typename PawnStackType,
 	unsigned int width = 3,
-	unsigned int height = 3,
-	typename check = typename std::enable_if_t<is_pawn_stack<PawnStackType>::value>
+	unsigned int height = 3
 >
 class GameManager {
+
+	static_assert(is_pawn_stack<PawnStackType>::value, "Invalid pawn stack type");
 
 public:
 
@@ -75,10 +75,9 @@ private:
 
 };
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void GameManager<PawnStackType, width, height, check>::playGame(Player& player1,
-                                                                Player& player2,
-                                                                UI<PawnStackType, width, height>& UI) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void GameManager<PawnStackType, width, height>::playGame(Player& player1, Player& player2,
+                                                         UI<PawnStackType, width, height>& UI) {
 
 	Board<PawnStackType, width, height> board = initialBoard();
 	Player* players[2] = {&player1, &player2};
@@ -101,8 +100,8 @@ void GameManager<PawnStackType, width, height, check>::playGame(Player& player1,
 	UI.displayVictory(winner);
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-Board<PawnStackType, width, height> GameManager<PawnStackType, width, height, check>::initialBoard() {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+Board<PawnStackType, width, height> GameManager<PawnStackType, width, height>::initialBoard() {
 	Board<PawnStackType, width, height> board;
 	for(unsigned int i = 0; i < width; ++i) {
 		board[i][0] = PawnStackType(PLAYER2_DEFAULT_STACK);

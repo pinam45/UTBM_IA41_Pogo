@@ -50,7 +50,7 @@
 #define PLAYER1_DEFAULT_STACK 0b100
 #define PLAYER2_DEFAULT_STACK 0b111
 
-template<typename container, typename = typename std::enable_if_t<std::is_integral<container>::value>>
+template<typename container>
 class PawnStack;
 
 template<class T>
@@ -73,13 +73,14 @@ using PawnStack64 = PawnStack<uint64_t>;
  *             delimiter and the previous bits are the pawns.
  *
  * @tparam     container  Type to use as container
- * @tparam     check      Check that @c container is integral
  */
-template<typename container, typename check>
+template<typename container>
 class PawnStack {
 
-	template<typename T, typename Y>
-	friend std::ostream& operator<<(std::ostream& os, const PawnStack<T, Y>& pawnStack);
+	static_assert(std::is_integral<container>::value, "Invalid container type (not integral)");
+
+	template<typename T>
+	friend std::ostream& operator<<(std::ostream& os, const PawnStack<T>& pawnStack);
 
 public:
 
@@ -117,14 +118,14 @@ public:
 	 *
 	 * @return     A stack containing the picked pawns
 	 */
-	PawnStack<container, check> pick(const unsigned int number);
+	PawnStack<container> pick(const unsigned int number);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Adds paws at the top of the stack.
 	 *
 	 * @param[in]  pawnStack  The stack containing the pawns to add
 	 */
-	void add(const PawnStack<container, check> pawnStack);
+	void add(const PawnStack<container> pawnStack);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Get the pawn at the given position
@@ -143,30 +144,30 @@ private:
 
 };
 
-template<typename T, typename check>
-std::ostream& operator<<(std::ostream& os, const PawnStack<T, check>& pawnStack) {
+template<typename container>
+std::ostream& operator<<(std::ostream& os, const PawnStack<container>& pawnStack) {
 	os << "[";
-	for(unsigned int i = PawnStack<T, check>::max_size() + 1; --i;) {
+	for(unsigned int i = PawnStack<container>::max_size() + 1; --i;) {
 		os << ((pawnStack.m_stack >> i) & 1);
 	}
 	os << (pawnStack.m_stack & 1) << "]";
 	return os;
 }
 
-template<typename T, typename check>
-PawnStack<T, check>::PawnStack() : m_stack(EMPTY_STACK) {
+template<typename container>
+PawnStack<container>::PawnStack() : m_stack(EMPTY_STACK) {
 
 }
 
-template<typename T, typename check>
-PawnStack<T, check>::PawnStack(const T stack) : m_stack(stack) {
+template<typename container>
+PawnStack<container>::PawnStack(const container stack) : m_stack(stack) {
 	if(!stack) {
 		SLOG_ERR("Empty stack: no end byte");
 	}
 }
 
-template<typename T, typename check>
-unsigned int PawnStack<T, check>::size() const {
+template<typename container>
+unsigned int PawnStack<container>::size() const {
 	for(unsigned int i = max_size() + 1; --i;) {
 		if(m_stack >> i == 1) {
 			return i;
@@ -175,41 +176,43 @@ unsigned int PawnStack<T, check>::size() const {
 	return 0;
 }
 
-template<typename T, typename check>
-constexpr unsigned int PawnStack<T, check>::max_size() {
+template<typename container>
+constexpr unsigned int PawnStack<container>::max_size() {
 	return sizeof(m_stack) * CHAR_BIT - 1;
 }
 
-template<typename T, typename check>
-PawnStack<T, check> PawnStack<T, check>::pick(const unsigned int number) {
+template<typename container>
+PawnStack<container> PawnStack<container>::pick(const unsigned int number) {
 	unsigned int currentSize = size();
-	T stack = static_cast<T>(m_stack >> (size() - number));
-	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (max_size() + 1 - currentSize + number)));
-	m_stack = static_cast<T>(m_stack | (1 << (currentSize - number)));
-	return PawnStack<T>(stack);
+	container stack = static_cast<container>(m_stack >> (size() - number));
+	m_stack = static_cast<container>(m_stack & (std::numeric_limits<container>::max()
+		>> (max_size() + 1 - currentSize + number)));
+	m_stack = static_cast<container>(m_stack | (1 << (currentSize - number)));
+	return PawnStack<container>(stack);
 }
 
-template<typename T, typename check>
-void PawnStack<T, check>::add(const PawnStack pawnStack) {
+template<typename container>
+void PawnStack<container>::add(const PawnStack pawnStack) {
 	unsigned int currentSize = size();
 	unsigned int addedSize = pawnStack.size();
-	if(currentSize + addedSize > PawnStack<T, check>::max_size()) {
+	if(currentSize + addedSize > PawnStack<container>::max_size()) {
 		SLOG_ERR("new size bigger than max size");
 	}
-	m_stack = static_cast<T>(m_stack & (std::numeric_limits<T>::max() >> (PawnStack<T, check>::max_size() + 1 - currentSize)));
-	m_stack = static_cast<T>(m_stack | (pawnStack.m_stack << currentSize));
+	m_stack = static_cast<container>(m_stack & (std::numeric_limits<container>::max()
+		>> (PawnStack<container>::max_size() + 1 - currentSize)));
+	m_stack = static_cast<container>(m_stack | (pawnStack.m_stack << currentSize));
 }
 
-template<typename T, typename check>
-Pawn PawnStack<T, check>::get(unsigned int pos) const {
+template<typename container>
+Pawn PawnStack<container>::get(unsigned int pos) const {
 	if(pos >= size()) {
 		SLOG_ERR("position out of the stack");
 	}
 	return static_cast<Pawn>((m_stack >> pos) & 1);
 }
 
-template<typename T, typename check>
-Pawn PawnStack<T, check>::operator[](unsigned int pos) const {
+template<typename container>
+Pawn PawnStack<container>::operator[](unsigned int pos) const {
 	if(pos >= size()) {
 		SLOG_ERR("position out of the stack");
 	}

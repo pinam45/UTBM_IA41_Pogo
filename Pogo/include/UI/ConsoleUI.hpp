@@ -53,15 +53,15 @@
  *                            displayed stack
  * @tparam     width          Width of the board (number of stacks in one line)
  * @tparam     height         Height of the board (number of stacks in one line)
- * @tparam     check          Check that @c PawnStackType is a pawn stack type
  */
 template<
 	typename PawnStackType,
 	unsigned int width = 3,
-	unsigned int height = 3,
-	typename check = typename std::enable_if_t<is_pawn_stack<PawnStackType>::value>
+	unsigned int height = 3
 >
 class ConsoleUI : public UI<PawnStackType, width, height> {
+
+	static_assert(is_pawn_stack<PawnStackType>::value, "Invalid pawn stack type");
 
 public:
 
@@ -177,13 +177,13 @@ private:
 
 };
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-ConsoleUI<PawnStackType, width, height, check>::ConsoleUI() : m_boardTopLeft() {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+ConsoleUI<PawnStackType, width, height>::ConsoleUI() : m_boardTopLeft() {
 	computePositions();
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::displayBoard(const Board<PawnStackType, width, height>& board) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::displayBoard(const Board<PawnStackType, width, height>& board) {
 	computePositions();
 	cc_Message message{
 		"Warning",
@@ -221,9 +221,9 @@ void ConsoleUI<PawnStackType, width, height, check>::displayBoard(const Board<Pa
 	}
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-PawnsMove ConsoleUI<PawnStackType, width, height, check>::chooseMove(const Board<PawnStackType, width, height>& board,
-                                                                     bool player) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+PawnsMove ConsoleUI<PawnStackType, width, height>::chooseMove(const Board<PawnStackType, width, height>& board,
+                                                              bool player) {
 	for(unsigned int i = width; i--;) {
 		for(unsigned int j = height; j--;) {
 			m_pawnStackInfo[i][j].selected = false;
@@ -262,8 +262,8 @@ PawnsMove ConsoleUI<PawnStackType, width, height, check>::chooseMove(const Board
 	return move;
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::displayVictory(Pawn player) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::displayVictory(Pawn player) {
 	std::string messageText("Player ");
 	messageText += static_cast<char>('0' + player);
 	messageText += " win the game.";
@@ -279,8 +279,8 @@ void ConsoleUI<PawnStackType, width, height, check>::displayVictory(Pawn player)
 	cc_displayColorMessage(&message, &messageColors);
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-cc_Vector2 ConsoleUI<PawnStackType, width, height, check>::selectFrame(cc_Vector2 initialSelection) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+cc_Vector2 ConsoleUI<PawnStackType, width, height>::selectFrame(cc_Vector2 initialSelection) {
 	cc_Vector2 selection = initialSelection;
 	cc_Vector2 oldSelection = selection;
 
@@ -358,9 +358,9 @@ cc_Vector2 ConsoleUI<PawnStackType, width, height, check>::selectFrame(cc_Vector
 	return selection;
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-unsigned int ConsoleUI<PawnStackType, width, height, check>::selectPawnsNumber(cc_Vector2 stackPosition,
-                                                                               PawnStackType pawnStack) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+unsigned int ConsoleUI<PawnStackType, width, height>::selectPawnsNumber(cc_Vector2 stackPosition,
+                                                                        PawnStackType pawnStack) {
 
 	ConsoleUI::PawnStackInfo info = m_pawnStackInfo[stackPosition.x][stackPosition.y];
 
@@ -442,9 +442,9 @@ unsigned int ConsoleUI<PawnStackType, width, height, check>::selectPawnsNumber(c
 	return takenPawns;
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::setValidStacks(const Board<PawnStackType, width, height>& board,
-                                                                    bool player) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::setValidStacks(const Board<PawnStackType, width, height>& board,
+                                                             bool player) {
 	for(unsigned int i = width; i--;) {
 		for(unsigned int j = height; j--;) {
 			if(board[i][j].size() > 0 && board[i][j][board[i][j].size() - 1] == player) {
@@ -457,9 +457,9 @@ void ConsoleUI<PawnStackType, width, height, check>::setValidStacks(const Board<
 	}
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::setValidMoveStacks(cc_Vector2 fromStackPosition,
-                                                                        unsigned int takenPawns) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::setValidMoveStacks(cc_Vector2 fromStackPosition,
+                                                                 unsigned int takenPawns) {
 	for(unsigned int i = width; i--;) {
 		for(unsigned int j = height; j--;) {
 			m_pawnStackInfo[i][j].state = NONVALID;
@@ -468,9 +468,9 @@ void ConsoleUI<PawnStackType, width, height, check>::setValidMoveStacks(cc_Vecto
 	addValidMoveStacks(fromStackPosition, takenPawns);
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::addValidMoveStacks(cc_Vector2 fromStackPosition,
-                                                                        unsigned int takenPawns) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::addValidMoveStacks(cc_Vector2 fromStackPosition,
+                                                                 unsigned int takenPawns) {
 	cc_Vector2 pos;
 	if(takenPawns == 1) {
 		pos.y = fromStackPosition.y;
@@ -515,8 +515,8 @@ void ConsoleUI<PawnStackType, width, height, check>::addValidMoveStacks(cc_Vecto
 	}
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::setUndefinedStacks() {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::setUndefinedStacks() {
 	for(unsigned int i = width; i--;) {
 		for(unsigned int j = height; j--;) {
 			m_pawnStackInfo[i][j].state = PawnStackState::UNDEFINED;
@@ -524,9 +524,8 @@ void ConsoleUI<PawnStackType, width, height, check>::setUndefinedStacks() {
 	}
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void
-ConsoleUI<PawnStackType, width, height, check>::drawPawnStack(ConsoleUI::PawnStackInfo info, PawnStackType pawnStack) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::drawPawnStack(ConsoleUI::PawnStackInfo info, PawnStackType pawnStack) {
 	cc_Vector2 downLeft = info.stackDownLeft;
 	cc_Vector2 downRight = {
 		static_cast<cc_type>(downLeft.x + PawnStackType::max_size() * 2 - 1),
@@ -553,10 +552,10 @@ ConsoleUI<PawnStackType, width, height, check>::drawPawnStack(ConsoleUI::PawnSta
 	}
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::drawSelectedPawnStack(ConsoleUI::PawnStackInfo info,
-                                                                           PawnStackType pawnStack,
-                                                                           unsigned int takenPawns) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::drawSelectedPawnStack(ConsoleUI::PawnStackInfo info,
+                                                                    PawnStackType pawnStack,
+                                                                    unsigned int takenPawns) {
 	drawPawnStack(info, pawnStack);
 
 	cc_Vector2 stackTopLeft{
@@ -599,8 +598,8 @@ void ConsoleUI<PawnStackType, width, height, check>::drawSelectedPawnStack(Conso
 	std::cout << "<-" << std::flush;
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::drawSelectedFrame(ConsoleUI::PawnStackInfo stackInfo) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::drawSelectedFrame(ConsoleUI::PawnStackInfo stackInfo) {
 
 	if(stackInfo.selected) {
 		cc_setBackgroundColor(m_selectedFrameBackgroundColor);
@@ -624,8 +623,8 @@ void ConsoleUI<PawnStackType, width, height, check>::drawSelectedFrame(ConsoleUI
 	cc_drawTableRectangle(stackInfo.frameTopLeft, stackInfo.frameDownRight);
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::drawFrame(ConsoleUI::PawnStackInfo stackInfo) {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::drawFrame(ConsoleUI::PawnStackInfo stackInfo) {
 
 	if(stackInfo.selected) {
 		cc_setBackgroundColor(m_selectedFrameBackgroundColor);
@@ -649,8 +648,8 @@ void ConsoleUI<PawnStackType, width, height, check>::drawFrame(ConsoleUI::PawnSt
 	cc_drawRectangle(stackInfo.frameTopLeft, stackInfo.frameDownRight, m_boardChar);
 }
 
-template<typename PawnStackType, unsigned int width, unsigned int height, typename check>
-void ConsoleUI<PawnStackType, width, height, check>::computePositions() {
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<PawnStackType, width, height>::computePositions() {
 
 	if(static_cast<unsigned int>(cc_getWidth()) < m_boardWidth
 	   || static_cast<unsigned int>(cc_getHeight()) < m_boardHeight) {

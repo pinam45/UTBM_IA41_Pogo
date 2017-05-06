@@ -46,15 +46,15 @@
  *                            displayed stack
  * @tparam     width          Width of the board (number of stacks in one line)
  * @tparam     height         Height of the board (number of stacks in one line)
- * @tparam     check          Check that @c PawnStackType is a pawn stack type
  */
 template<
 	typename PawnStackType,
 	unsigned int width = 3,
-	unsigned int height = 3,
-	typename check = typename std::enable_if_t<is_pawn_stack<PawnStackType>::value>
+	unsigned int height = 3
 >
 class UI {
+
+	static_assert(is_pawn_stack<PawnStackType>::value, "Invalid pawn stack type");
 
 public:
 
