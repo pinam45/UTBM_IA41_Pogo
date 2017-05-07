@@ -8,6 +8,7 @@
 #include <UI/ConsoleUI.hpp>
 #include <Logic/GameManager.hpp>
 #include <Logic/HumanPlayer.hpp>
+#include <ctime>
 
 #define BOARD_WIDTH 3
 #define BOARD_HEIGHT 3
@@ -42,6 +43,7 @@ bool turnChoice();
 bool checkExit();
 
 int main() {
+	srand(time(NULL));
 	const char* choices[] = {
 		"Human vs Human",
 		"Human vs A.I.",

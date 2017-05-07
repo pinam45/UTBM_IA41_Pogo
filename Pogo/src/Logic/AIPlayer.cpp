@@ -11,18 +11,31 @@ PawnsMove AIPlayer::chooseMove(const Board<PawnStack16>& board)  {
 	buildTree(m_depth,m_pawn,root,boardCopy);
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count() << " ms elapsed buildTree" << std::endl;
-	alphaBeta(root,m_depth);
+	alphaBeta(root);
 	t1 = std::chrono::high_resolution_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t1-t2).count() << " ms elapsed AlphaBeta" << std::endl;
 
-	/* find the index of the matching move*/
+	unsigned int minValDepth = getMinDepth(root);
+	std::vector <Node*> bestNodes;
+	/* fill the list of best nodes (minimal depth and same val as root.val) */
+	for(unsigned int i = 0; i < root.children.size() ; ++i) {
+		if(root.children[i].val == root.val && getMinDepth(root.children[i]) == minValDepth - 1 )
+			bestNodes.push_back(&root.children[i]);
+	}
+
+	/* choose a random best node */
+	int ran = rand()%bestNodes.size();
+	Node* chosenNode = bestNodes[ran];
+
 	int index;
+	/* find the index of the matching move*/
 	for(unsigned i = 0 ; i < root.children.size(); ++i) {
-		if(root.val == root.children[i].val) {
+		if(&root.children[i] == chosenNode) {
 			index = i;
 			break;
 		}
 	}
+
 	PawnsMove choice = moves[index];
 	return choice;
 }
@@ -37,10 +50,12 @@ void AIPlayer::buildChildren(const PawnsMove& move, unsigned int depth, Pawn toP
 }
 //TODO optimize buildTree
 void AIPlayer::buildTree( unsigned int depth, Pawn toPlay, Node& root, Board<PawnStack16>& board) const {
-	if( depth == 0) {
+	if( depth == 0 ) {
 		root.val = eval(board);
 		return;
 	}
+
+
 	for(unsigned int x = 0 ; x < 3; ++x) {
 		for( unsigned int y = 0 ; y < 3 ; ++y) {
 			unsigned int stackSize = board[x][y].size();
@@ -53,13 +68,16 @@ void AIPlayer::buildTree( unsigned int depth, Pawn toPlay, Node& root, Board<Paw
 							buildChildren(PawnsMove{x,y,i,j,3},depth,toPlay,root,board);
 						else if(stackSize >= 2 && dist == 2)
 							buildChildren(PawnsMove{x,y,i,j,2},depth,toPlay,root,board);
-						else if(dist == 1)
+
+						if(dist == 1)
 							buildChildren(PawnsMove{x,y,i,j,1},depth,toPlay,root,board);
 					}
 				}
 			}
 		}
 	}
+	// case the game ends before depth == 0
+	root.val = eval(board);
 }
 
 std::vector<PawnsMove> AIPlayer::firstMoves(const Board<PawnStack16>& board) const {
@@ -76,7 +94,7 @@ std::vector<PawnsMove> AIPlayer::firstMoves(const Board<PawnStack16>& board) con
 							firstMoves.push_back(PawnsMove{x,y,i,j,3});
 						else if(stackSize >= 2 && dist == 2)
 							firstMoves.push_back(PawnsMove{x,y,i,j,2});
-						else if(dist == 1)
+						if(dist == 1)
 							firstMoves.push_back(PawnsMove{x,y,i,j,1});
 					}
 				}
@@ -101,34 +119,52 @@ float AIPlayer::eval(const Board<PawnStack16>& board) const{ //TODO better val
 	return eval/stackCount;
 }
 
-void AIPlayer::alphaBeta(AIPlayer::Node& root, unsigned int depth) {
-	root.val = maxValue(root,depth,-FLT_MAX,FLT_MAX);
+void AIPlayer::alphaBeta(AIPlayer::Node& root) {
+	root.val = maxValue(root,-FLT_MAX,FLT_MAX);
 }
 
-float AIPlayer::maxValue(AIPlayer::Node & root, unsigned int depth, float alpha, float beta) {
-	if(depth ==0)
+float AIPlayer::maxValue(AIPlayer::Node & root, float alpha, float beta) {
+	if(root.children.empty())
 		return root.val;
 
 	root.val = -FLT_MAX;
 	for(AIPlayer::Node& n : root.children) {
-		root.val = std::max(root.val,minValue(n,depth-1,alpha,beta));
-		if(root.val >= beta)
+		root.val = std::max(root.val,minValue(n,alpha,beta));
+	/*	if(root.val >= beta)
 			return root.val;
 		alpha = std::max(alpha,root.val);
+	 */
 	}
 	return root.val;
 }
 
-float AIPlayer::minValue(AIPlayer::Node & root, unsigned int depth, float alpha, float beta) {
-	if(depth ==0)
+float AIPlayer::minValue(AIPlayer::Node & root,float alpha, float beta) {
+	if(root.children.empty())
 		return root.val;
 
 	root.val = FLT_MAX;
 	for(AIPlayer::Node& n : root.children) {
-		root.val = std::min(root.val,maxValue(n,depth-1,alpha,beta));
-		if(root.val <= alpha)
+		root.val = std::min(root.val,maxValue(n,alpha,beta));
+	/*	if(root.val <= alpha)
 			return root.val;
 		beta = std::min(beta,root.val);
+	 */
 	}
 	return root.val;
+}
+
+unsigned int AIPlayer::getMinDepth(const Node& root) {
+	if(root.children.empty())
+		return 0;
+
+	unsigned int min = UINT32_MAX;
+	for(const Node& n : root.children) {
+		if(n.val == root.val) {
+			unsigned int depth = 1 + getMinDepth(n)	;
+			if(min > depth)
+				min = depth;
+		}
+	}
+
+	return min;
 }

@@ -99,38 +99,49 @@ private :
 	 * @brief      alphaBeta algorithm filling the nodes value
 	 *
 	 * @param[in]  root   The root of the tree
-	 * @param[in]  depth  The depth of the tree
 	 */
-	 static void alphaBeta(Node& root, unsigned int depth) ;
+	 static void alphaBeta(Node& root) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      gives the value for MAX nodes
 	 *
 	 * @param[in]  root   The node to evaluate
-	 * @param[in]  depth  The depth of the tree
 	 * @param[in]  alpha  The alpha value of the Alpha Beta algorithm
 	 * @param[in]  beta   The beta value of the Alpha Beta algorithm
 	 *
 	 * @return     the value of the given MAX node
 	 */
-	static float maxValue(Node& root, unsigned int depth, float alpha, float beta) ;
+	static float maxValue(Node& root, float alpha, float beta) ;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      gives the value for MIN nodes
 	 *
 	 * @param[in]  root   The node to evaluate
-	 * @param[in]  depth  The depth of the tree
 	 * @param[in]  alpha  The alpha value of the Alpha Beta algorithm
 	 * @param[in]  beta   The beta value of the Alpha Beta algorithm
 	 *
 	 * @return     the value of the given MIN node
 	 */
-	static float minValue(Node& root, unsigned int depth, float alpha, float beta) ;
+	static float minValue(Node& root, float alpha, float beta) ;
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      computes the depth of the tree's shortest path from the
+	 *             root to a leaf with root.val as the value of every node
+	 *             of the path
+	 *
+	 * @param[in]  root   The root of the tree
+	 *
+	 * @return     the depth of the shortest path
+	 */
+	static unsigned int getMinDepth(const Node& root) ;
+
 
 
 	static int ManhattanDistance(int x1, int y1, int x2, int y2) {
 		return abs(x1 - x2) + abs (y1 -  y2);
 	}
+
+
 
 	unsigned int m_depth;
 
