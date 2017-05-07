@@ -25,7 +25,7 @@
  *****************************************************************************************/
 
 /**
- * @file       Player.hpp
+ * @file Player.hpp
  * @brief      Definition of the Player class.
  * @date       12/04/17
  * @version    0.0
@@ -39,17 +39,21 @@
 #include <Logic/Board.hpp>
 #include <Logic/PawnsMove.hpp>
 
-#define PLAYER_BOARD_WIDTH 3
-#define PLAYER_BOARD_HEIGHT 3
-using PlayerPawnStackType = PawnStack16;
-
 /*-------------------------------------------------------------------------*//**
  * @brief      Pogo player, player classes should extend this class to be used
  *             with the @c GameManager
  *
- * @details    This class if for a 3 by 3 board with PawnStack16 stack type.
+ * @tparam     BoardType  Type of the board
  */
-class Player {
+template<typename BoardType>
+class Player;
+
+template<
+	typename PawnStackType,
+	unsigned int width,
+	unsigned int height
+>
+class Player<Board<PawnStackType, width, height>> {
 
 public:
 
@@ -68,7 +72,7 @@ public:
 	 *
 	 * @return     The move chosen by the player
 	 */
-	virtual PawnsMove chooseMove(const Board<PlayerPawnStackType, PLAYER_BOARD_WIDTH, PLAYER_BOARD_HEIGHT>& board) = 0;
+	virtual PawnsMove chooseMove(const Board<PawnStackType, width, height>& board) = 0;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
@@ -80,6 +84,11 @@ protected:
 	Pawn m_pawn;
 
 };
+
+template<typename PawnStackType, unsigned int width, unsigned int height>
+Player<Board<PawnStackType, width, height>>::Player(Pawn pawn) : m_pawn(pawn) {
+
+}
 
 
 #endif //UTBM_IA41_POGO_PLAYER_HPP

@@ -42,19 +42,19 @@
  * @brief      User Interface, interface with the user for playing the Pogo
  *             game.
  *
- * @tparam     PawnStackType  Type of stack to use, determine the size of the
- *                            displayed stack
- * @tparam     width          Width of the board (number of stacks in one line)
- * @tparam     height         Height of the board (number of stacks in one line)
+ * @tparam     BoardType  Type of the board
  */
+template<typename BoardType>
+class UI;
+
 template<
 	typename PawnStackType,
-	unsigned int width = 3,
-	unsigned int height = 3
+	unsigned int width,
+	unsigned int height
 >
-class UI {
+class UI<Board<PawnStackType, width, height>> {
 
-	static_assert(is_pawn_stack<PawnStackType>::value, "Invalid pawn stack type");
+	using BoardType = Board<PawnStackType, width, height>;
 
 public:
 
@@ -63,7 +63,7 @@ public:
 	 *
 	 * @param[in]  board  The board
 	 */
-	virtual void displayBoard(const Board<PawnStackType, width, height>& board) = 0;
+	virtual void displayBoard(const BoardType& board) = 0;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Allow the user to choose a move.
@@ -73,7 +73,7 @@ public:
 	 *
 	 * @return     A valid Pogo move for the board.
 	 */
-	virtual PawnsMove chooseMove(const Board<PawnStackType, width, height>& board, Pawn player) = 0;
+	virtual PawnsMove chooseMove(const BoardType& board, Pawn player) = 0;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Display the victory screen.

@@ -1,18 +1,18 @@
 #include <iostream>
 #include <ConsoleControl.h>
 #include <ConsoleControlUI.h>
-#include <ConsoleControlUtility.h>
 #include <Logic/PawnStack.hpp>
 #include <Logic/Board.hpp>
-#include <Logic/AIPlayer.hpp>
-#include <UI/ConsoleUI.hpp>
 #include <Logic/GameManager.hpp>
 #include <Logic/HumanPlayer.hpp>
-#include <ctime>
+#include <Logic/AlphaBetaAIPlayer.hpp>
+#include <Logic/MinMaxAIPlayer.hpp>
+#include <UI/ConsoleUI.hpp>
 
 #define BOARD_WIDTH 3
 #define BOARD_HEIGHT 3
 using PawnStackType = PawnStack16;
+using BoardType = Board<PawnStackType, BOARD_WIDTH, BOARD_HEIGHT>;
 
 static const cc_MenuColors menuColors = {
 	BLACK,
@@ -43,7 +43,6 @@ bool turnChoice();
 bool checkExit();
 
 int main() {
-	srand(time(NULL));
 	const char* choices[] = {
 		"Human vs Human",
 		"Human vs A.I.",
@@ -59,21 +58,21 @@ int main() {
 	mainMenu.title = "Magic Pogo";
 	bool loop = true;
 	while(loop) {
-		ConsoleUI<PawnStackType, BOARD_WIDTH, BOARD_HEIGHT> ui;
-		GameManager<PawnStackType, BOARD_WIDTH, BOARD_HEIGHT> manager;
+		ConsoleUI<BoardType> ui;
+		GameManager<BoardType> manager;
 
 		cc_displayColorMenu(&mainMenu, &menuColors);
 		cc_setColors(BLACK, WHITE);
 		switch(mainMenu.currentChoice) {
 			case 0: {
-				HumanPlayer player1{PLAYER1_PAWN, ui};
-				HumanPlayer player2{PLAYER2_PAWN, ui};
+				HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
+				HumanPlayer<BoardType> player2{PLAYER2_PAWN, ui};
 				manager.playGame(player1, player2, ui);
 			}
 				break;
 			case 1: {
-				HumanPlayer player1{PLAYER1_PAWN, ui};
-				AIPlayer player2(PLAYER2_PAWN, depthChoice(1));
+				HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
+				AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, depthChoice(1));
 				if(turnChoice()) {
 					manager.playGame(player1, player2, ui);
 				}
@@ -83,8 +82,8 @@ int main() {
 			}
 				break;
 			case 2: {
-				AIPlayer player1{PLAYER1_PAWN, depthChoice(1)};
-				AIPlayer player2(PLAYER2_PAWN, depthChoice(2));
+				AlphaBetaAIPlayer<BoardType> player1{PLAYER1_PAWN, depthChoice(1)};
+				AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, depthChoice(2));
 				manager.playGame(player1, player2, ui);
 			}
 				break;

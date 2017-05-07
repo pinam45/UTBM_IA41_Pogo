@@ -90,8 +90,10 @@ public:
 	 * @brief      Apply the pawns move.
 	 *
 	 * @param[in]  move  The move
+	 *
+	 * @return     The board after the move
 	 */
-	void apply(const PawnsMove& move);
+	Board<PawnStackType, width, height>& apply(const PawnsMove& move);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Compute the number of stack controlled by a player.
@@ -101,6 +103,11 @@ public:
 	 * @return     The number of stack controlled by the player
 	 */
 	unsigned int controlledStacks(Pawn player);
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Default destructor.
+	 */
+	virtual ~Board() = default;
 
 	BoardLine& operator[](unsigned int index);
 
@@ -118,8 +125,9 @@ Board<PawnStackType, width, height>::Board() {
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-void Board<PawnStackType, width, height>::apply(const PawnsMove& move) {
+Board<PawnStackType, width, height>& Board<PawnStackType, width, height>::apply(const PawnsMove& move) {
 	m_board[move.toX][move.toY].add(m_board[move.fromX][move.fromY].pick(move.pawnNumber));
+	return *this;
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>

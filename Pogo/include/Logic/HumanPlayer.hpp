@@ -41,8 +41,20 @@
 
 /*-------------------------------------------------------------------------*//**
  * @brief      Pogo human player, use the UI to choose moves.
+ *
+ * @tparam     BoardType  Type of the board
  */
-class HumanPlayer : public Player {
+template<typename BoardType>
+class HumanPlayer;
+
+template<
+	typename PawnStackType,
+	unsigned int width,
+	unsigned int height
+>
+class HumanPlayer<Board<PawnStackType, width, height>> : public Player<Board<PawnStackType, width, height>> {
+
+	using BoardType = Board<PawnStackType, width, height>;
 
 public:
 
@@ -52,7 +64,7 @@ public:
 	 * @param[in]  pawn  The pawn of the player
 	 * @param      ui    The user interface for choosing moves
 	 */
-	HumanPlayer(Pawn pawn, UI<PlayerPawnStackType, PLAYER_BOARD_WIDTH, PLAYER_BOARD_HEIGHT>& ui);
+	HumanPlayer(Pawn pawn, UI<BoardType>& ui);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Choose a move to play using the UI.
@@ -61,13 +73,29 @@ public:
 	 *
 	 * @return     The move chosen by the player
 	 */
-	PawnsMove chooseMove(const Board<PlayerPawnStackType, PLAYER_BOARD_WIDTH, PLAYER_BOARD_HEIGHT>& board) override;
+	PawnsMove chooseMove(const BoardType& board) override;
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Default destructor.
+	 */
+	virtual ~HumanPlayer() = default;
 
 private:
 
-	UI<PlayerPawnStackType, PLAYER_BOARD_WIDTH, PLAYER_BOARD_HEIGHT>& m_ui;
+	UI<BoardType>& m_ui;
 
 };
+
+template<typename PawnStackType, unsigned int width, unsigned int height>
+HumanPlayer<Board<PawnStackType, width, height>>::HumanPlayer(Pawn pawn, UI<BoardType>& ui)
+	: Player<BoardType>(pawn), m_ui(ui) {
+
+}
+
+template<typename PawnStackType, unsigned int width, unsigned int height>
+PawnsMove HumanPlayer<Board<PawnStackType, width, height>>::chooseMove(const BoardType& board) {
+	return m_ui.chooseMove(board, Player<BoardType>::m_pawn);
+}
 
 
 #endif //UTBM_IA41_POGO_HUMANPLAYER_HPP

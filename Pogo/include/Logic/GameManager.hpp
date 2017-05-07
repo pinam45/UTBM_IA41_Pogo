@@ -44,18 +44,19 @@
  * @brief      Pogo game manager, ask the players for a move one after the other
  *             until a player win and display the board using an User Interface.
  *
- * @tparam     PawnStackType  Pawns stacks type
- * @tparam     width          Width of the board (default = 3)
- * @tparam     height         Height of the board (default = 3)
+ * @tparam     BoardType  Type of the board
  */
+template<typename BoardType>
+class GameManager;
+
 template<
 	typename PawnStackType,
-	unsigned int width = 3,
-	unsigned int height = 3
+	unsigned int width,
+	unsigned int height
 >
-class GameManager {
+class GameManager<Board<PawnStackType, width, height>> {
 
-	static_assert(is_pawn_stack<PawnStackType>::value, "Invalid pawn stack type");
+	using BoardType = Board<PawnStackType, width, height>;
 
 public:
 
@@ -67,20 +68,25 @@ public:
 	 * @param      player2  The player 2
 	 * @param      UI       The User Interface to use
 	 */
-	void playGame(Player& player1, Player& player2, UI<PawnStackType, width, height>& UI);
+	void playGame(Player<BoardType>& player1, Player<BoardType>& player2, UI<BoardType>& UI);
+
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Default destructor.
+	 */
+	virtual ~GameManager() = default;
 
 private:
 
-	Board<PawnStackType, width, height> initialBoard();
+	BoardType initialBoard();
 
 };
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-void GameManager<PawnStackType, width, height>::playGame(Player& player1, Player& player2,
-                                                         UI<PawnStackType, width, height>& UI) {
+void GameManager<Board<PawnStackType, width, height>>::playGame(Player<BoardType>& player1, Player<BoardType>& player2,
+                                                                UI<BoardType>& UI) {
 
-	Board<PawnStackType, width, height> board = initialBoard();
-	Player* players[2] = {&player1, &player2};
+	BoardType board = initialBoard();
+	Player<BoardType>* players[2] = {&player1, &player2};
 
 	unsigned int turn = 0;
 	Pawn winner;
@@ -101,8 +107,8 @@ void GameManager<PawnStackType, width, height>::playGame(Player& player1, Player
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-Board<PawnStackType, width, height> GameManager<PawnStackType, width, height>::initialBoard() {
-	Board<PawnStackType, width, height> board;
+Board<PawnStackType, width, height> GameManager<Board<PawnStackType, width, height>>::initialBoard() {
+	BoardType board;
 	for(unsigned int i = 0; i < width; ++i) {
 		board[i][0] = PawnStackType(PLAYER2_DEFAULT_STACK);
 	}

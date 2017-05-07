@@ -136,6 +136,11 @@ public:
 	 */
 	inline Pawn get(unsigned int pos) const;
 
+	/*------------------------------------------------------------------------*//**
+	 * @brief      Default destructor.
+	 */
+	virtual ~PawnStack() = default;
+
 	Pawn operator[](unsigned int pos) const;
 
 private:
