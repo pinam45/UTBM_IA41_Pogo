@@ -68,7 +68,8 @@ public:
 	 * @param      player2  The player 2
 	 * @param      UI       The User Interface to use
 	 */
-	void playGame(Player<BoardType>& player1, Player<BoardType>& player2, UI<BoardType>& UI);
+	void playGame(Player<BoardType>& player1, Player<BoardType>& player2, std::string player1Name,
+	              std::string player2Name, UI<BoardType>& UI);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
@@ -83,27 +84,31 @@ private:
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
 void GameManager<Board<PawnStackType, width, height>>::playGame(Player<BoardType>& player1, Player<BoardType>& player2,
+                                                                std::string player1Name, std::string player2Name,
                                                                 UI<BoardType>& UI) {
 
 	BoardType board = initialBoard();
 	Player<BoardType>* players[2] = {&player1, &player2};
+	PawnsMove move;
 
 	unsigned int turn = 0;
-	Pawn winner;
 	UI.displayBoard(board);
 	while(true) {
-		board.apply(players[++turn % 2]->chooseMove(board));
+		move = players[++turn % 2]->chooseMove(board);
+		if(move.pawnNumber == 0){
+			break;
+		}
+		board.apply(move);
 		UI.displayBoard(board);
 		if(!board.controlledStacks(PLAYER1_PAWN)) {
-			winner = PLAYER2_PAWN;
+			UI.displayVictory(player2Name);
 			break;
 		}
 		if(!board.controlledStacks(PLAYER2_PAWN)) {
-			winner = PLAYER1_PAWN;
+			UI.displayVictory(player1Name);
 			break;
 		}
 	}
-	UI.displayVictory(winner);
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>

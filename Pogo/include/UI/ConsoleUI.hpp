@@ -93,7 +93,7 @@ public:
 	 *
 	 * @param[in]  player  The player who won the game
 	 */
-	void displayVictory(Pawn player) override;
+	void displayVictory(std::string playerName) override;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
@@ -140,6 +140,8 @@ private:
 	void computePositions();
 
 	const unsigned int m_maxTakenPawns = 3;
+
+	bool m_hasEscaped = false;
 
 	const cc_MessageColors messageColors = {BLACK, CYAN, BLACK, WHITE, BLACK, WHITE, BLACK, CYAN, BLACK};
 
@@ -229,6 +231,8 @@ void ConsoleUI<Board<PawnStackType, width, height>>::displayBoard(const BoardTyp
 template<typename PawnStackType, unsigned int width, unsigned int height>
 PawnsMove ConsoleUI<Board<PawnStackType, width, height>>::chooseMove(const BoardType& board,
                                                                      bool player) {
+	m_hasEscaped = false;
+
 	for(unsigned int i = width; i--;) {
 		for(unsigned int j = height; j--;) {
 			m_pawnStackInfo[i][j].selected = false;
@@ -240,11 +244,31 @@ PawnsMove ConsoleUI<Board<PawnStackType, width, height>>::chooseMove(const Board
 	cc_Vector2 selectedFrame = {0, 0};
 	selectedFrame = selectFrame(selectedFrame);
 	PawnsMove move;
+	if(m_hasEscaped) {
+		setUndefinedStacks();
+		for(unsigned int i = width; i--;) {
+			for(unsigned int j = height; j--;) {
+				m_pawnStackInfo[i][j].selected = false;
+			}
+		}
+		move.pawnNumber = 0;
+		return move;
+	}
 	move.fromX = static_cast<unsigned int>(selectedFrame.x);
 	move.fromY = static_cast<unsigned int>(selectedFrame.y);
 
 	setUndefinedStacks();
 	move.pawnNumber = selectPawnsNumber(selectedFrame, board[selectedFrame.x][selectedFrame.y]);
+	if(m_hasEscaped) {
+		setUndefinedStacks();
+		for(unsigned int i = width; i--;) {
+			for(unsigned int j = height; j--;) {
+				m_pawnStackInfo[i][j].selected = false;
+			}
+		}
+		move.pawnNumber = 0;
+		return move;
+	}
 
 	setValidMoveStacks(selectedFrame, move.pawnNumber);
 	m_pawnStackInfo[selectedFrame.x][selectedFrame.y].state = UNDEFINED;
@@ -255,6 +279,16 @@ PawnsMove ConsoleUI<Board<PawnStackType, width, height>>::chooseMove(const Board
 	}
 
 	selectedFrame = selectFrame(selectedFrame);
+	if(m_hasEscaped) {
+		setUndefinedStacks();
+		for(unsigned int i = width; i--;) {
+			for(unsigned int j = height; j--;) {
+				m_pawnStackInfo[i][j].selected = false;
+			}
+		}
+		move.pawnNumber = 0;
+		return move;
+	}
 	move.toX = static_cast<unsigned int>(selectedFrame.x);
 	move.toY = static_cast<unsigned int>(selectedFrame.y);
 
@@ -268,13 +302,11 @@ PawnsMove ConsoleUI<Board<PawnStackType, width, height>>::chooseMove(const Board
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(Pawn player) {
-	std::string messageText("Player ");
-	messageText += static_cast<char>('0' + player);
-	messageText += " win the game.";
+void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string playerName) {
+	playerName += " win the game.";
 	cc_Message message{
 		"Victory !",
-		messageText.c_str(),
+		playerName.c_str(),
 		NULL,
 		NULL,
 		NULL,
@@ -333,9 +365,13 @@ cc_Vector2 ConsoleUI<Board<PawnStackType, width, height>>::selectFrame(cc_Vector
 					m_pawnStackInfo[selection.x][selection.y].selected = true;
 					ended = true;
 				}
+				break;
+			case ESC_KEY:
+				m_hasEscaped = true;
+				ended = true;
+				break;
 			case BACKSPACE_KEY:
 			case TAB_KEY:
-			case ESC_KEY:
 			case SPACE_KEY:
 			case INS_KEY:
 			case DEL_KEY:
@@ -380,7 +416,7 @@ unsigned int ConsoleUI<Board<PawnStackType, width, height>>::selectPawnsNumber(c
 		}
 	}
 	cc_Input input = {OTHER_KEY, 0};
-	while(input.key != ENTER_KEY) {
+	while(input.key != ENTER_KEY && input.key != ESC_KEY) {
 		input = cc_getInput();
 		switch(input.key) {
 			case UP_ARROW_KEY:
@@ -408,6 +444,9 @@ unsigned int ConsoleUI<Board<PawnStackType, width, height>>::selectPawnsNumber(c
 					takenPawns = static_cast<unsigned int>(input.ch - '0');
 				}
 				break;
+			case ESC_KEY:
+				m_hasEscaped = true;
+				break;
 			case HOME_KEY:
 			case END_KEY:
 			case PAGE_UP_KEY:
@@ -417,7 +456,6 @@ unsigned int ConsoleUI<Board<PawnStackType, width, height>>::selectPawnsNumber(c
 			case BACKSPACE_KEY:
 			case TAB_KEY:
 			case ENTER_KEY:
-			case ESC_KEY:
 			case SPACE_KEY:
 			case INS_KEY:
 			case DEL_KEY:

@@ -8,6 +8,8 @@
 #include <Logic/AlphaBetaAIPlayer.hpp>
 #include <Logic/MinMaxAIPlayer.hpp>
 #include <UI/ConsoleUI.hpp>
+#include <ConsoleControlMenu.h>
+#include <ConsoleControlMessage.h>
 
 #define BOARD_WIDTH 3
 #define BOARD_HEIGHT 3
@@ -36,9 +38,11 @@ static const cc_MessageColors messageColors = {
 	BLACK
 };
 
-unsigned int depthChoice(unsigned int number);
+void playHumanHuman();
 
-bool turnChoice();
+void playHumanAI();
+
+void playAIAI();
 
 bool checkExit();
 
@@ -47,14 +51,13 @@ int main() {
 		"Human vs Human",
 		"Human vs A.I.",
 		"A.I. vs A.I.",
-		"Options",
 		"Exit"
 	};
 	cc_Menu mainMenu;
 	mainMenu.choices = choices;
-	mainMenu.choicesNumber = 5;
+	mainMenu.choicesNumber = 4;
 	mainMenu.currentChoice = 0;
-	mainMenu.choiceOnEscape = 4;
+	mainMenu.choiceOnEscape = 3;
 	mainMenu.title = "Magic Pogo";
 	bool loop = true;
 	while(loop) {
@@ -65,32 +68,16 @@ int main() {
 		cc_setColors(BLACK, WHITE);
 		switch(mainMenu.currentChoice) {
 			case 0: {
-				HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
-				HumanPlayer<BoardType> player2{PLAYER2_PAWN, ui};
-				manager.playGame(player1, player2, ui);
+				playHumanHuman();
 			}
 				break;
-			case 1: {
-				HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
-				AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, depthChoice(1));
-				if(turnChoice()) {
-					manager.playGame(player1, player2, ui);
-				}
-				else {
-					manager.playGame(player2, player1, ui);
-				}
-			}
+			case 1:
+				playHumanAI();
 				break;
-			case 2: {
-				AlphaBetaAIPlayer<BoardType> player1{PLAYER1_PAWN, depthChoice(1)};
-				AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, depthChoice(2));
-				manager.playGame(player1, player2, ui);
-			}
+			case 2:
+				playAIAI();
 				break;
 			case 3:
-				//TODO
-				break;
-			case 4:
 				loop = !checkExit();
 				break;
 			default:
@@ -100,29 +87,44 @@ int main() {
 	return 0;
 }
 
-unsigned int depthChoice(unsigned int number) {
-	const char* difficultyChoices[] = {
-		"1",
-		"2",
-		"3",
-		"4",
-		"5"
+void playHumanHuman() {
+	cc_Message message{
+		"Turns order",
+		"Human 1 play first",
+		NULL,
+		NULL,
+		NULL,
+		NO_CHOICE,
+		true
 	};
-
-	std::string title("AI ");
-	title += static_cast<char>('0' + number);
-	title += " Difficulty";
-	cc_Menu difficulty;
-	difficulty.choices = difficultyChoices;
-	difficulty.choicesNumber = 5;
-	difficulty.currentChoice = 0;
-	difficulty.choiceOnEscape = -1;
-	difficulty.title = title.c_str();
-	cc_displayColorMenu(&difficulty, &menuColors);
-	return difficulty.currentChoice + 1;
+	cc_displayColorMessage(&message, &messageColors);
+	ConsoleUI<BoardType> ui;
+	GameManager<BoardType> manager;
+	HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
+	HumanPlayer<BoardType> player2{PLAYER2_PAWN, ui};
+	manager.playGame(player1, player2, "Human 1", "Human 2", ui);
 }
 
-bool turnChoice() {
+void playHumanAI() {
+
+	/* Choose AI depth */
+	cc_IntegerOption integerOption = {1, 1, 7, 1};
+	cc_Option option;
+	option.name = "AI depth";
+	option.optionType = INTEGER_OPTION;
+	option.integerOption = &integerOption;
+	cc_Option* options[] = {&option};
+	cc_OptionsMenu optionsMenu = {
+		"AI difficulty",
+		options,
+		1,
+		0,
+		"OK",
+		false
+	};
+	cc_displayColorOptionMenu(&optionsMenu, &menuColors);
+
+	/* Choose turn order */
 	cc_Message message{
 		"Turns order",
 		"Who plays first ?",
@@ -132,9 +134,57 @@ bool turnChoice() {
 		RIGHT_CHOICE,
 		false
 	};
-
 	cc_displayColorMessage(&message, &messageColors);
-	return message.currentChoice == RIGHT_CHOICE;
+
+	ConsoleUI<BoardType> ui;
+	GameManager<BoardType> manager;
+	HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
+	AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, static_cast<unsigned int>(integerOption.value));
+
+	if(message.currentChoice == RIGHT_CHOICE) {
+		manager.playGame(player1, player2, "Human", "AI", ui);
+	}
+	else {
+		manager.playGame(player2, player1, "AI", "Human", ui);
+	}
+}
+
+void playAIAI() {
+
+	/* Choose AIs depths */
+	cc_IntegerOption integerOption1 = {1, 1, 7, 1};
+	cc_Option option1;
+	option1.name = "AI 1 depth";
+	option1.optionType = INTEGER_OPTION;
+	option1.integerOption = &integerOption1;
+	cc_IntegerOption integerOption2 = {1, 1, 7, 1};
+	cc_Option option2;
+	option2.name = "AI 2 depth";
+	option2.optionType = INTEGER_OPTION;
+	option2.integerOption = &integerOption2;
+	cc_Option* options[] = {&option1, &option2};
+	cc_OptionsMenu optionsMenu = {
+		"AI difficulty",
+		options,
+		2,
+		0,
+		"OK",
+		false
+	};
+	cc_displayColorOptionMenu(&optionsMenu, &menuColors);
+
+	ConsoleUI<BoardType> ui;
+	GameManager<BoardType> manager;
+	AlphaBetaAIPlayer<BoardType> player1(PLAYER1_PAWN, static_cast<unsigned int>(integerOption1.value));
+	AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, static_cast<unsigned int>(integerOption2.value));
+
+	std::string AI1Name("AI 1 (depth ");
+	AI1Name += static_cast<char>('0' + integerOption1.value);
+	AI1Name += ")";
+	std::string AI2Name("AI 2 (depth ");
+	AI2Name += static_cast<char>('0' + integerOption2.value);
+	AI2Name += ")";
+	manager.playGame(player1, player2, AI1Name, AI2Name, ui);
 }
 
 bool checkExit() {
@@ -149,5 +199,5 @@ bool checkExit() {
 	};
 
 	cc_displayColorMessage(&message, &messageColors);
-	return message.currentChoice == RIGHT_CHOICE;
+	return message.currentChoice == RIGHT_CHOICE || message.currentChoice == NO_CHOICE;
 }

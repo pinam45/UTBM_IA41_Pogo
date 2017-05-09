@@ -80,7 +80,7 @@ public:
 	 *
 	 * @param[in]  player  The player who won the game
 	 */
-	virtual void displayVictory(Pawn player) = 0;
+	virtual void displayVictory(std::string playerName) = 0;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
