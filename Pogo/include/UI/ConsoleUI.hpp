@@ -226,6 +226,7 @@ void ConsoleUI<Board<PawnStackType, width, height>>::displayBoard(const BoardTyp
 			drawPawnStack(m_pawnStackInfo[i][j], board[i][j]);
 		}
 	}
+	std::cout.flush();
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>

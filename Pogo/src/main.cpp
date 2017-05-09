@@ -84,6 +84,8 @@ int main() {
 				break;
 		}
 	}
+	cc_setCursorVisibility(true);
+	cc_displayInputs(true);
 	return 0;
 }
 
