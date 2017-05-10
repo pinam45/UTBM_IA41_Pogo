@@ -1,4 +1,4 @@
-\documentclass[report, backcover, french, nodocumentinfo]{upmethodology-document}
+\documentclass[article, backcover, french, nodocumentinfo]{upmethodology-document}
 \include{packages}
 \include{settings}
 
@@ -8,29 +8,31 @@
 	%\upmdocumentvalidators{}
 	\upmdocumentinformedpeople{}
 	\upmpublicationpage{}
+	\thispagestyle{empty}
 	\tableofcontents{}
+	\lstlistoflistings{}
 	%\listoffigures{}
 	\newpage{}
 
-	\chapter{Sujet, règles du jeu}
-		\section{Présentation}
-		\section{Règles}
-		\section{Objectif}
-	\chapter{Réalisation}
-		\section{Représentation du jeu}
-			\subsection{pions}
-			\subsection{Piles de pions}
-			\subsection{Plateau}
-		\section{Structure de l'IA}
-			\subsection{MinMax}
+	\section{Sujet, règles du jeu}
+		\subsection{Présentation}
+		\subsection{Règles}
+		\subsection{Objectif}
+	\section{Réalisation}
+		\subsection{Représentation du jeu}
+			\subsubsection{pions}
+			\subsubsection{Piles de pions}
+			\subsubsection{Plateau}
+		\subsection{Structure de l'IA}
+			\subsubsection{MinMax}
 				\lstinputalgo[caption=MinMax]{algorithms/MinMax.algo}
-			\subsection{AlphaBeta}
-		\section{Interface utilisateur}
-			\subsection{Réalisation}
-			\subsection{Utilisation}
-	\chapter{Résultats}
-		\section{IA contre IA}
-		\section{IA contre Humain}
+			\subsubsection{AlphaBeta}
+		\subsection{Interface utilisateur}
+			\subsubsection{Réalisation}
+			\subsubsection{Utilisation}
+	\section{Résultats}
+		\subsection{IA contre IA}
+		\subsection{IA contre Humain}
 %\begin{upmcaution}
 %	This is an example of a caution message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between %the caution icon and the box frame.
 %\end{upmcaution}
