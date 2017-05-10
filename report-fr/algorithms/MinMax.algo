@@ -1,0 +1,19 @@
+function MinMax(board: Board, depth: Integer, maximizing: Boolean)
+	if depth = 0 then
+		return eval(board)
+	end
+	if maximizing = TRUE then
+		bestValue := $-\infty$
+		for each possible move do
+			v := minimax(board.apply(move), depth - 1, FALSE)
+			bestValue := max(bestValue, v)
+		end
+	else //Minimising
+		bestValue := $+\infty$
+		for each possible move do
+			v := minimax(board.apply(move), depth - 1, TRUE)
+			bestValue := min(bestValue, v)
+		end
+	end
+	return bestValue
+end
