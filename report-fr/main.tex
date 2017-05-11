@@ -30,32 +30,26 @@
 			\subsubsection{Génération des coups}
 			\subsubsection{Fonction d'évaluation}
 				\paragraph{}
-					Afin d'évaluer le partie  
+					Afin d'évaluer le partie
 					nous comptons pour un joueur  le nombre de piles qu’il contrôle, que nous divisons par le nombre total de piles présentes sur le jeu.
-					Notre évaluation représente donc le pourcentage de piles que nous contrôlons et Eval = 0 représente une défaite pour le joueur qui évalue car il ne possède aucune  et Eval = 1 une victoire car il les contrôle toutes. On a donc Eval $\in$ [0,1].
-					\\\\De façon formelle :
-					
-					$$
+					Notre évaluation représente donc le pourcentage de piles que nous contrôlons et Eval = 0 représente une défaite pour le joueur qui évalue car il ne possède aucune  et Eval = 1 une victoire car il les contrôle toutes. On a donc Eval $\in$ [0,1].\\
+					De façon formelle :
+					\[
 					x_{i} = \left\{
 					\begin{array}{ll}
 						1 \mbox{ si  on contrôle la pile de la case i} \\
 						0  \mbox{ sinon}
 					\end{array}
 					\right.
-					$$
-					
+					\]
 					et n le nombre de piles présentes sur le plateau
-			    	$$Eval = \frac{1}{n}  \sum_{i = 1}^{9} x_{i} $$
-				    \begin{center}
-				    	 Exemple \\
-				    \includegraphics{Eval.png}
+					\[Eval = \frac{1}{n}  \sum_{i = 1}^{9} x_{i}\]
+					Exemple:
+					\begin{center}
+						\includegraphics[width=0.6\textwidth]{figures/Eval.png}
 					\end{center}
 				\paragraph{}
-					Dans ce cas pour le joueur violet contrôle
-					4 piles, et le nombre de piles sur le plateau
-					est de 7, ce qui nous donne Eval = $\frac{4}{7}$
-					$\simeq$ 0,571
-
+					Dans ce cas pour le joueur violet contrôle 4 piles, et le nombre de piles sur le plateau est de 7, ce qui nous donne $Eval = \frac{4}{7} \simeq 0,571$
 		\subsection{Interface utilisateur}
 			\subsubsection{Réalisation}
 			\subsubsection{Utilisation}
