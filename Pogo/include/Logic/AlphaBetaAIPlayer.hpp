@@ -118,7 +118,7 @@ PawnsMove AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::chooseMove(con
 	for(unsigned int x = 0; x < width; ++x) {
 		for(unsigned int y = 0; y < height; ++y) {
 			unsigned int stackSize = board[x][y].size();
-			if(stackSize && board[x][y].get(stackSize - 1) == this->m_pawn) {
+			if(stackSize && board[x][y].get(stackSize - 1) == this->usedPawn) {
 				for(unsigned int i = 0; i < width; ++i) {
 					for(unsigned int j = 0; j < height; ++j) {
 						int dist = manhattanDistance(x, y, i, j);
@@ -174,15 +174,15 @@ template<typename PawnStackType, unsigned int width, unsigned int height>
 float AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::alphaBeta(const BoardType& board, unsigned int depth,
                                                                         float alpha, float beta, bool maximizing) {
 	if(depth == 0) {
-		return m_eval(board, this->m_pawn);
+		return m_eval(board, this->usedPawn);
 	}
 
-	float val = m_eval(board, this->m_pawn);
+	float val = m_eval(board, this->usedPawn);
 	if(maximizing) {
 		for(unsigned int x = 0; x < width; ++x) {
 			for(unsigned int y = 0; y < height; ++y) {
 				unsigned int stackSize = board[x][y].size();
-				if(stackSize && board[x][y].get(stackSize - 1) == this->m_pawn) {
+				if(stackSize && board[x][y].get(stackSize - 1) == this->usedPawn) {
 					for(unsigned int i = 0; i < width; ++i) {
 						for(unsigned int j = 0; j < height; ++j) {
 							int dist = manhattanDistance(x, y, i, j);
@@ -217,7 +217,7 @@ float AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::alphaBeta(const Bo
 		for(unsigned int x = 0; x < width; ++x) {
 			for(unsigned int y = 0; y < height; ++y) {
 				unsigned int stackSize = board[x][y].size();
-				if(stackSize && board[x][y].get(stackSize - 1) == this->m_pawn) {
+				if(stackSize && board[x][y].get(stackSize - 1) == this->usedPawn) {
 					for(unsigned int i = 0; i < width; ++i) {
 						for(unsigned int j = 0; j < height; ++j) {
 							int dist = manhattanDistance(x, y, i, j);

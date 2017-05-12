@@ -95,16 +95,16 @@ void GameManager<Board<PawnStackType, width, height>>::playGame(Player<BoardType
 	UI.displayBoard(board);
 	while(true) {
 		move = players[++turn % 2]->chooseMove(board);
-		if(move.pawnNumber == 0){
+		if(move.pawnNumber == 0) {
 			break;
 		}
 		board.apply(move);
 		UI.displayBoard(board);
-		if(!board.controlledStacks(PLAYER1_PAWN)) {
+		if(!board.controlledStacks(player1.usedPawn)) {
 			UI.displayVictory(player2Name, board);
 			break;
 		}
-		if(!board.controlledStacks(PLAYER2_PAWN)) {
+		if(!board.controlledStacks(player2.usedPawn)) {
 			UI.displayVictory(player1Name, board);
 			break;
 		}

@@ -94,7 +94,7 @@ HumanPlayer<Board<PawnStackType, width, height>>::HumanPlayer(Pawn pawn, UI<Boar
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
 PawnsMove HumanPlayer<Board<PawnStackType, width, height>>::chooseMove(const BoardType& board) {
-	return m_ui.chooseMove(board, Player<BoardType>::m_pawn);
+	return m_ui.chooseMove(board, Player<BoardType>::usedPawn);
 }
 
 

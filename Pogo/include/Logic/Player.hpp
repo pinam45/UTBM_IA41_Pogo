@@ -57,6 +57,8 @@ class Player<Board<PawnStackType, width, height>> {
 
 public:
 
+	const Pawn usedPawn;
+
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Construct a new player.
 	 *
@@ -79,14 +81,10 @@ public:
 	 */
 	virtual ~Player() = default;
 
-protected:
-
-	Pawn m_pawn;
-
 };
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-Player<Board<PawnStackType, width, height>>::Player(Pawn pawn) : m_pawn(pawn) {
+Player<Board<PawnStackType, width, height>>::Player(Pawn pawn) : usedPawn(pawn) {
 
 }
 
