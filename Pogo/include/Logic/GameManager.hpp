@@ -101,11 +101,11 @@ void GameManager<Board<PawnStackType, width, height>>::playGame(Player<BoardType
 		board.apply(move);
 		UI.displayBoard(board);
 		if(!board.controlledStacks(PLAYER1_PAWN)) {
-			UI.displayVictory(player2Name);
+			UI.displayVictory(player2Name, board);
 			break;
 		}
 		if(!board.controlledStacks(PLAYER2_PAWN)) {
-			UI.displayVictory(player1Name);
+			UI.displayVictory(player1Name, board);
 			break;
 		}
 	}

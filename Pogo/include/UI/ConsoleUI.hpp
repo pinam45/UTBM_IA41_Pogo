@@ -96,6 +96,14 @@ public:
 	void displayVictory(std::string playerName) override;
 
 	/*------------------------------------------------------------------------*//**
+	 * @brief      Display the victory screen and allow to seen the board.
+	 *
+	 * @param[in]  playerName  The player who won the game
+	 * @param[in]  board       The board
+	 */
+	void displayVictory(std::string playerName, const BoardType& board) override;
+
+	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
 	 */
 	virtual ~ConsoleUI() = default;
@@ -315,6 +323,28 @@ void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string 
 		true
 	};
 	cc_displayColorMessage(&message, &messageColors);
+}
+
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string playerName, const BoardType& board){
+	playerName += " win the game.";
+	cc_Message message{
+		"Victory !",
+		playerName.c_str(),
+		"View the board",
+		NULL,
+		"Exit",
+		RIGHT_CHOICE,
+		true
+	};
+	cc_displayColorMessage(&message, &messageColors);
+
+	while(message.currentChoice == LEFT_CHOICE){
+		displayBoard(board);
+		cc_getInput();
+		message.currentChoice = RIGHT_CHOICE;
+		cc_displayColorMessage(&message, &messageColors);
+	}
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>

@@ -83,11 +83,24 @@ public:
 	virtual void displayVictory(std::string playerName) = 0;
 
 	/*------------------------------------------------------------------------*//**
+	 * @brief      Display the victory screen and allow to seen the board.
+	 *
+	 * @param[in]  playerName  The player who won the game
+	 * @param[in]  board       The board
+	 */
+	virtual void displayVictory(std::string playerName, const BoardType& board);
+
+	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
 	 */
 	virtual ~UI() = default;
 
 };
+
+template<typename PawnStackType, unsigned int width, unsigned int height>
+void UI<Board<PawnStackType, width, height>>::displayVictory(std::string playerName, const BoardType&) {
+	displayVictory(playerName);
+}
 
 
 #endif //UTBM_IA41_POGO_UI_HPP
