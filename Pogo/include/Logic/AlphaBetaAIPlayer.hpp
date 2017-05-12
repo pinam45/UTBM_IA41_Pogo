@@ -37,6 +37,7 @@
 
 
 #include <limits>
+#include <functional>
 
 #include <Logic/Player.hpp>
 
@@ -66,8 +67,9 @@ public:
 	 * @param[in]  pawn   The pawn of the player, either PLAYER1_PAWN or
 	 *                    PLAYER2_PAWN
 	 * @param[in]  depth  The depth of the min-max
+	 * @param[in]  eval   The evaluation function
 	 */
-	AlphaBetaAIPlayer(Pawn pawn, unsigned int depth);
+	AlphaBetaAIPlayer(Pawn pawn, unsigned int depth, std::function<float(const BoardType, Pawn)> eval);
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Choose a move to play.
@@ -85,31 +87,32 @@ public:
 
 private:
 
-	int eval(const BoardType board);
-
 	int manhattanDistance(int x1, int y1, int x2, int y2);
 
-	int alphaBeta(const BoardType& board, unsigned int depth, int alpha, int beta, bool maximizing);
+	float alphaBeta(const BoardType& board, unsigned int depth, float alpha, float beta, bool maximizing);
 
 	unsigned int m_depth;
+
+	std::function<float(const BoardType, Pawn)> m_eval;
 
 };
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::AlphaBetaAIPlayer(Pawn pawn, unsigned int depth)
-	: Player<BoardType>(pawn), m_depth(depth) {
+AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::AlphaBetaAIPlayer(Pawn pawn, unsigned int depth,
+                                                                          std::function<float(const BoardType,
+                                                                                              Pawn)> eval)
+	: Player<BoardType>(pawn), m_depth(depth), m_eval(eval) {
 
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-PawnsMove
-AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::chooseMove(const BoardType& board) {
+PawnsMove AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::chooseMove(const BoardType& board) {
 
 	unsigned int depth = m_depth;
-	int alpha = std::numeric_limits<int>::lowest();
-	int beta = std::numeric_limits<int>::max();
+	float alpha = std::numeric_limits<float>::lowest();
+	float beta = std::numeric_limits<float>::max();
 
-	int val = std::numeric_limits<int>::lowest();
+	float val = std::numeric_limits<float>::lowest();
 	PawnsMove move{};
 
 	for(unsigned int x = 0; x < width; ++x) {
@@ -119,7 +122,7 @@ AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::chooseMove(const BoardTy
 				for(unsigned int i = 0; i < width; ++i) {
 					for(unsigned int j = 0; j < height; ++j) {
 						int dist = manhattanDistance(x, y, i, j);
-						int tmpVal = std::numeric_limits<int>::lowest();
+						float tmpVal = std::numeric_limits<float>::lowest();
 						if(stackSize >= 3 && (dist == 3 || dist == 1)) {
 							PawnsMove tmpMove{x, y, i, j, 3};
 							tmpVal = std::max(tmpVal,
@@ -162,37 +165,19 @@ AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::chooseMove(const BoardTy
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-int AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::eval(const BoardType board) {
-	int eval = 0;
-	for(int x = 0; x < 3; ++x) {
-		for(int y = 0; y < 3; ++y) {
-			if(board[x][y].size()) {
-				if(board[x][y].get(board[x][y].size() - 1) == this->m_pawn) {
-					++eval;
-				}
-				else {
-					--eval;
-				}
-			}
-		}
-	}
-	return eval;
-}
-
-template<typename PawnStackType, unsigned int width, unsigned int height>
 int AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::manhattanDistance(int x1, int y1, int x2, int y2) {
 	return std::abs(x1 - x2) + std::abs(y1 - y2);
 
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-int AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::alphaBeta(const BoardType& board, unsigned int depth,
-                                                                      int alpha, int beta, bool maximizing) {
+float AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::alphaBeta(const BoardType& board, unsigned int depth,
+                                                                        float alpha, float beta, bool maximizing) {
 	if(depth == 0) {
-		return eval(board);
+		return m_eval(board, this->m_pawn);
 	}
 
-	int val = eval(board);
+	float val = m_eval(board, this->m_pawn);
 	if(maximizing) {
 		for(unsigned int x = 0; x < width; ++x) {
 			for(unsigned int y = 0; y < height; ++y) {
