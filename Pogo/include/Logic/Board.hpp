@@ -102,7 +102,7 @@ public:
 	 *
 	 * @return     The number of stack controlled by the player
 	 */
-	unsigned int controlledStacks(Pawn player);
+	unsigned int controlledStacks(Pawn player) const;
 
 	/*------------------------------------------------------------------------*//**
 	 * @brief      Default destructor.
@@ -143,7 +143,7 @@ Board<PawnStackType, width, height>::operator[](unsigned int index) const {
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-unsigned int Board<PawnStackType, width, height>::controlledStacks(Pawn player) {
+unsigned int Board<PawnStackType, width, height>::controlledStacks(Pawn player) const {
 	unsigned int counter = 0;
 	for(unsigned int i = 0; i < width; ++i) {
 		for(unsigned int j = 0; j < height; ++j) {

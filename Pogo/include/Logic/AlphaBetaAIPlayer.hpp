@@ -173,12 +173,17 @@ int AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::manhattanDistance(in
 template<typename PawnStackType, unsigned int width, unsigned int height>
 float AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::alphaBeta(const BoardType& board, unsigned int depth,
                                                                         float alpha, float beta, bool maximizing) {
-	if(depth == 0) {
+	if(depth == 0) { // Leaf
 		return m_eval(board, this->usedPawn);
 	}
 
-	float val = m_eval(board, this->usedPawn);
+	if(board.controlledStacks(!this->usedPawn) == 0){ // Victory
+		return m_eval(board, this->usedPawn);
+	}
+
+	float val;
 	if(maximizing) {
+		val = std::numeric_limits<float>::lowest();
 		for(unsigned int x = 0; x < width; ++x) {
 			for(unsigned int y = 0; y < height; ++y) {
 				unsigned int stackSize = board[x][y].size();
@@ -214,6 +219,7 @@ float AlphaBetaAIPlayer<Board<PawnStackType, width, height>>::alphaBeta(const Bo
 		}
 	}
 	else { // !maximizing
+		val = std::numeric_limits<float>::max();
 		for(unsigned int x = 0; x < width; ++x) {
 			for(unsigned int y = 0; y < height; ++y) {
 				unsigned int stackSize = board[x][y].size();
