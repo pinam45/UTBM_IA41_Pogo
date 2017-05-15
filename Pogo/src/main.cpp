@@ -197,7 +197,7 @@ void playHumanAI() {
 	ConsoleUI<BoardType> ui;
 	GameManager<BoardType> manager;
 	HumanPlayer<BoardType> player1{PLAYER1_PAWN, ui};
-	AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, static_cast<unsigned int>(integerOption.value), &pawnsFracEval);
+	AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, static_cast<unsigned int>(integerOption.value), &stackFracEval);
 
 	if(message.currentChoice == RIGHT_CHOICE) {
 		manager.playGame(player1, player2, "Human", "AI", ui);

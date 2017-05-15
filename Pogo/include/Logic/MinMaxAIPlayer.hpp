@@ -164,7 +164,7 @@ float MinMaxAIPlayer<Board<PawnStackType, width, height>>::minMax(const BoardTyp
 		return m_eval(board, this->usedPawn);
 	}
 
-	if(board.controlledStacks(!this->usedPawn) == 0){ // Victory
+	if(board.controlledStacks(!this->usedPawn) == 0 || board.controlledStacks(this->usedPawn) == 0 ){ // Victory or Defeat Leaf
 		return m_eval(board, this->usedPawn);
 	}
 
@@ -201,7 +201,7 @@ float MinMaxAIPlayer<Board<PawnStackType, width, height>>::minMax(const BoardTyp
 		for(unsigned int x = 0; x < width; ++x) {
 			for(unsigned int y = 0; y < height; ++y) {
 				unsigned int stackSize = board[x][y].size();
-				if(stackSize && board[x][y].get(stackSize - 1) == this->usedPawn) {
+				if(stackSize && board[x][y].get(stackSize - 1) == !this->usedPawn) {
 					for(unsigned int i = 0; i < width; ++i) {
 						for(unsigned int j = 0; j < height; ++j) {
 							int dist = manhattanDistance(x, y, i, j);
