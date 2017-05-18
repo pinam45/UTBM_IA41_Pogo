@@ -11,13 +11,37 @@
 	\thispagestyle{empty}
 	\tableofcontents{}
 	\lstlistoflistings{}
-	%\listoffigures{}
+	\listoffigures{}
 	\newpage{}
 
 	\section{Sujet, règles du jeu}
 		\subsection{Présentation}
+			Le but de ce projet est de réaliser une IA capable de jouer au jeu de Pogo. Pour cela l'algorithme \textbf{MinMax} et son optimisation \textbf{AlphaBeta} seront utilisés. Il doit aussi être possible de tester l'IA. Le langage utilisé pour réaliser le projet est le C++ norme 2011.
 		\subsection{Règles}
-		\subsection{Objectif}
+		\subsection{Objectifs}
+			\p{Objectif premiers}
+				Il faut réaliser une IA mais il faut aussi pouvoir tester cette dernière pour évaluer sa performance. Pour pouvoir tester l'IA il faut que le programme propose de jouer en Humains contre IA mais aussi en IA contre IA. Pour cela nous avons fixé les objectif suivants:
+				\begin{itemize}
+					\item Implémenter la logique d'un jeu de Pogo
+					\item Réaliser une IA capable de jouer au jeu
+					\item Réaliser une interface homme-machine pour permettre a l'utilisateur de visualiser le jeu et d'y jouer
+				\end{itemize}
+			\p{Objectif supplémentaires}
+				Nous avons rajouter quelques objectifs supplémentaires afin d'améliorer le programme, faciliter les test de l'IA et élargir les possibilités de modification de l'IA.
+				\begin{itemize}
+					\item Permettre de jouer en Humain contre Humain
+					\item Permettre de choisir la profondeur d'exploration de l'arbre de l'IA
+					\item Proposer plusieurs fonctions d'évaluation d'une situation de jeu et un comparatif de ces dernières
+					\item \color{green} Ajouter une non-IA (mouvements aléatoires)
+				\end{itemize}
+		\subsection{Notes}
+			\p{Détails}
+				Les fonctions importantes et liées a l'IA seront expliqué et leur fonctionnement détaillé (souvent par un algorithme). Pour les autres fonction se référer a la documentation Doxygen du code.
+				\begin{upminfo}
+					Doxygen est un générateur de documentation sous licence libre, une documentation web peut être généré, pour cela voir \href{http://www.stack.nl/~dimitri/doxygen/}{le site web de Doxygen}.
+				\end{upminfo}
+			\p{Diagrammes}
+				Les diagrammes utilisé pour expliciter les classes sont des diagrammes de classe UML dont les spécification peuvent etre obtenues sur le site \href{http://www.omg.org/spec/UML/}{Object Management Group}
 	\section{Réalisation}
 		\subsection{Représentation du jeu}
 			\subsubsection{pions}
@@ -49,19 +73,125 @@
 				\paragraph{}
 					Dans ce cas pour le joueur violet contrôle 4 piles, et le nombre de piles sur le plateau est de 7, ce qui nous donne $Eval = \frac{4}{7} \simeq 0,571$
 		\subsection{Interface utilisateur}
-			\subsubsection{Réalisation}
+			\subsubsection{Fonctionnalités}
+				L'interface graphique est entièrement réalisée en console avec un style ``graphique''. Il y a deux interfaces principales, les menu et messages (d'information, d'erreur\ldots) et le plateau du jeu de Pogo.
+				\p{Menus}
+					Avant de commencer une partie plusieurs menus se suivent:
+					\begin{itemize}
+						\item Menus principal: choix du mode de jeu
+							\begin{itemize}
+								\item Humain contre Humain
+								\item Humain contre IA
+								\item IA contre IA
+							\end{itemize}
+						\item Si jeu avec IA (une ou deux): Menu de choix de la profondeur d'exploration de l'arbre de/des IA
+						\item Menu de choix de l'ordre de jeu
+					\end{itemize}
+				\p{Plateau de jeu}
+					Le plateau de jeu en 3 $\times$ 3 fait une taille de 98 caractères de large et 53 caractères de haut, si la console n'est pas suffisamment grande pour afficher le plateau un message demandant d'agrandir la console apparaitra. Dans le cas d'une utilisation sous Windows si l'écran ne permet pas d'étendre suffisamment la console on peut faire:\\
+					\textit{clique droit sur la barre supérieure > Propriétés > Police > Taille}\\
+					et réduire la taille de la police pour augmenter la largeur et hauteur en caractères de la console et permettre l'affichage du plateau.\\
+
+					Lors du tour d'un joueur humain, le plateau permet de choisir un mouvement de la façon suivante:
+					\begin{itemize}
+						\item Choix de la pile de départ
+						\item Choix du nombre de pions a prendre
+						\item Choix de la pile d'arrivé
+					\end{itemize}
+					Lors du choix de la pile de départ et d'arrivé, les choix valides serons affichés en vert.
 			\subsubsection{Utilisation}
+				\p{Menus}
+					Les menus simples s'utilisent avec les contrôles suivants:
+					\begin{description}
+						\item[Page précédente] Premier choix
+						\item[Page suivante] Dernier choix
+						\item[Flèche du haut] Choix précédent
+						\item[Flèche du bas] Choix suivant
+						\item[Entré] Valider le choix
+						\item[Échap] Quitter (pas toujours possible)
+					\end{description}
+					Les menus a options s'utilisent avec les contrôles des menus simples avec en plus que les contrôles suivants:
+					\begin{description}
+						\item[Début] Première valeur de l'option
+						\item[Fin] Dernière valeur de l'option
+						\item[Flèche de gauche] Valeur précédente de l'option
+						\item[Flèche de droite] Valeur suivante de l'option
+					\end{description}
+				\p{Plateau de jeu}
+					Lors de la sélection d'une pile, les contrôles suivants sont utilisables:
+					\begin{description}
+						\item[Flèche du haut] Bouger la sélection en haut
+						\item[Flèche du bas] Bouger la sélection en bas
+						\item[Flèche de gauche] Bouger la sélection a gauche
+						\item[Flèche de droite] Bouger la sélection a droite
+						\item[Entré] Valider le choix
+						\item[Échap] Quitter la partie
+					\end{description}
+					Lors de la sélection du nombre de pions a prendre dans une pile:
+					\begin{description}
+						\item[Flèche du haut] Diminuer le nombre de pions pris
+						\item[Flèche du bas] Augmenter le nombre de pions pris
+						\item[Entré] Valider le choix
+						\item[Échap] Quitter la partie
+					\end{description}
+			\subsubsection{Réalisation}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=0.7\textwidth]{figures/UIDiagram}
+					\caption{UI et ConsoleUI: diagramme de classe}
+					\label{fig:UIDiagram}
+				\end{figure}
+				L'interface utilisateur du projet est constitué de deux classes:
+				\p{UI}
+					\texttt{UI} est l'interface (classe purement abstraite) a implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de stack utilisé, la largeur du plateau et sa hauteur. Elle possèdes des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
+				\p{ConsoleUI}
+					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interface graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConcoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
+					\begin{figure}[h!]
+						\centering
+						\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
+						\caption{ConsoleUI: affichage en console du plateau de jeu}
+						\label{fig:ConsoleUI}
+					\end{figure}
+				\p{ConcoleControl}
+					Fonctionnalités:
+					\begin{itemize}
+						\item Obtention d'informations sur la console (largeur, hauteur\ldots)
+						\item Positionnement du curseur
+						\item Changement des couleurs d'arrière plan et de premier plan
+						\item Gestion des inputs
+						\item Dessin géométrique (lignes, rectangle)
+						\item Interface utilisateur:
+							\begin{itemize}
+								\item Menu
+								\item Menu d'options
+								\item Messages
+							\end{itemize}
+						\item \ldots
+					\end{itemize}
+					Avantages:
+					\begin{itemize}
+						\item Multiplateforme
+						\item Pas de dépendances
+						\item Utilisé en sous module compilé en même temps que le projet
+					\end{itemize}
+					Pour plus d'informations, voir \href{https://github.com/pinam45/ConsoleControl}{la page Github de la librairie}.
+				\p{Résultat}
+					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisit des couleur différente du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \texttt{ConsoleUI.hpp}.
+	\section{Compilation}
+		\subsection{Informations}
+		\subsection{Make}
+		\subsection{CMake}
 	\section{Résultats}
 		\subsection{IA contre IA}
 		\subsection{IA contre Humain}
 %\begin{upmcaution}
-%	This is an example of a caution message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between %the caution icon and the box frame.
+%	This is an example of a caution message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
 %\end{upmcaution}
 %\begin{upminfo}
-%	This is an example of an information message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection %between the caution icon and the box frame.
+%	This is an example of an information message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
 %\end{upminfo}
 %\begin{upmquestion}
-%	This is an example of a question message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between %the caution icon and the box frame.
+%	This is an example of a question message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
 %\end{upmquestion}
 %\begin{figure}[h!]
 %	\centering
