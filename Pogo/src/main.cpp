@@ -233,8 +233,8 @@ void playAIAI() {
 
 	ConsoleUI<BoardType> ui;
 	GameManager<BoardType> manager;
-	AlphaBetaAIPlayer<BoardType> player1(PLAYER1_PAWN, static_cast<unsigned int>(integerOption1.value), &pawnsFracEval);
-	AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, static_cast<unsigned int>(integerOption2.value), &pawnsFracEval);
+	AlphaBetaAIPlayer<BoardType> player1(PLAYER1_PAWN, static_cast<unsigned int>(integerOption1.value), &stackFracEval);
+	AlphaBetaAIPlayer<BoardType> player2(PLAYER2_PAWN, static_cast<unsigned int>(integerOption2.value), &stackFracEval);
 
 	std::string AI1Name("AI 1 (depth ");
 	AI1Name += static_cast<char>('0' + integerOption1.value);

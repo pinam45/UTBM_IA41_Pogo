@@ -326,7 +326,7 @@ void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string 
 }
 
 template<typename PawnStackType, unsigned int width, unsigned int height>
-void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string playerName, const BoardType& board){
+void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string playerName, const BoardType& board) {
 	playerName += " win the game.";
 	cc_Message message{
 		"Victory !",
@@ -339,7 +339,7 @@ void ConsoleUI<Board<PawnStackType, width, height>>::displayVictory(std::string 
 	};
 	cc_displayColorMessage(&message, &messageColors);
 
-	while(message.currentChoice == LEFT_CHOICE){
+	while(message.currentChoice == LEFT_CHOICE) {
 		displayBoard(board);
 		cc_getInput();
 		message.currentChoice = RIGHT_CHOICE;
@@ -462,7 +462,7 @@ unsigned int ConsoleUI<Board<PawnStackType, width, height>>::selectPawnsNumber(c
 				break;
 			case OTHER_KEY:
 				if(input.ch == '+') {
-					if(takenPawns < m_maxTakenPawns) {
+					if(takenPawns < m_maxTakenPawns && takenPawns < pawnStackSize) {
 						++takenPawns;
 					}
 				}
@@ -471,7 +471,8 @@ unsigned int ConsoleUI<Board<PawnStackType, width, height>>::selectPawnsNumber(c
 						--takenPawns;
 					}
 				}
-				else if(input.ch > '0' && input.ch < static_cast<unsigned char>('0' + m_maxTakenPawns)) {
+				else if(input.ch > '0' && input.ch <= static_cast<unsigned char>('0' + m_maxTakenPawns)
+				        && input.ch <= static_cast<unsigned char>('0' + pawnStackSize)) {
 					takenPawns = static_cast<unsigned int>(input.ch - '0');
 				}
 				break;
