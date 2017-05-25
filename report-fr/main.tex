@@ -18,6 +18,37 @@
 		\subsection{Présentation}
 			Le but de ce projet est de réaliser une IA capable de jouer au jeu de Pogo. Pour cela l'algorithme \textbf{MinMax} et son optimisation \textbf{AlphaBeta} seront utilisés. Il doit aussi être possible de tester l'IA. Le langage utilisé pour réaliser le projet est le C++ norme 2011.
 		\subsection{Règles}
+			\paragraph{Matériel}
+			\begin{itemize}
+				\item Plateau de 9 cases, dimensions 3x3
+				\item 6 pions de couleurs différentes pour chaque joueur
+			\end{itemize}
+			\p{But du jeu} Être le premier à avoir une pièce de sa couleur au sommet de chaque pile	
+			\p{Position initiale}	Ci dessous la position initiale depuis notre console :
+
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
+				\caption{Plateau: État initial du plateau de jeu}
+			\end{figure}
+
+			
+			\p{Description du jeu}
+				A tour de rôle, chaque joueur effectue un déplacement qui doit obéir
+				aux règles suivantes :
+				\begin{itemize}
+					\item Un joueur peut déplacer au choix, une, deux ou trois pièces, qui doivent déjà être empilées
+					sur la même case.
+					\item La pièce au sommet de l’ensemble déplacé doit être de sa couleur. Les pièces de dessous
+					peuvent appartenir à l’autre joueur.
+					\item L’ensemble déplacé doit bouger du même nombre de cases que le nombre d’éléments dont il
+					est constitué.
+				\end{itemize}
+				Les pièces peuvent être déplacées dans toutes les directions, mais pas en diagonale. Le déplacement
+				d’une pile de deux pièces peut se faire en coude. Celui d’une pile de trois pièces peut décrire un ou
+				deux coudes. Peu importe si la case d’arrivée est occupée ou pas. Les cases occupées n’empêchent
+				pas le passage des pièces. La hauteur des piles n’est pas limitée.
+
 		\subsection{Objectifs}
 			\p{Objectif premiers}
 				Il faut réaliser une IA mais il faut aussi pouvoir tester cette dernière pour évaluer sa performance. Pour pouvoir tester l'IA il faut que le programme propose de jouer en Humains contre IA mais aussi en IA contre IA. Pour cela nous avons fixé les objectif suivants:
@@ -158,14 +189,14 @@
 				\p{UI}
 					\texttt{UI} est l'interface (classe purement abstraite) a implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de stack utilisé, la largeur du plateau et sa hauteur. Elle possèdes des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
 				\p{ConsoleUI}
-					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interface graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConcoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
+					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interface graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConsoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
 					\begin{figure}[h!]
 						\centering
 						\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
 						\caption{ConsoleUI: affichage en console du plateau de jeu}
 						\label{fig:ConsoleUI}
 					\end{figure}
-				\p{ConcoleControl}
+				\p{ConsoleControl}
 					Fonctionnalités:
 					\begin{itemize}
 						\item Obtention d'informations sur la console (largeur, hauteur\ldots)
@@ -195,6 +226,12 @@
 		\subsection{Make}
 		\subsection{CMake}
 	\section{Résultats}
+		\subsection{Performances AlphaBeta vs MinMax}
+			\paragraph{}
+			Nous avons d'abord implémenté une IA reposant sur le MinMax. Nous avons testé jusqu'à quelle profondeur le temps de réponse de l'IA restait raisonnable pour des parties rapides, soit une réponse en quelques secondes (temps < 10 secondes).
+			\\La profondeur maximale répondant à ce critère de temps de réponse avec le MinMax est de 5.
+			En élaguant avec l'AlphaBeta, nous sommes parvenu à obtenir une profondeur maximale de 7. Nous pouvons expliquer cette amélioration par la symétrie des coups possibles, et du petit nombre de valeurs différentes que peut prendre notre évaluation.
+			
 		\subsection{IA contre IA}
 		\subsection{IA contre Humain}
 %\begin{upmcaution}
