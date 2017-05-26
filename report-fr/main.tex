@@ -26,7 +26,7 @@
 			\p{But du jeu}
 				Être le premier à avoir une pièce de sa couleur au sommet de chaque pile.
 			\p{Position initiale}
-				Ci dessous la position initiale depuis notre console:
+				Ci-dessous la position initiale depuis notre console:
 				\begin{figure}[h!]
 					\centering
 					\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
@@ -42,14 +42,14 @@
 				Les pièces peuvent être déplacées dans toutes les directions, mais pas en diagonale. Le déplacement d’une pile de deux pièces peut se faire en coude. Celui d’une pile de trois pièces peut décrire un ou deux coudes. Peu importe si la case d’arrivée est occupée ou pas. Les cases occupées n’empêchent pas le passage des pièces. La hauteur des piles n’est pas limitée.
 		\subsection{Objectifs}
 			\p{Objectif premiers}
-				Il faut réaliser une IA mais il faut aussi pouvoir tester cette dernière pour évaluer sa performance. Pour pouvoir tester l'IA il faut que le programme propose de jouer en Humains contre IA mais aussi en IA contre IA. Pour cela nous avons fixé les objectif suivants:
+				Il faut réaliser une IA mais il faut aussi pouvoir tester cette dernière pour évaluer sa performance. Pour pouvoir tester l'IA il faut que le programme propose de jouer en Humains contre IA mais aussi en IA contre IA. Pour cela nous avons fixé les objectifs suivants:
 				\begin{itemize}
 					\item Implémenter la logique d'un jeu de Pogo
 					\item Réaliser une IA capable de jouer au jeu
 					\item Réaliser une interface homme-machine pour permettre a l'utilisateur de visualiser le jeu et d'y jouer
 				\end{itemize}
 			\p{Objectif supplémentaires}
-				Nous avons rajouter quelques objectifs supplémentaires afin d'améliorer le programme, faciliter les test de l'IA et élargir les possibilités de modification de l'IA.
+				Nous avons rajouté quelques objectifs supplémentaires afin d'améliorer le programme, faciliter les tests de l'IA et élargir les possibilités de modification de l'IA.
 				\begin{itemize}
 					\item Permettre de jouer en Humain contre Humain
 					\item Permettre de choisir la profondeur d'exploration de l'arbre de l'IA
@@ -58,12 +58,12 @@
 				\end{itemize}
 		\subsection{Notes}
 			\p{Détails}
-				Les fonctions importantes et liées a l'IA seront expliqué et leur fonctionnement détaillé (souvent par un algorithme). Pour les autres fonction se référer a la documentation Doxygen du code.
+				Les fonctions importantes et liées à l'IA seront expliqué et leur fonctionnement détaillé (souvent par un algorithme). Pour les autres fonctions se référer à la documentation Doxygen du code.
 				\begin{upminfo}
 					Doxygen est un générateur de documentation sous licence libre, une documentation web peut être généré, pour cela voir \href{http://www.stack.nl/~dimitri/doxygen/}{le site web de Doxygen}.
 				\end{upminfo}
 			\p{Diagrammes}
-				Les diagrammes utilisé pour expliciter les classes sont des diagrammes de classe UML dont les spécification peuvent etre obtenues sur le site \href{http://www.omg.org/spec/UML/}{Object Management Group}
+				Les diagrammes utilisé pour expliciter les classes sont des diagrammes de classe UML dont les spécifications peuvent être obtenues sur le site \href{http://www.omg.org/spec/UML/}{Object Management Group}
 	\section{Réalisation}
 		\subsection{Représentation du jeu}
 			\subsubsection{pions}
@@ -75,7 +75,7 @@
 			\subsubsection{AlphaBeta}
 			\subsubsection{Génération des coups}
 				\paragraph{}
-					Pour générer les coups, nous devions modéliser les règles de déplacement. Nous avons d'abord envisagé, pour déterminer tous les déplacement possibles à partir d'une pile, d'utiliser un algorithme récursif, qui déterminerait les piles d'arrivés par diffusion à partir de la pile de départ.\\
+					Pour générer les coups, nous devions modéliser les règles de déplacement. Nous avons d'abord envisagé, pour déterminer tous les déplacements possibles à partir d'une pile, d'utiliser un algorithme récursif, qui déterminerait les piles d'arrivés par diffusion à partir de la pile de départ.\\
 					Nous avons finalement opté pour un calcul de distance de Manhattan défini comme:
 					\[d((x1,y1),(x2,y2)) = |x2 - x1| + |y2 -y1|\]
 				\paragraph{}
@@ -88,7 +88,7 @@
 					\end{figure}
 			\subsubsection{Fonction d'évaluation}
 				\paragraph{}
-					Afin d'évaluer le partie nous comptons pour un joueur  le nombre de piles qu’il contrôle, que nous divisons par le nombre total de piles présentes sur le jeu. Notre évaluation représente donc le pourcentage de piles que nous contrôlons. Eval = 0 représente donc une défaite pour le joueur qui évalue car il ne possède aucune pile et Eval = 1 une victoire car il les contrôle toutes. On a donc $Eval \in [0,1]$.\\
+					Afin d'évaluer la partie nous comptons pour un joueur  le nombre de piles qu’il contrôle, que nous divisons par le nombre total de piles présentes sur le jeu. Notre évaluation représente donc le pourcentage de piles que nous contrôlons. Eval = 0 représente donc une défaite pour le joueur qui évalue car il ne possède aucune pile et Eval = 1 une victoire car il les contrôle toutes. On a donc $Eval \in [0,1]$.\\
 					De façon formelle :
 					\[
 					x_{i} = \left\{
@@ -156,12 +156,12 @@
 					\begin{description}
 						\item[Flèche du haut] Bouger la sélection en haut
 						\item[Flèche du bas] Bouger la sélection en bas
-						\item[Flèche de gauche] Bouger la sélection a gauche
-						\item[Flèche de droite] Bouger la sélection a droite
+						\item[Flèche de gauche] Bouger la sélection à gauche
+						\item[Flèche de droite] Bouger la sélection à droite
 						\item[Entré] Valider le choix
 						\item[Échap] Quitter la partie
 					\end{description}
-					Lors de la sélection du nombre de pions a prendre dans une pile:
+					Lors de la sélection du nombre de pions à prendre dans une pile:
 					\begin{description}
 						\item[Flèche du haut] Diminuer le nombre de pions pris
 						\item[Flèche du bas] Augmenter le nombre de pions pris
@@ -175,11 +175,11 @@
 					\caption{UI et ConsoleUI: diagramme de classe}
 					\label{fig:UIDiagram}
 				\end{figure}
-				L'interface utilisateur du projet est constitué de deux classes:
+				L'interface utilisateur du projet est constituée de deux classes:
 				\p{UI}
-					\texttt{UI} est l'interface (classe purement abstraite) a implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de stack utilisé, la largeur du plateau et sa hauteur. Elle possèdes des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
+					\texttt{UI} est l'interface (classe purement abstraite) à implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de stack utilisé, la largeur du plateau et sa hauteur. Elle possède des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
 				\p{ConsoleUI}
-					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interface graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConsoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
+					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interfaces graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConsoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
 					\begin{figure}[h!]
 						\centering
 						\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
@@ -191,7 +191,7 @@
 					\begin{itemize}
 						\item Obtention d'informations sur la console (largeur, hauteur\ldots)
 						\item Positionnement du curseur
-						\item Changement des couleurs d'arrière plan et de premier plan
+						\item Changement des couleurs d'arrière-plan et de premier plan
 						\item Gestion des inputs
 						\item Dessin géométrique (lignes, rectangle)
 						\item Interface utilisateur:
@@ -210,7 +210,7 @@
 					\end{itemize}
 					Pour plus d'informations, voir \href{https://github.com/pinam45/ConsoleControl}{la page Github de la librairie}.
 				\p{Résultat}
-					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisit des couleur différente du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \texttt{ConsoleUI.hpp}.
+					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisi des couleur différente du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \texttt{ConsoleUI.hpp}.
 	\section{Compilation}
 		\subsection{Informations}
 		\subsection{Make}
@@ -219,7 +219,7 @@
 		\subsection{Performances AlphaBeta vs MinMax}
 			\paragraph{}
 				Nous avons d'abord implémenté une IA reposant sur le MinMax. Nous avons testé jusqu'à quelle profondeur le temps de réponse de l'IA restait raisonnable pour des parties rapides, soit une réponse en quelques secondes (temps < 10 secondes).\\
-				La profondeur maximale répondant à ce critère de temps de réponse avec le MinMax est de 5. En élaguant avec l'AlphaBeta, nous sommes parvenu à obtenir une profondeur maximale de 7. Nous pouvons expliquer cette amélioration par la symétrie des coups possibles, et du petit nombre de valeurs différentes que peut prendre notre évaluation.
+				La profondeur maximale répondant à ce critère de temps de réponse avec le MinMax est de 5. En élaguant avec l'AlphaBeta, nous sommes parvenus à obtenir une profondeur maximale de 7. Nous pouvons expliquer cette amélioration par la symétrie des coups possibles, et du petit nombre de valeurs différentes que peut prendre notre évaluation.
 		\subsection{IA contre IA}
 		\subsection{IA contre Humain}
 %\begin{upmcaution}
