@@ -18,37 +18,28 @@
 		\subsection{Présentation}
 			Le but de ce projet est de réaliser une IA capable de jouer au jeu de Pogo. Pour cela l'algorithme \textbf{MinMax} et son optimisation \textbf{AlphaBeta} seront utilisés. Il doit aussi être possible de tester l'IA. Le langage utilisé pour réaliser le projet est le C++ norme 2011.
 		\subsection{Règles}
-			\paragraph{Matériel}
-			\begin{itemize}
-				\item Plateau de 9 cases, dimensions 3x3
-				\item 6 pions de couleurs différentes pour chaque joueur
-			\end{itemize}
-			\p{But du jeu} Être le premier à avoir une pièce de sa couleur au sommet de chaque pile	
-			\p{Position initiale}	Ci dessous la position initiale depuis notre console :
-
-			\begin{figure}[h!]
-				\centering
-				\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
-				\caption{Plateau: État initial du plateau de jeu}
-			\end{figure}
-
-			
-			\p{Description du jeu}
-				A tour de rôle, chaque joueur effectue un déplacement qui doit obéir
-				aux règles suivantes :
+			\p{Matériel}
 				\begin{itemize}
-					\item Un joueur peut déplacer au choix, une, deux ou trois pièces, qui doivent déjà être empilées
-					sur la même case.
-					\item La pièce au sommet de l’ensemble déplacé doit être de sa couleur. Les pièces de dessous
-					peuvent appartenir à l’autre joueur.
-					\item L’ensemble déplacé doit bouger du même nombre de cases que le nombre d’éléments dont il
-					est constitué.
+					\item Plateau de 9 cases, dimensions 3 $\times$ 3
+					\item 6 pions de couleurs différentes pour chaque joueur
 				\end{itemize}
-				Les pièces peuvent être déplacées dans toutes les directions, mais pas en diagonale. Le déplacement
-				d’une pile de deux pièces peut se faire en coude. Celui d’une pile de trois pièces peut décrire un ou
-				deux coudes. Peu importe si la case d’arrivée est occupée ou pas. Les cases occupées n’empêchent
-				pas le passage des pièces. La hauteur des piles n’est pas limitée.
-
+			\p{But du jeu}
+				Être le premier à avoir une pièce de sa couleur au sommet de chaque pile.
+			\p{Position initiale}
+				Ci dessous la position initiale depuis notre console:
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
+					\caption{Plateau: État initial du plateau de jeu}
+				\end{figure}
+			\p{Description du jeu}
+				A tour de rôle, chaque joueur effectue un déplacement qui doit obéir aux règles suivantes :
+				\begin{itemize}
+					\item Un joueur peut déplacer au choix, une, deux ou trois pièces, qui doivent déjà être empilées sur la même case.
+					\item La pièce au sommet de l’ensemble déplacé doit être de sa couleur. Les pièces de dessous peuvent appartenir à l’autre joueur.
+					\item L’ensemble déplacé doit bouger du même nombre de cases que le nombre d’éléments dont il est constitué.
+				\end{itemize}
+				Les pièces peuvent être déplacées dans toutes les directions, mais pas en diagonale. Le déplacement d’une pile de deux pièces peut se faire en coude. Celui d’une pile de trois pièces peut décrire un ou deux coudes. Peu importe si la case d’arrivée est occupée ou pas. Les cases occupées n’empêchent pas le passage des pièces. La hauteur des piles n’est pas limitée.
 		\subsection{Objectifs}
 			\p{Objectif premiers}
 				Il faut réaliser une IA mais il faut aussi pouvoir tester cette dernière pour évaluer sa performance. Pour pouvoir tester l'IA il faut que le programme propose de jouer en Humains contre IA mais aussi en IA contre IA. Pour cela nous avons fixé les objectif suivants:
@@ -84,18 +75,17 @@
 			\subsubsection{AlphaBeta}
 			\subsubsection{Génération des coups}
 				\paragraph{}
-					Pour générer les coups, nous devions modéliser les règles de déplacement. Nous avons d'abord envisagé, pour déterminer tous les déplacement possibles à partir d'une pile, d'utiliser un algorithme récursif, qui déterminerait les piles d'arrivés par diffusion à partir de la pile de départ. 
-					Nous avons finalement opté pour un calcul de distance de Manhattan
-					défini comme : 
-					\begin{center}
-						$d ((x1,y1),(x2,y2) = |x2 - x1| + |y2 -y1| $
-					\end{center} 
-					\paragraph{} En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $ d (pile_{i}, pile_{j}) = p $ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, dû aux déplacements en coudes.
-					\\Voici un exemple illustrant tous les déplacements possibles à partir d'une pile, en utilisant les distances de Manhattan (La pile de départ est encadrée en vert).
-					\begin{center}
-						\includegraphics[width=0.6\textwidth]{figures/GenerationCoup.png}
-					\end{center} 
-					
+					Pour générer les coups, nous devions modéliser les règles de déplacement. Nous avons d'abord envisagé, pour déterminer tous les déplacement possibles à partir d'une pile, d'utiliser un algorithme récursif, qui déterminerait les piles d'arrivés par diffusion à partir de la pile de départ.\\
+					Nous avons finalement opté pour un calcul de distance de Manhattan défini comme:
+					\[d((x1,y1),(x2,y2)) = |x2 - x1| + |y2 -y1|\]
+				\paragraph{}
+					En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $d(pile_{i}, pile_{j}) = p$ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, dû aux déplacements en coudes.\\
+					Voici un exemple illustrant tous les déplacements possibles à partir d'une pile, en utilisant les distances de Manhattan (La pile de départ est encadrée en vert).
+					\begin{figure}[h!]
+						\centering
+						\includegraphics[width=0.6\textwidth]{figures/GenerationCoup}
+						\caption{Génération des coups}
+					\end{figure}
 			\subsubsection{Fonction d'évaluation}
 				\paragraph{}
 					Afin d'évaluer le partie nous comptons pour un joueur  le nombre de piles qu’il contrôle, que nous divisons par le nombre total de piles présentes sur le jeu. Notre évaluation représente donc le pourcentage de piles que nous contrôlons. Eval = 0 représente donc une défaite pour le joueur qui évalue car il ne possède aucune pile et Eval = 1 une victoire car il les contrôle toutes. On a donc $Eval \in [0,1]$.\\
@@ -228,10 +218,8 @@
 	\section{Résultats}
 		\subsection{Performances AlphaBeta vs MinMax}
 			\paragraph{}
-			Nous avons d'abord implémenté une IA reposant sur le MinMax. Nous avons testé jusqu'à quelle profondeur le temps de réponse de l'IA restait raisonnable pour des parties rapides, soit une réponse en quelques secondes (temps < 10 secondes).
-			\\La profondeur maximale répondant à ce critère de temps de réponse avec le MinMax est de 5.
-			En élaguant avec l'AlphaBeta, nous sommes parvenu à obtenir une profondeur maximale de 7. Nous pouvons expliquer cette amélioration par la symétrie des coups possibles, et du petit nombre de valeurs différentes que peut prendre notre évaluation.
-			
+				Nous avons d'abord implémenté une IA reposant sur le MinMax. Nous avons testé jusqu'à quelle profondeur le temps de réponse de l'IA restait raisonnable pour des parties rapides, soit une réponse en quelques secondes (temps < 10 secondes).\\
+				La profondeur maximale répondant à ce critère de temps de réponse avec le MinMax est de 5. En élaguant avec l'AlphaBeta, nous sommes parvenu à obtenir une profondeur maximale de 7. Nous pouvons expliquer cette amélioration par la symétrie des coups possibles, et du petit nombre de valeurs différentes que peut prendre notre évaluation.
 		\subsection{IA contre IA}
 		\subsection{IA contre Humain}
 %\begin{upmcaution}
