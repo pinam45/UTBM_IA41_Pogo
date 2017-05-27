@@ -71,9 +71,9 @@
 				\p{Définition}
 					Les pions sont représenté par la classe \jclass{Pawn} définit dans \textbf{Pawn.hpp}
 				\p{Observation}
-					Les pions on des caractéristiques intrinsèque identiques pour tous comme leur taille, le nombre de poins qu'il valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
+					Les pions on des caractéristiques intrinsèque identiques pour tous comme leur taille, le nombre de points qu'il valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
 				\p{Choix}
-					Les pions sont donc représenté par une valeur booléenne:
+					Les pions sont donc représentés par une valeur booléenne:
 					\begin{description}
 						\item[0] Pion du joueur 1
 						\item[1] Pion du joueur 2
@@ -88,7 +88,7 @@
 						\label{fig:PawnStackDiagram}
 					\end{figure}
 				\p{Choix}
-					Partant de l'idée qu'un \textbf{bit} (0 ou 1) suffit pour représenter un pions nous avons choisit d'optimiser la mémoire en représentant une pile de pions par un nombre entier (\textit{container}) ou chaque bit qui le compose représente un pion. Le problème qui se pose alors est lorsqu'il n'y a pas de pions puisque chaque valeur possible représente un joueur.
+					Partant de l'idée qu'un \textbf{bit} (0 ou 1) suffit pour représenter un pion nous avons choisi d'optimiser la mémoire en représentant une pile de pions par un nombre entier (\textit{container}) ou chaque bit qui le compose représente un pion. Le problème qui se pose alors est lorsqu'il n'y a pas de pions puisque chaque valeur possible représente un joueur.
 				\p{Taille de la pile}
 					Dans notre représentation une pile a un début fixe, le premier élément, mais une fin variable puisque la taille d'une pile est variable. Comme illustré sur la figure \ref{fig:pile_mémoire}, pour définir la taille d'une pile nous avons donc décidé que en partant de la fin (pile complète, 16 pions) que le premier pion au joueur 2 (bit a 1) marquerait la fin de la pile au pions précédent.
 					\begin{figure}[H]
@@ -112,7 +112,7 @@
 						\label{fig:pile_représentation}
 					\end{figure}
 				\p{Fonction principales}
-					La fonction \jfunc{pick} permet de prendre des pions de la pile et la fonction \jfunc{add} permet d'ajouter des pions a la pile, elles son utilisées pour appliquer les mouvements de pions.
+					La fonction \jfunc{pick} permet de prendre des pions de la pile et la fonction \jfunc{add} permet d'ajouter des pions a la pile, elles sont utilisées pour appliquer les mouvements de pions.
 			\subsubsection{Mouvements de pions}
 				\p{Définition}
 					Les mouvements de pions sont représenté par la structure \jclass{PawnsMove} définit dans \textbf{PawnsMove.hpp}
@@ -123,7 +123,7 @@
 						\label{fig:PawnsMoveDiagram}
 					\end{figure}
 				\p{Choix}
-					Cette structure représente un mouvement de pions, elle est généré par les joueurs (humains ou IA) lorsqu'il jouent et est appliqué au plateau.
+					Cette structure représente un mouvement de pions, elle est généré par les joueurs (humains ou IA) lorsqu’ils jouent et est appliqué au plateau.
 			\subsubsection{Plateau}
 				\p{Définition}
 					Le plateau est représenté par la classe \jclass{Board} définit dans \textbf{Board.hpp}
@@ -198,7 +198,7 @@
 					Lors du tour d'un joueur humain, le plateau permet de choisir un mouvement de la façon suivante:
 					\begin{itemize}
 						\item Choix de la pile de départ
-						\item Choix du nombre de pions a prendre
+						\item Choix du nombre de pions à prendre
 						\item Choix de la pile d'arrivé
 					\end{itemize}
 					Lors du choix de la pile de départ et d'arrivé, les choix valides serons affichés en vert.
@@ -246,7 +246,7 @@
 				\end{figure}
 				L'interface utilisateur du projet est constituée de deux classes:
 				\p{UI}
-					\texttt{UI} est l'interface (classe purement abstraite) à implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de stack utilisé, la largeur du plateau et sa hauteur. Elle possède des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
+					\texttt{UI} est l'interface (classe purement abstraite) à implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de pile utilisé, la largeur du plateau et sa hauteur. Elle possède des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
 				\p{ConsoleUI}
 					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interfaces graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConsoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
 					\begin{figure}[H]
@@ -283,14 +283,14 @@
 	\section{Compilation}
 		\subsection{Informations}
 			\p{Options}
-				La compilation se fait avec avec le standard \textbf{C++14}, un compilateur suffisamment a jour (gcc a partir de 4.9) est donc nécessaire.\\
+				La compilation se fait avec avec le standard \textbf{C++14}, un compilateur suffisamment a jour (gcc à partir de 4.9) est donc nécessaire.\\
 				Deux modes de compilation sont possibles:
 				\begin{description}
 					\item[Debug] ajoute les informations de debug et active le logger
 					\item[Release] active les optimisations de performance du compilateur
 				\end{description}
 			\p{Tests}
-				La compilation a été testé dans les environements suivants:
+				La compilation a été testée dans les environnements suivants:
 				\begin{center}
 					\begin{tabular}{|c|c|c|c|}
 						\hline
@@ -319,9 +319,9 @@
 				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
 -s -Os\end{lstlisting}
 			\p{Compilation}
-				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker a la compilation du projet. La librairie étant fournie avec le projet plusieurs système de compilation qui automatise cette tache ainsi que la compilation du projet son disponibles, il est recommandé de les utiliser.
+				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker a la compilation du projet. La librairie étant fournie avec le projet plusieurs système de compilation qui automatise cette tache ainsi que la compilation du projet sont disponibles, il est recommandé de les utiliser.
 			\p{Systèmes de compilation}
-				Deux systèmes de compilations sont mis a disposition:
+				Deux systèmes de compilations sont mis à disposition:
 				\begin{description}
 					\item[Make] Fichier \textit{Makefile}
 					\item[CMake] Fichier \textit{CMakeLists.txt}
@@ -336,7 +336,7 @@
 					\item[silent] Cible par défaut, équivalent a \texttt{make --silent all}
 					\item[all] Compile le projet
 					\item[debug] Compile le projet en debug
-					\item[clean] Supprime tout les fichiers et dossiers générés par le \textit{Makefile}
+					\item[clean] Supprime tous les fichiers et dossiers générés par le \textit{Makefile}
 				\end{description}
 				Pour appeler une cible:
 				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
