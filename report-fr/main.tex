@@ -26,14 +26,15 @@
 			\p{But du jeu}
 				Être le premier à avoir une pièce de sa couleur au sommet de chaque pile.
 			\p{Position initiale}
-				Ci-dessous la position initiale depuis notre console:
-				\begin{figure}[h!]
+				La position initiale est illustrée avec notre interface utilisateur sur la figure \ref{fig:état_initial}.
+				\begin{figure}[H]
 					\centering
 					\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
 					\caption{Plateau: État initial du plateau de jeu}
+					\label{fig:état_initial}
 				\end{figure}
 			\p{Description du jeu}
-				A tour de rôle, chaque joueur effectue un déplacement qui doit obéir aux règles suivantes :
+				A tour de rôle, chaque joueur effectue un déplacement qui doit obéir aux règles suivantes:
 				\begin{itemize}
 					\item Un joueur peut déplacer au choix, une, deux ou trois pièces, qui doivent déjà être empilées sur la même case.
 					\item La pièce au sommet de l’ensemble déplacé doit être de sa couleur. Les pièces de dessous peuvent appartenir à l’autre joueur.
@@ -67,6 +68,16 @@
 	\section{Réalisation}
 		\subsection{Représentation du jeu}
 			\subsubsection{pions}
+				\p{Définition}
+					Les pions sont représenté par la classe \jclass{Pawn} définit dans \textbf{Pawn.hpp}
+				\p{Observation}
+					Les pions on des caractéristiques intrinsèque identiques pour tous comme leur taille, le nombre de poins qu'il valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
+				\p{Choix}
+					Les pions sont donc représenté par une valeur booléenne:
+					\begin{description}
+						\item[0] Pion du joueur 1
+						\item[1] Pion du joueur 2
+					\end{description}
 			\subsubsection{Piles de pions}
 			\subsubsection{Plateau}
 		\subsection{Structure de l'IA}
@@ -81,7 +92,7 @@
 				\paragraph{}
 					En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $d(pile_{i}, pile_{j}) = p$ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, dû aux déplacements en coudes.\\
 					Voici un exemple illustrant tous les déplacements possibles à partir d'une pile, en utilisant les distances de Manhattan (La pile de départ est encadrée en vert).
-					\begin{figure}[h!]
+					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.6\textwidth]{figures/GenerationCoup}
 						\caption{Génération des coups}
@@ -169,7 +180,7 @@
 						\item[Échap] Quitter la partie
 					\end{description}
 			\subsubsection{Réalisation}
-				\begin{figure}[h!]
+				\begin{figure}[H]
 					\centering
 					\includegraphics[width=0.7\textwidth]{figures/UIDiagram}
 					\caption{UI et ConsoleUI: diagramme de classe}
@@ -180,7 +191,7 @@
 					\texttt{UI} est l'interface (classe purement abstraite) à implémenter pour réaliser une interface homme machine utilisable dans le projet. Elle a 3 paramètres de template: le type de stack utilisé, la largeur du plateau et sa hauteur. Elle possède des fonctions pour afficher le plateau et la victoire mais aussi pour permettre au joueur humain de choisir un mouvement.
 				\p{ConsoleUI}
 					\texttt{ConsoleUI} est l'implémentation qu'utilise le projet, elle est entièrement en console mais emprunte beaucoup aux interfaces graphiques, elle a été réalisée avec la librairie C, compatible C++ \textbf{ConsoleControl} développée par Maxime Pinard, membre du groupe du projet. Le projet utilise la version 0.2 de la librairie.
-					\begin{figure}[h!]
+					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.7\textwidth]{figures/ConsoleUI}
 						\caption{ConsoleUI: affichage en console du plateau de jeu}
@@ -231,7 +242,7 @@
 %\begin{upmquestion}
 %	This is an example of a question message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
 %\end{upmquestion}
-%\begin{figure}[h!]
+%\begin{figure}[H]
 %	\centering
 %	\includegraphics[width=0.5\textwidth]{figures/sample} % or <figures/sample.jpg>
 %	\caption{sample figure}
