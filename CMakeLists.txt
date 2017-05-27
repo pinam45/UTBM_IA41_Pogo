@@ -26,14 +26,14 @@ if( NOT CMAKE_BUILD_TYPE )
 	set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-# Use c++14 standard
-set(CMAKE_CXX_STANDARD 14)
-
 # Include config files
 include(cmake/config.cmake)
 if(CMAKE_COMPILER_IS_GNUCXX)
 	include(cmake/gcc-settings.cmake)
 endif()
+
+# Disable compiler specific extensions
+set(CMAKE_C_EXTENSIONS OFF)
 
 # Define LOGGER_ENABLED macro if in debug mode
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -74,3 +74,7 @@ add_executable(
 )
 add_dependencies(UTBM_IA41_Pogo ConsoleControl)
 target_link_libraries(UTBM_IA41_Pogo ConsoleControl)
+
+set_property(TARGET UTBM_IA41_Pogo PROPERTY CXX_STANDARD 14)
+set_property(TARGET UTBM_IA41_Pogo PROPERTY CXX_STANDARD_REQUIRED ON)
+message(STATUS "UTBM_IA41_Pogo set standard to use: c++14")
