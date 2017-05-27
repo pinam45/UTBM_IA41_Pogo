@@ -113,6 +113,17 @@
 					\end{figure}
 				\p{Fonction principales}
 					La fonction \jfunc{pick} permet de prendre des pions de la pile et la fonction \jfunc{add} permet d'ajouter des pions a la pile, elles son utilisées pour appliquer les mouvements de pions.
+			\subsubsection{Mouvements de pions}
+				\p{Définition}
+					Les mouvements de pions sont représenté par la structure \jclass{PawnsMove} définit dans \textbf{PawnsMove.hpp}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=0.25\textwidth]{figures/PawnsMoveDiagram}
+						\caption{PawnsMove: diagramme de classe}
+						\label{fig:PawnsMoveDiagram}
+					\end{figure}
+				\p{Choix}
+					Cette structure représente un mouvement de pions, elle est généré par les joueurs (humains ou IA) lorsqu'il jouent et est appliqué au plateau.
 			\subsubsection{Plateau}
 		\subsection{Structure de l'IA}
 			\subsubsection{MinMax}
