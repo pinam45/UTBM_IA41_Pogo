@@ -34,7 +34,7 @@ COMPILER          = g++
 COMPFLAGS         = -pedantic -pedantic-errors -Wall -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Wdouble-promotion -Wextra -Wformat -Winit-self -Winvalid-pch -Wlogical-op -Wmain -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings -Weffc++
 COMPSTANDARD      = -std=c++14
 LINKS             = -lConsoleControl
-DBARGS            = -g -DDEBUG
+DBARGS            = -g -DDEBUG -DLOGGER_ENABLED
 
 BUILDDIR          = build/
 BINARY_OUTPUT_DIR = $(BUILDDIR)bin/
