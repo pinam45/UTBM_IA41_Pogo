@@ -1,0 +1,30 @@
+function AlphaBeta(board: Board, depth: Integer, alpha: Real, beta: Real, maximizing: Boolean)
+	if depth = 0 then // Leaf
+		return eval(board)
+	end
+	if board.victory() then // Leaf
+		return eval(board)
+	end
+	if maximizing = TRUE then // Maximising
+		bestValue := $-\infty$
+		for each possible move do
+			v := AlphaBeta(board.apply(move), depth - 1, alpha, beta, FALSE)
+			bestValue := max(bestValue, v)
+			alpha := max(alpha, bestValue)
+			if beta < alpha then // beta cut-off
+				return bestValue
+			end
+		end
+	else // Minimising
+		bestValue := $+\infty$
+		for each possible move do
+			v := AlphaBeta(board.apply(move), depth - 1, alpha, beta, TRUE)
+			bestValue := min(bestValue, v)
+			beta := min(beta, bestValue)
+			if beta < alpha then // alpha cut-off
+				return bestValue
+			end
+		end
+	end
+	return bestValue
+end
