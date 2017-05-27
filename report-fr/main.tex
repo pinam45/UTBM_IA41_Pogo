@@ -279,9 +279,53 @@
 					\end{itemize}
 					Pour plus d'informations, voir \href{https://github.com/pinam45/ConsoleControl}{la page Github de la librairie}.
 				\p{Résultat}
-					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisi des couleur différente du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \texttt{ConsoleUI.hpp}.
+					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisi des couleur différente du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \textbf{ConsoleUI.hpp}.
 	\section{Compilation}
 		\subsection{Informations}
+			\p{Options}
+				La compilation se fait avec avec le standard \textbf{C++14}, un compilateur suffisamment a jour (gcc a partir de 4.9) est donc nécessaire.\\
+				Deux modes de compilation sont possibles:
+				\begin{description}
+					\item[Debug] ajoute les informations de debug et active le logger
+					\item[Release] active les optimisations de performance du compilateur
+				\end{description}
+			\p{Tests}
+				La compilation a été testé dans les environements suivants:
+				\begin{center}
+					\begin{tabular}{|c|c|c|c|}
+						\hline
+						OS & compilateur & version & résultat\\
+						\hline
+						Debian & gcc & 5.3 & OK\cellcolor{green}\\
+						\hline
+						Debian & gcc & 6.2 & OK\cellcolor{green}\\
+						\hline
+						Debian & gcc & 6.3 & OK\cellcolor{green}\\
+						\hline
+						Windows 10 & Mingw-gcc & 5.3 & OK\cellcolor{green}\\
+						\hline
+					\end{tabular}
+				\end{center}
+			\p{Flags utilisé (gcc)}
+				$\bullet$ Flags de warning:
+				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
+-pedantic -pedantic-errors -Wall -Wcast-align -Wcast-qual -Wconversion -Wdisabled-optimization -Wdouble-promotion -Wextra -Wformat -Winit-self -Winvalid-pch -Wlogical-op -Wmain -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings -Weffc++\end{lstlisting}
+				Pour plus d'information voir les \href{https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html}{options de warning gcc}.\\
+				$\bullet$ Flag en debug:
+				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
+-g -DDEBUG -DLOGGER_ENABLED\end{lstlisting}
+				Le fait de définir \textit{LOGGER\_ENABLED} active le logger.\\
+				$\bullet$ Flag en release:
+				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
+-s -Os\end{lstlisting}
+			\p{Compilation}
+				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker a la compilation du projet. La librairie étant fournie avec le projet plusieurs système de compilation qui automatise cette tache ainsi que la compilation du projet son disponibles, il est recommandé de les utiliser.
+			\p{Systèmes de compilation}
+				Deux systèmes de compilations sont mis a disposition:
+				\begin{description}
+					\item[Make] Fichier \textit{Makefile}
+					\item[CMake] Fichier \textit{CMakeLists.txt}
+				\end{description}
 		\subsection{Make}
 		\subsection{CMake}
 	\section{Résultats}
