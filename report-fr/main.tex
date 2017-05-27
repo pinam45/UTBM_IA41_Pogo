@@ -125,6 +125,18 @@
 				\p{Choix}
 					Cette structure représente un mouvement de pions, elle est généré par les joueurs (humains ou IA) lorsqu'il jouent et est appliqué au plateau.
 			\subsubsection{Plateau}
+				\p{Définition}
+					Le plateau est représenté par la classe \jclass{Board} définit dans \textbf{Board.hpp}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=0.8\textwidth]{figures/BoardDiagram}
+						\caption{Board: diagramme de classe}
+						\label{fig:BoardDiagram}
+					\end{figure}
+				\p{Choix}
+					Le plateau est l'équivalent d'un tableau 2 dimensions $width \times height$, dans notre cas $width$ et $height$ auront pour valeur 3.
+				\p{Fonction principales}
+					La fonction \jfunc{apply} qui permet d'appliquer un mouvement de pions et ainsi de jouer. La fonction \jfunc{controlledStacks} permet de connaitre le nombre de piles contrôlées par un joueur et donc de savoir si un joueur a gagné, si la fonction retourne 0 pour un joueur, alors ce dernier ne contrôle plus de pile et a donc perdu.
 		\subsection{Structure de l'IA}
 			\subsubsection{MinMax}
 				\lstinputalgo[caption=MinMax]{algorithms/MinMax.algo}
