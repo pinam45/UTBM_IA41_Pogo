@@ -47,10 +47,10 @@
 				\begin{itemize}
 					\item Implémenter la logique d'un jeu de Pogo
 					\item Réaliser une IA capable de jouer au jeu
-					\item Réaliser une interface homme-machine pour permettre a l'utilisateur de visualiser le jeu et d'y jouer
+					\item Réaliser une interface homme-machine pour permettre à l'utilisateur de visualiser le jeu et d'y jouer
 				\end{itemize}
 			\p{Objectif supplémentaires}
-				Nous avons rajouté quelques objectifs supplémentaires afin d'améliorer le programme, faciliter les tests de l'IA et élargir les possibilités de modification de l'IA.
+				Nous avons rajouté quelques objectifs supplémentaires afin d'améliorer le programme, de faciliter les tests de l'IA et d'élargir les possibilités de modification de l'IA.
 				\begin{itemize}
 					\item Permettre de jouer en Humain contre Humain
 					\item Permettre de choisir la profondeur d'exploration de l'arbre de l'IA
@@ -59,19 +59,19 @@
 				\end{itemize}
 		\subsection{Notes}
 			\p{Détails}
-				Les fonctions importantes et liées à l'IA seront expliqué et leur fonctionnement détaillé (souvent par un algorithme). Pour les autres fonctions se référer à la documentation Doxygen du code.
+				Les fonctions importantes et liées à l'IA seront expliquées et leur fonctionnement détaillé (souvent par un algorithme). Pour les autres fonctions se référer à la documentation Doxygen du code.
 				\begin{upminfo}
 					Doxygen est un générateur de documentation sous licence libre, une documentation web peut être généré, pour cela voir \href{http://www.stack.nl/~dimitri/doxygen/}{le site web de Doxygen}.
 				\end{upminfo}
 			\p{Diagrammes}
-				Les diagrammes utilisé pour expliciter les classes sont des diagrammes de classe UML dont les spécifications peuvent être obtenues sur le site \href{http://www.omg.org/spec/UML/}{Object Management Group}
+				Les diagrammes utilisés pour expliciter les classes sont des diagrammes de classe UML dont les spécifications peuvent être obtenues sur le site \href{http://www.omg.org/spec/UML/}{Object Management Group}
 	\section{Réalisation}
 		\subsection{Représentation du jeu}
-			\subsubsection{pions}
+			\subsubsection{Pions}
 				\p{Définition}
-					Les pions sont représenté par la classe \jclass{Pawn} définit dans \textbf{Pawn.hpp}
+					Les pions sont représentés par la classe \jclass{Pawn} définit dans \textbf{Pawn.hpp}
 				\p{Observation}
-					Les pions on des caractéristiques intrinsèque identiques pour tous comme leur taille, le nombre de points qu'il valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
+					Les pions ont des caractéristiques intrinsèques identiques pour tous comme leur taille, le nombre de points qu'il valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
 				\p{Choix}
 					Les pions sont donc représentés par une valeur booléenne:
 					\begin{description}
@@ -90,7 +90,7 @@
 				\p{Choix}
 					Partant de l'idée qu'un \textbf{bit} (0 ou 1) suffit pour représenter un pion nous avons choisi d'optimiser la mémoire en représentant une pile de pions par un nombre entier (\textit{container}) ou chaque bit qui le compose représente un pion. Le problème qui se pose alors est lorsqu'il n'y a pas de pions puisque chaque valeur possible représente un joueur.
 				\p{Taille de la pile}
-					Dans notre représentation une pile a un début fixe, le premier élément, mais une fin variable puisque la taille d'une pile est variable. Comme illustré sur la figure \ref{fig:pile_mémoire}, pour définir la taille d'une pile nous avons donc décidé que en partant de la fin (pile complète, 16 pions) que le premier pion au joueur 2 (bit a 1) marquerait la fin de la pile au pions précédent.
+					Dans notre représentation une pile a un début fixe, le premier élément, mais une fin variable puisque la taille d'une pile est variable. Comme illustré sur la figure \ref{fig:pile_mémoire}, pour définir la taille d'une pile nous avons décidé qu'en partant de la fin (pile complète, 16 pions) que le premier pion au joueur 2 (bit à 1) marquerait la fin de la pile aux pions précédents.
 					\begin{figure}[H]
 						\begin{center}
 							\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -112,10 +112,10 @@
 						\label{fig:pile_représentation}
 					\end{figure}
 				\p{Fonction principales}
-					La fonction \jfunc{pick} permet de prendre des pions de la pile et la fonction \jfunc{add} permet d'ajouter des pions a la pile, elles sont utilisées pour appliquer les mouvements de pions.
+					La fonction \jfunc{pick} permet de prendre des pions de la pile et la fonction \jfunc{add} permet d'ajouter des pions à la pile, elles sont utilisées pour appliquer les mouvements de pions.
 			\subsubsection{Mouvements de pions}
 				\p{Définition}
-					Les mouvements de pions sont représenté par la structure \jclass{PawnsMove} définit dans \textbf{PawnsMove.hpp}
+					Les mouvements de pions sont représentés par la structure \jclass{PawnsMove} définit dans \textbf{PawnsMove.hpp}
 					\begin{figure}[H]
 						\centering
 						\includegraphics[width=0.25\textwidth]{figures/PawnsMoveDiagram}
@@ -136,7 +136,7 @@
 				\p{Choix}
 					Le plateau est l'équivalent d'un tableau 2 dimensions $width \times height$, dans notre cas $width$ et $height$ auront pour valeur 3.
 				\p{Fonction principales}
-					La fonction \jfunc{apply} qui permet d'appliquer un mouvement de pions et ainsi de jouer. La fonction \jfunc{controlledStacks} permet de connaitre le nombre de piles contrôlées par un joueur et donc de savoir si un joueur a gagné, si la fonction retourne 0 pour un joueur, alors ce dernier ne contrôle plus de pile et a donc perdu.
+					La fonction \jfunc{apply} permet d'appliquer un mouvement de pions et ainsi de jouer. La fonction \jfunc{controlledStacks} permet de connaitre le nombre de piles contrôlées par un joueur et donc de savoir si un joueur a gagné, si la fonction retourne 0 pour un joueur, alors ce dernier ne contrôle plus de pile et a donc perdu.
 		\subsection{Structure de l'IA}
 			\subsubsection{MinMax}
 				\lstinputalgo[caption=MinMax]{algorithms/MinMax.algo}
@@ -177,7 +177,7 @@
 					Dans ce cas pour le joueur violet contrôle 4 piles, et le nombre de piles sur le plateau est de 7, ce qui nous donne $Eval = \frac{4}{7} \simeq 0,571$
 		\subsection{Interface utilisateur}
 			\subsubsection{Fonctionnalités}
-				L'interface graphique est entièrement réalisée en console avec un style ``graphique''. Il y a deux interfaces principales, les menu et messages (d'information, d'erreur\ldots) et le plateau du jeu de Pogo.
+				L'interface graphique est entièrement réalisée en console avec un style ``graphique''. Il y a deux interfaces principales, les menus et messages (d'information, d'erreur\ldots) et le plateau du jeu de Pogo.
 				\p{Menus}
 					Avant de commencer une partie plusieurs menus se suivent:
 					\begin{itemize}
@@ -201,7 +201,7 @@
 						\item Choix du nombre de pions à prendre
 						\item Choix de la pile d'arrivé
 					\end{itemize}
-					Lors du choix de la pile de départ et d'arrivé, les choix valides serons affichés en vert.
+					Lors du choix de la pile de départ et d'arrivé, les choix valides seront affichés en vert.
 			\subsubsection{Utilisation}
 				\p{Menus}
 					Les menus simples s'utilisent avec les contrôles suivants:
@@ -213,7 +213,7 @@
 						\item[Entré] Valider le choix
 						\item[Échap] Quitter (pas toujours possible)
 					\end{description}
-					Les menus a options s'utilisent avec les contrôles des menus simples avec en plus que les contrôles suivants:
+					Les menus à options s'utilisent avec les contrôles des menus simples avec en plus que les contrôles suivants:
 					\begin{description}
 						\item[Début] Première valeur de l'option
 						\item[Fin] Dernière valeur de l'option
@@ -279,11 +279,11 @@
 					\end{itemize}
 					Pour plus d'informations, voir \href{https://github.com/pinam45/ConsoleControl}{la page Github de la librairie}.
 				\p{Résultat}
-					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisi des couleur différente du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \textbf{ConsoleUI.hpp}.
+					L'interface du jeu est multiplateforme, dessinée en console, principalement en couleur mais aussi avec des caractères. Nous avons choisi des couleurs différentes du jeu original de Pogo pour plus de lisibilité dans la console mais les couleurs et les caractères utilisés sont tous des champs privés de \textit{ConsoleUI} et sont donc configurables dans le fichier \textbf{ConsoleUI.hpp}.
 	\section{Compilation}
 		\subsection{Informations}
 			\p{Options}
-				La compilation se fait avec avec le standard \textbf{C++14}, un compilateur suffisamment a jour (gcc à partir de 4.9) est donc nécessaire.\\
+				La compilation se fait avec avec le standard \textbf{C++14}, un compilateur suffisamment à jour (gcc à partir de 4.9) est donc nécessaire.\\
 				Deux modes de compilation sont possibles:
 				\begin{description}
 					\item[Debug] ajoute les informations de debug et active le logger
@@ -319,7 +319,7 @@
 				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
 -s -Os\end{lstlisting}
 			\p{Compilation}
-				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker a la compilation du projet. La librairie étant fournie avec le projet plusieurs système de compilation qui automatise cette tache ainsi que la compilation du projet sont disponibles, il est recommandé de les utiliser.
+				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker à la compilation du projet. La librairie étant fournie avec le projet plusieurs système de compilation qui automatise cette tache ainsi que la compilation du projet sont disponibles, il est recommandé de les utiliser.
 			\p{Systèmes de compilation}
 				Deux systèmes de compilations sont mis à disposition:
 				\begin{description}
