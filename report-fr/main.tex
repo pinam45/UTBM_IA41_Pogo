@@ -79,6 +79,38 @@
 						\item[1] Pion du joueur 2
 					\end{description}
 			\subsubsection{Piles de pions}
+				\p{Définition}
+					Les piles de pions sont représenté par la classe \jclass{PawnStack} définit dans \textbf{PawnStack.hpp}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=0.7\textwidth]{figures/pawnStackDiagram}
+						\caption{PawnStack: diagramme de classe}
+						\label{fig:PawnStackDiagram}
+					\end{figure}
+				\p{Choix}
+					Partant de l'idée qu'un \textbf{bit} (0 ou 1) suffit pour représenter un pions nous avons choisit d'optimiser la mémoire en représentant une pile de pions par un nombre entier (\textit{container}) ou chaque bit qui le compose représente un pion. Le problème qui se pose alors est lorsqu'il n'y a pas de pions puisque chaque valeur possible représente un joueur.
+				\p{Taille de la pile}
+					Dans notre représentation une pile a un début fixe, le premier élément, mais une fin variable puisque la taille d'une pile est variable. Comme illustré sur la figure \ref{fig:pile_mémoire}, pour définir la taille d'une pile nous avons donc décidé que en partant de la fin (pile complète, 16 pions) que le premier pion au joueur 2 (bit a 1) marquerait la fin de la pile au pions précédent.
+					\begin{figure}[H]
+						\begin{center}
+							\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+								\hline
+								Numéro du bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
+								\hline
+								Valeur du bit & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{orange} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red}\\
+								\hline
+							\end{tabular}
+						\end{center}
+						\caption{Pile en mémoire}
+						\label{fig:pile_mémoire}
+					\end{figure}
+					La figure \ref{fig:pile_représentation} illustre la conversion de la représentation mémorielle vers sa signification puis vers l'affichage pour le joueur. La pile dans cet exemple est donc contrôlée par le joueur 1.
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=\textwidth]{figures/pile}
+						\caption{Représentation d'une pile}
+						\label{fig:pile_représentation}
+					\end{figure}
 			\subsubsection{Plateau}
 		\subsection{Structure de l'IA}
 			\subsubsection{MinMax}
