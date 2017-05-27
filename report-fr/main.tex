@@ -345,6 +345,14 @@ $ make <cible>\end{lstlisting}
 				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
 $ make\end{lstlisting}
 		\subsection{CMake}
+			CMake est un moteur de production multi plate-forme, il est capable de générer des \textit{Makefile} mais aussi des projet Visual Studio et Code::Blocks, pour plus d'information sur CMake voir \href{https://cmake.org/}{le site de CMake}.\\
+			\p{Compilation}
+				Il existe de très nombreuses façons d'utiliser CMake, la plus courante est de se placer dans le dossier du projet puis:
+				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make \end{lstlisting}
 	\section{Résultats}
 		\subsection{Performances AlphaBeta vs MinMax}
 			\paragraph{}
