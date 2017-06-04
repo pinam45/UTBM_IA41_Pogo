@@ -166,10 +166,10 @@
 				\p{Définition}
 					Un joueur humain est représenté par la classe \jclass{HumanPlayer} définit dans \textbf{HumanPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur ainsi que l'interface utilisateur (\jclass{UI}) du jeu.
 				\p{Fonctionnement}
-					Lors de l'appel de la fonction \jfunc{chooseMove} de la classe \jclass{HumanPlayer}, la fonction \jfunc{chooseMove} de la classe \jclass{UI} est appelée pour permettre a l'utilisateur de choisir le mouvement.
+					Lors de l'appel de la fonction \jfunc{chooseMove} de la classe \jclass{HumanPlayer}, la fonction \jfunc{chooseMove} de la classe \jclass{UI} est appelée pour permettre à l'utilisateur de choisir le mouvement.
 			\subsubsection{IA avec MinMax}
 				\p{Définition}
-					Un joueur IA utilisant l'algorithme MinMax est représenté par la classe \jclass{MinMaxAIPlayer} définit dans \textbf{MinMaxAIPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur, la profondeur de l'arbre a parcourir et la fonction d’évaluation du plateau a utiliser.
+					Un joueur IA utilisant l'algorithme MinMax est représenté par la classe \jclass{MinMaxAIPlayer} définit dans \textbf{MinMaxAIPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur, la profondeur de l'arbre à parcourir et la fonction d’évaluation du plateau à utiliser.
 				\p{Fonctionnement}
 					Lors de l'appel de la fonction \jfunc{chooseMove}, l'algorithme du MinMax suivant est utilisé:
 					\lstinputalgo[caption=MinMax]{algorithms/MinMax.algo}
@@ -177,11 +177,11 @@
 					La génération des coups utilisé lors du \texttt{<for each possible move do>} est détaillé dans la section \ref{moveGeneration}.
 			\subsubsection{IA avec AlphaBeta}
 				\p{Définition}
-					Un joueur IA utilisant l'algorithme AlphaBeta est représenté par la classe \jclass{AlphaBetaAIPlayer} définit dans \textbf{AlphaBetaAIPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur, la profondeur de l'arbre a parcourir et la fonction d’évaluation du plateau a utiliser.
+					Un joueur IA utilisant l'algorithme AlphaBeta est représenté par la classe \jclass{AlphaBetaAIPlayer} définit dans \textbf{AlphaBetaAIPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur, la profondeur de l'arbre à parcourir et la fonction d’évaluation du plateau à utiliser.
 				\p{Fonctionnement}
 					Lors de l'appel de la fonction \jfunc{chooseMove}, l'algorithme du AlphaBeta suivant est utilisé:
 					\lstinputalgo[caption=AlphaBeta]{algorithms/AlphaBeta.algo}
-					Pour les mêmes raison que avec le MinMax, le premier appel est réalisé par la fonction \jfunc{chooseMove} qui réalise le même algorithme mais en sauvegardant le meilleur mouvement rencontré pour le retourner et donc le jouer.\\
+					Pour la même raison que avec le MinMax, le premier appel est réalisé par la fonction \jfunc{chooseMove} qui réalise le même algorithme mais en sauvegardant le meilleur mouvement rencontré pour le retourner et donc le jouer.\\
 					La génération des coups utilisé lors du \texttt{<for each possible move do>} est détaillé dans la section suivante.
 			\subsubsection{Génération des coups}\label{moveGeneration}
 				\paragraph{}
@@ -220,9 +220,9 @@
 						\label{fig:EvalExample}
 					\end{figure}
 				\p{Autres possibilités}
-					D'autres fonctions d'évaluation sont possibles, nous avons implémenter deux d'entre elles:
+					D'autres fonctions d'évaluation sont possibles, nous avons implémenté deux d'entre elles:
 					\begin{itemize}
-						\item La fraction des pions contrôlés, semblable a celle que nous utilisons mais en se basant sur les pions contrôlés au lieu des piles controlées.
+						\item La fraction des pions contrôlés, semblable à celle que nous utilisons mais en se basant sur les pions contrôlés au lieu des piles controlées.
 						\item La différence entre le nombre de piles du joueur A et du joueur B, l’évaluation retourne 0 lorsqu'elle évalue le plateau pour un joueur qui a perdu
 					\end{itemize}
 					Pour les utiliser il suffit de changer la fonction d'évaluation passé au constructeur des IAs.
@@ -370,7 +370,7 @@
 				\begin{lstlisting}[breaklines=true,breakatwhitespace=true,breakindent=0pt,columns=fixed,keepspaces=true,frame=single,basicstyle=\footnotesize\sffamily]
 -s -Os\end{lstlisting}
 			\p{Compilation}
-				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker à la compilation du projet. La librairie étant fournie avec le projet plusieurs système de compilation qui automatise cette tache ainsi que la compilation du projet sont disponibles, il est recommandé de les utiliser.
+				Pour compiler le programme il est nécessaire de compiler d'abord la librairie \textit{ConsoleControl} ou bien de télécharger la dernière release puis de la linker à la compilation du projet. La librairie étant fournie avec le projet plusieurs systèmes de compilation qui automatise cette tache ainsi que la compilation du projet sont disponibles, il est recommandé de les utiliser.
 			\p{Systèmes de compilation}
 				Deux systèmes de compilations sont mis à disposition:
 				\begin{description}
