@@ -163,6 +163,10 @@
 						\label{fig:PlayersDiagram}
 					\end{figure}
 			\subsubsection{Joueur humain}
+				\p{Définition}
+					Un joueur humain est représenté par la classe \jclass{HumanPlayer} définit dans \textbf{HumanPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur ainsi que l'interface utilisateur (\jclass{UI}) du jeu.
+				\p{Fonctionnement}
+					Lors de l'appel de la fonction \jfunc{chooseMove} de la classe \jclass{HumanPlayer}, la fonction \jfunc{chooseMove} de la classe \jclass{UI} est appelée pour permettre a l'utilisateur de choisir le mouvement.
 			\subsubsection{IA avec MinMax}
 			\subsubsection{IA avec AlphaBeta}
 			\subsubsection{Génération des coups}\label{moveGeneration}
