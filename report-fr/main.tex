@@ -345,15 +345,23 @@
 				\begin{center}
 					\begin{tabular}{|c|c|c|c|}
 						\hline
-						OS & compilateur & version & résultat\\
+						OS & système de compilation & compilateur & résultat\\
 						\hline
-						Debian & gcc & 5.3 & OK\cellcolor{green}\\
+						Debian & CMake / Make & gcc 5.3 & OK\cellcolor{green}\\
 						\hline
-						Debian & gcc & 6.2 & OK\cellcolor{green}\\
+						Debian & CMake / Make & gcc 6.2 & OK\cellcolor{green}\\
 						\hline
-						Debian & gcc & 6.3 & OK\cellcolor{green}\\
+						Debian & CMake / Make & gcc 6.3 & OK\cellcolor{green}\\
 						\hline
-						Windows 10 & Mingw-gcc & 5.3 & OK\cellcolor{green}\\
+						Windows 10 & CMake / Make (Mingw-w64 5.0.2) & Mingw-gcc 5.3.0 & OK\cellcolor{green}\\
+						\hline
+						Windows 10 & CodeBlocks 13.12 (Mingw embarqué) & Mingw-gcc 4.7.1 & erreur\cellcolor{red}\\
+						\hline
+						Windows 10 & CodeBlocks 13.12 (Mingw-w64 5.0.2) & Mingw-gcc 5.3.0 & OK\cellcolor{green}\\
+						\hline
+						Windows 10 & CodeBlocks 16.01 (Mingw embarqué) & Mingw-gcc 5.3.0 & erreur\cellcolor{red}\\
+						\hline
+						Windows 10 & CodeBlocks 16.01 (Mingw-w64 5.0.2) & Mingw-gcc 5.3.0 & OK\cellcolor{green}\\
 						\hline
 					\end{tabular}
 				\end{center}
