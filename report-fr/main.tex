@@ -168,6 +168,13 @@
 				\p{Fonctionnement}
 					Lors de l'appel de la fonction \jfunc{chooseMove} de la classe \jclass{HumanPlayer}, la fonction \jfunc{chooseMove} de la classe \jclass{UI} est appelée pour permettre a l'utilisateur de choisir le mouvement.
 			\subsubsection{IA avec MinMax}
+				\p{Définition}
+					Un joueur IA utilisant l'algorithme MinMax est représenté par la classe \jclass{MinMaxAIPlayer} définit dans \textbf{MinMaxAIPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur, la profondeur de l'arbre a parcourir et la fonction d’évaluation du plateau a utiliser.
+				\p{Fonctionnement}
+					Lors de l'appel de la fonction \jfunc{chooseMove}, l'algorithme du MinMax suivant est utilisé:
+					\lstinputalgo[caption=MinMax]{algorithms/MinMax.algo}
+					Comme l'algorithme n'a pas de ``mémoire'' du mouvement et retourne simplement l'évaluation minimale/maximale, le premier appel diffère. Il est réalisé par la fonction \jfunc{chooseMove} qui réalise le même algorithme mais en sauvegardant le meilleur mouvement rencontré pour le retourner et donc le jouer.\\
+					La génération des coups utilisé lors du \texttt{<for each possible move do>} est détaillé dans la section \ref{moveGeneration}.
 			\subsubsection{IA avec AlphaBeta}
 			\subsubsection{Génération des coups}\label{moveGeneration}
 				\paragraph{}
