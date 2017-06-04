@@ -55,7 +55,7 @@
 					\item Permettre de jouer en Humain contre Humain
 					\item Permettre de choisir la profondeur d'exploration de l'arbre de l'IA
 					\item Proposer plusieurs fonctions d'évaluation d'une situation de jeu et un comparatif de ces dernières
-					\item \color{green} Ajouter une non-IA (mouvements aléatoires)
+					%\item \color{green} Ajouter une non-IA (mouvements aléatoires)
 				\end{itemize}
 		\subsection{Notes}
 			\p{Détails}
@@ -93,11 +93,18 @@
 					Dans notre représentation une pile a un début fixe, le premier élément, mais une fin variable puisque la taille d'une pile est variable. Comme illustré sur la figure \ref{fig:pile_mémoire}, pour définir la taille d'une pile nous avons décidé qu'en partant de la fin (pile complète, 16 pions) que le premier pion au joueur 2 (bit à 1) marquerait la fin de la pile aux pions précédents.
 					\begin{figure}[H]
 						\begin{center}
+							%\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+							%	\hline
+							%	Numéro du bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
+							%	\hline
+							%	Valeur du bit & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{orange} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red}\\
+							%	\hline
+							%\end{tabular}
 							\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 								\hline
-								Numéro du bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
+								Numéro du bit & 15 & 14 & 13 & 12 & 11 & 10 & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0\\
 								\hline
-								Valeur du bit & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{orange} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red}\\
+								Valeur du bit & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 0\cellcolor{red} & 1\cellcolor{orange} & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green} & 1\cellcolor{green} & 0\cellcolor{green}\\
 								\hline
 							\end{tabular}
 						\end{center}
