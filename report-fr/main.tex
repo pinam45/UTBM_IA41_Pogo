@@ -144,18 +144,35 @@
 					Le plateau est l'équivalent d'un tableau 2 dimensions $width \times height$, dans notre cas $width$ et $height$ auront pour valeur 3.
 				\p{Fonction principales}
 					La fonction \jfunc{apply} permet d'appliquer un mouvement de pions et ainsi de jouer. La fonction \jfunc{controlledStacks} permet de connaitre le nombre de piles contrôlées par un joueur et donc de savoir si un joueur a gagné, si la fonction retourne 0 pour un joueur, alors ce dernier ne contrôle plus de pile et a donc perdu.
-		\subsection{Structure de l'IA}
-			\subsubsection{MinMax}
-				\lstinputalgo[caption=MinMax]{algorithms/MinMax.algo}
-			\subsubsection{AlphaBeta}
-				\lstinputalgo[caption=AlphaBeta]{algorithms/AlphaBeta.algo}
-			\subsubsection{Génération des coups}
+		\subsection{Structure des joueurs}
+			\subsubsection{Cas général}
+				\p{Définition}
+					Un joueur est représenté par la classe \jclass{Player} définit dans \textbf{Player.hpp}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=0.8\textwidth]{figures/PlayerDiagram}
+						\caption{Player: diagramme de classe}
+						\label{fig:PlayerDiagram}
+					\end{figure}
+				\p{Utilisation}
+					Pour pouvoir etre utilisé avec le \jclass{GameManager} et représenter un joueur, il suffit d'hériter de la classe \jclass{Player} et d'implémenter la méthode \jfunc{chooseMove} qui en fonction du plateau qui lui est passé en paramètre choisit le coup a jouer. De l'implémentation de cette méthode dépendra la type de joueur, ont été implémentés: Humain, IA avec MinMax et IA avec AlphaBeta.
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=0.8\textwidth]{figures/PlayersDiagram}
+						\caption{Players: diagramme de classe}
+						\label{fig:PlayersDiagram}
+					\end{figure}
+			\subsubsection{Joueur humain}
+			\subsubsection{IA avec MinMax}
+			\subsubsection{IA avec AlphaBeta}
+			\subsubsection{Génération des coups}\label{moveGeneration}
 				\paragraph{}
 					Pour générer les coups, nous devions modéliser les règles de déplacement. Nous avons d'abord envisagé, pour déterminer tous les déplacements possibles à partir d'une pile, d'utiliser un algorithme récursif, qui déterminerait les piles d'arrivés par diffusion à partir de la pile de départ.\\
 					Nous avons finalement opté pour un calcul de distance de Manhattan défini comme:
 					\[d((x1,y1),(x2,y2)) = |x2 - x1| + |y2 -y1|\]
 				\paragraph{}
-					En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $d(pile_{i}, pile_{j}) = p$ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, dû aux déplacements en coudes.\\
+					En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $d(pile_{i}, pile_{j}) = p$ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, dû aux déplacements en coudes.
+				\paragraph{}
 					Voici un exemple illustrant tous les déplacements possibles à partir d'une pile, en utilisant les distances de Manhattan (La pile de départ est encadrée en vert).
 					\begin{figure}[H]
 						\centering
