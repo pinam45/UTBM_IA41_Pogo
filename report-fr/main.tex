@@ -198,7 +198,7 @@
 						\caption{Génération des coups}
 					\end{figure}
 			\subsubsection{Fonction d'évaluation}
-				\paragraph{}
+				\p{Choix}
 					Afin d'évaluer la partie nous comptons pour un joueur  le nombre de piles qu’il contrôle, que nous divisons par le nombre total de piles présentes sur le jeu. Notre évaluation représente donc le pourcentage de piles que nous contrôlons. Eval = 0 représente donc une défaite pour le joueur qui évalue car il ne possède aucune pile et Eval = 1 une victoire car il les contrôle toutes. On a donc $Eval \in [0,1]$.\\
 					De façon formelle :
 					\[
@@ -211,12 +211,21 @@
 					\]
 					et $n$ le nombre de piles présentes sur le plateau
 					\[Eval = \frac{1}{n}  \sum_{i = 1}^{9} x_{i}\]
-					Exemple:
-					\begin{center}
+				\p{Exemple}
+					Dans la figure \ref{fig:EvalExample}, le joueur violet contrôle 4 piles, et le nombre de piles sur le plateau est de 7, ce qui nous donne $Eval = \frac{4}{7} \simeq 0,571$.
+					\begin{figure}[H]
+						\centering
 						\includegraphics[width=0.6\textwidth]{figures/Eval.png}
-					\end{center}
-				\paragraph{}
-					Dans ce cas pour le joueur violet contrôle 4 piles, et le nombre de piles sur le plateau est de 7, ce qui nous donne $Eval = \frac{4}{7} \simeq 0,571$
+						\caption{Exemple d'évaluation}
+						\label{fig:EvalExample}
+					\end{figure}
+				\p{Autres possibilités}
+					D'autres fonctions d'évaluation sont possibles, nous avons implémenter deux d'entre elles:
+					\begin{itemize}
+						\item La fraction des pions contrôlés, semblable a celle que nous utilisons mais en se basant sur les pions contrôlés au lieu des piles controlées.
+						\item La différence entre le nombre de piles du joueur A et du joueur B, l’évaluation retourne 0 lorsqu'elle évalue le plateau pour un joueur qui a perdu
+					\end{itemize}
+					Pour les utiliser il suffit de changer la fonction d'évaluation passé au constructeur des IAs.
 		\subsection{Interface utilisateur}
 			\subsubsection{Fonctionnalités}
 				L'interface graphique est entièrement réalisée en console avec un style ``graphique''. Il y a deux interfaces principales, les menus et messages (d'information, d'erreur\ldots) et le plateau du jeu de Pogo.
