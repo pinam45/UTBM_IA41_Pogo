@@ -176,6 +176,13 @@
 					Comme l'algorithme n'a pas de ``mémoire'' du mouvement et retourne simplement l'évaluation minimale/maximale, le premier appel diffère. Il est réalisé par la fonction \jfunc{chooseMove} qui réalise le même algorithme mais en sauvegardant le meilleur mouvement rencontré pour le retourner et donc le jouer.\\
 					La génération des coups utilisé lors du \texttt{<for each possible move do>} est détaillé dans la section \ref{moveGeneration}.
 			\subsubsection{IA avec AlphaBeta}
+				\p{Définition}
+					Un joueur IA utilisant l'algorithme AlphaBeta est représenté par la classe \jclass{AlphaBetaAIPlayer} définit dans \textbf{AlphaBetaAIPlayer.hpp}, son constructeur prend en paramètre le pion (\jclass{Pawn}) utilisé par le joueur, la profondeur de l'arbre a parcourir et la fonction d’évaluation du plateau a utiliser.
+				\p{Fonctionnement}
+					Lors de l'appel de la fonction \jfunc{chooseMove}, l'algorithme du AlphaBeta suivant est utilisé:
+					\lstinputalgo[caption=AlphaBeta]{algorithms/AlphaBeta.algo}
+					Pour les mêmes raison que avec le MinMax, le premier appel est réalisé par la fonction \jfunc{chooseMove} qui réalise le même algorithme mais en sauvegardant le meilleur mouvement rencontré pour le retourner et donc le jouer.\\
+					La génération des coups utilisé lors du \texttt{<for each possible move do>} est détaillé dans la section suivante.
 			\subsubsection{Génération des coups}\label{moveGeneration}
 				\paragraph{}
 					Pour générer les coups, nous devions modéliser les règles de déplacement. Nous avons d'abord envisagé, pour déterminer tous les déplacements possibles à partir d'une pile, d'utiliser un algorithme récursif, qui déterminerait les piles d'arrivés par diffusion à partir de la pile de départ.\\
