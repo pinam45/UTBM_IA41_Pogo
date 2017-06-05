@@ -10,6 +10,7 @@
 	\upmpublicationpage{}
 	\thispagestyle{empty}
 	\tableofcontents{}
+	\newpage{}
 	\lstlistoflistings{}
 	\listoffigures{}
 	\newpage{}
@@ -419,30 +420,18 @@ $ make \end{lstlisting}
 				La profondeur maximale répondant à ce critère de temps de réponse avec le MinMax est de 5. En élaguant avec l'AlphaBeta, nous sommes parvenus à obtenir une profondeur maximale de 7. Nous pouvons expliquer cette amélioration par la symétrie des coups possibles, et du petit nombre de valeurs différentes que peut prendre notre évaluation.
 		\subsection{Comportements de l'IA}
 			\paragraph{}
-			L'IA dès le 1er tour à profondeur 1 et 2 va contrôler directement une pile adverse ou contrôler une case vide. Ce résultat est assez évident, compte tenu de notre évaluation qui augmente lorsque l'on contrôle une nouvelle pile. \\A profondeur plus élevée, L'IA joue plus prudemment, elle a tendance en début de partie à empiler des pions sur ces propres piles. En regardant plus loin dans la partie, L'IA se rend compte que capturer directement les piles adverses est désavantageux, car elles pourront rapidement êtres reprises par l'adversaire, ce qui laisserait dominer son adversaire.
-			\\L'IA a aussi tendance à ne pas gagner directement dès qu'il le peut, car il peut voir sur plusieurs coups à l'avance qu'il peut gagner autrement qu'à ce tour ci. On aurait pu facilement forcer l'IA à gagner dès qu'il le peut en prenant en compte la profondeur des coups dans l'évaluation, mais nous avons décidé de ne pas le faire, car dans tous les cas L'IA gagnerait et cela entrainerait des coûts de calculs supplémentaires.
-			\\L'IA répond toujours aux coups de la même façon, bien qu'il y ait des coups avec évaluation identiques, nous n'avons pas choisi de sélectionner au hasard un coup parmi les meilleurs coups, car on optimise en élaguant l'arbre avec l'AlphaBeta. On aurait pu le faire avec le MinMax, mais cela ne changerait pas l'efficacité de L'IA, ça aurait juste permis aux joueurs humains de jouer des parties plus diversifiées.
+				L'IA dès le 1er tour à profondeur 1 et 2 va contrôler directement une pile adverse ou contrôler une case vide. Ce résultat est assez évident, compte tenu de notre évaluation qui augmente lorsque l'on contrôle une nouvelle pile.\\
+				A profondeur plus élevée, L'IA joue plus prudemment, elle a tendance en début de partie à empiler des pions sur ces propres piles. En regardant plus loin dans la partie, L'IA se rend compte que capturer directement les piles adverses est désavantageux, car elles pourront rapidement être reprises par l'adversaire, ce qui laisserait dominer son adversaire.
+			\paragraph{}
+				L'IA a tendance à ne pas gagner directement dès qu'il le peut, car il peut voir sur plusieurs coups à l'avance qu'il peut gagner autrement qu'à ce tour ci. On aurait pu facilement forcer l'IA à gagner dès qu'il le peut en prenant en compte la profondeur des coups dans l'évaluation, mais nous avons décidé de ne pas le faire, car dans tous les cas L'IA gagnerait et cela entrainerait des coûts de calculs supplémentaires.
+			\paragraph{}
+				L'IA répond toujours aux coups de la même façon, bien qu'il y ait des coups avec évaluation identiques, nous n'avons pas choisi de sélectionner au hasard un coup parmi les meilleurs coups, car on optimise en élaguant l'arbre avec l'AlphaBeta. On aurait pu le faire avec le MinMax, mais cela ne changerait pas l'efficacité de L'IA, ça aurait juste permis aux joueurs humains de jouer des parties plus diversifiées.
 		\subsection{IA contre IA}
-		En lançant une IA avec l'évaluation prenant en compte le pourcentage de piles que nous contrôlons contre l'évaluation se basant sur la fractions des pions contrôlés, on observe plus de victoire du côté de l'IA avec l'évaluation du pourcentages de piles.
-		\\ On a aussi remarqué un nouveau comportement , les IA répètent les mêmes coups, et la partie boucle car les IAs ne "veulent" pas prendre de risque, car elles savent que faire autre d'autres coups pourraient les faire perdre.
+			\paragraph{}
+				En lançant une IA avec l'évaluation prenant en compte le pourcentage de piles que nous contrôlons contre l'évaluation se basant sur la fraction des pions contrôlés, on observe plus de victoire du côté de l'IA avec l'évaluation du pourcentage de piles.
+			\paragraph{}
+				On a aussi remarqué un nouveau comportement, les IA répètent les mêmes coups, et la partie boucle car les IAs ne "veulent" pas prendre de risque, car elles savent que faire autre d'autres coups pourraient les faire perdre.
 		\subsection{IA contre Humain}
-			\p{Kadir : }
-			En choisissant des profondeurs peu élevées (jusqu'à 3), il est assez simple de battre L'IA en jouant prudemment, et en jouant de sorte à créer le plus de pile possible en notre faveur. Ensuite il devient plus compliqué de les battre, à profondeur 4/5, en imitant le coup de départ de l'IA, j'ai réussi à gagner, il suffit d'essayer plusieurs fois et retenir les bon/mauvais coups. Je n'ai pas réussi à battre l'IA au delà de la 
-			profondeur 5.
-		
-%\begin{upmcaution}
-%	This is an example of a caution message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
-%\end{upmcaution}
-%\begin{upminfo}
-%	This is an example of an information message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
-%\end{upminfo}
-%\begin{upmquestion}
-%	This is an example of a question message. This text must be rendered with enough height (usually 2 lines of text) to avoid intersection between the caution icon and the box frame.
-%\end{upmquestion}
-%\begin{figure}[H]
-%	\centering
-%	\includegraphics[width=0.5\textwidth]{figures/sample} % or <figures/sample.jpg>
-%	\caption{sample figure}
-%	\label{fig:sampleFigure}
-%\end{figure}
+			\p{Kadir:}
+				En choisissant des profondeurs peu élevées (jusqu'à 3), il est assez simple de battre L'IA en jouant prudemment, et en jouant de sorte à créer le plus de pile possible en notre faveur. Ensuite il devient plus compliqué de les battre, à profondeur 4/5, en imitant le coup de départ de l'IA, j'ai réussi à gagner, il suffit d'essayer plusieurs fois et retenir les bon/mauvais coups. Je n'ai pas réussi à battre l'IA au-delà de la profondeur 5.
 \end{document}
