@@ -243,11 +243,15 @@
 						\item Menu de choix de l'ordre de jeu
 					\end{itemize}
 				\p{Plateau de jeu}
-					Le plateau de jeu en 3 $\times$ 3 fait une taille de 98 caractères de large et 53 caractères de haut, si la console n'est pas suffisamment grande pour afficher le plateau un message demandant d'agrandir la console apparaitra. Dans le cas d'une utilisation sous Windows si l'écran ne permet pas d'étendre suffisamment la console on peut faire:\\
-					\textit{clique droit sur la barre supérieure > Propriétés > Police > Taille}\\
-					et réduire la taille de la police pour augmenter la largeur et hauteur en caractères de la console et permettre l'affichage du plateau.\\
-
-					Lors du tour d'un joueur humain, le plateau permet de choisir un mouvement de la façon suivante:
+					Le plateau de jeu en 3 $\times$ 3 fait une taille de 98 caractères de large et 53 caractères de haut, si la console n'est pas suffisamment grande pour afficher le plateau un message demandant d'agrandir la console apparaitra.
+					\begin{itemize}
+						\item Dans le cas d'une utilisation sous Windows si l'écran ne permet pas d'étendre suffisamment la console on peut faire:\\
+							\textit{clique droit sur la barre supérieure > Propriétés > Police > Taille}\\
+							et réduire la taille de la police pour augmenter la largeur et hauteur en caractères de la console pour une même taille et permettre l'affichage du plateau.
+						\item Dans le cas d'une version de Windows < 8, la largeur de la console est limitée a une valeur par défaut il faut donc changer la taille du buffer pour un minimum de 98 caractères de large (et 53 caractères de haut) toujours avec:\\
+							\textit{clique droit sur la barre supérieure > Propriétés}
+					\end{itemize}
+					Lors du tour d'un joueur humain, le plateau permet de choisir un mouvement avec la séquence de choix suivante:
 					\begin{itemize}
 						\item Choix de la pile de départ
 						\item Choix du nombre de pions à prendre
