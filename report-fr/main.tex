@@ -72,7 +72,7 @@
 				\p{Définition}
 					Les pions sont représentés par la classe \jclass{Pawn} définit dans \textbf{Pawn.hpp}
 				\p{Observation}
-					Les pions ont des caractéristiques intrinsèques identiques pour tous comme leur taille, le nombre de points qu'il valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
+					Les pions ont des caractéristiques intrinsèques identiques pour tous comme leur taille, le nombre de points qu'ils valent\ldots Mais ces derniers n'ont qu'une seule caractéristique intrinsèque variable, le joueur auquel ils appartiennent, cette caractéristique n'a que deux valeurs possibles.
 				\p{Choix}
 					Les pions sont donc représentés par une valeur booléenne:
 					\begin{description}
@@ -190,7 +190,7 @@
 					Nous avons finalement opté pour un calcul de distance de Manhattan défini comme:
 					\[d((x1,y1),(x2,y2)) = |x2 - x1| + |y2 -y1|\]
 				\paragraph{}
-					En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $d(pile_{i}, pile_{j}) = p$ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, dû aux déplacements en coudes.
+					En effet, on observe que l'on peut bouger $p$ pions d'une pile $i$ vers une pile $j$ si l'égalité $d(pile_{i}, pile_{j}) = p$ est vérifiée. Il faut cependant rajouter la possibilité du déplacement de 3 pions d'une distance de 1 case, due aux déplacements en coudes.
 				\paragraph{}
 					Voici un exemple illustrant tous les déplacements possibles à partir d'une pile, en utilisant les distances de Manhattan (La pile de départ est encadrée en vert).
 					\begin{figure}[H]
